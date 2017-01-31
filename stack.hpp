@@ -6,14 +6,11 @@
 
 namespace cai
 {
-
-
     template <uint8_t ...values>
     struct stack
     {};
 
     using startup_stack = stack<0, 0, 0 ,0>;
-
 
     //
     //stack pop implementation

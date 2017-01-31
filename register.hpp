@@ -41,6 +41,48 @@ namespace cai
         static constexpr simple_reg<edi_val> edi{};
     };
 
+    using startup_registers_state = registers_state<0,0,0,0,0,0,0,0>;
+
+    namespace details
+    {
+        template <typename reg_state>
+        struct to_register_state_impl;
+
+
+        template <uint32_t eax_val,
+                uint32_t ebx_val,
+                uint32_t ecx_val,
+                uint32_t edx_val,
+                uint32_t esp_val,
+                uint32_t ebp_val,
+                uint32_t esi_val,
+                uint32_t edi_val>
+        struct to_register_state_impl<
+                registers_state<
+                        eax_val,
+                        ebx_val,
+                        ecx_val,
+                        edx_val,
+                        esp_val,
+                        ebp_val,
+                        esi_val,
+                        edi_val>>
+        {
+            using type = typename registers_state<
+                    eax_val,
+                    ebx_val,
+                    ecx_val,
+                    edx_val,
+                    esp_val,
+                    ebp_val,
+                    esi_val,
+                    edi_val>;
+        };
+    }
+
+    template <typename reg_state>
+    using to_register_state = typename details::to_register_state_impl<reg_state>::type;
+
     namespace tests
     {
         static_assert(reg<0xddccbbaa>{}.l == 0xaa, "");
