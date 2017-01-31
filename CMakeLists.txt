@@ -4,5 +4,5 @@ project(ctai)
 add_definitions(-std=c++1z)
 
 set(SOURCE_FILES
-        main.cpp register.hpp flags.hpp)
+        main.cpp register.hpp flags.hpp stack.hpp)
 add_executable(repo ${SOURCE_FILES})
