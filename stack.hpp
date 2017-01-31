@@ -6,15 +6,14 @@
 
 namespace cai
 {
-    template <uint8_t top_val, uint8_t ...values>
+
+
+    template <uint8_t ...values>
     struct stack
-    {
-        static constexpr uint8_t top = top_val;
-    };
+    {};
 
-    using startup_stack = stack<0>;
+    using startup_stack = stack<0, 0, 0 ,0>;
 
-    static_assert(stack<0, 1, 2>::top == 0, "");
 
     //
     //stack pop implementation
@@ -28,7 +27,7 @@ namespace cai
         template <size_t count, bool end>
         struct pop_front_impl<count, end>
         {
-            using type = stack<0>;
+            using type = startup_stack;
         };
 
         template <size_t count, uint8_t top, uint8_t ...values>
@@ -61,6 +60,16 @@ namespace cai
 
     template <typename pop_dest_t, typename stack_t>
     using stack_pop = typename details::stack_pop_impl<sizeof(pop_dest_t), stack_t>::new_stack;
+
+    template <typename stack_t>
+    using stack_pop_8 = stack_pop<uint8_t, stack_t>;
+
+    template <typename stack_t>
+    using stack_pop_16 = stack_pop<uint16_t, stack_t>;
+
+    template <typename stack_t>
+    using stack_pop_32 = stack_pop<uint32_t, stack_t>;
+
 
     //
     //stack merge implementation
@@ -118,17 +127,67 @@ namespace cai
     template <uint32_t push_v, typename stack_t>
     using stack_push_32 = typename stack_push_impl<uint32_t, push_v, stack_t>::new_stack;
 
+    //
+    // get stack top
+    //
+
+    namespace details
+    {
+        template<typename>
+        struct top_getter_8;
+
+        template<typename>
+        struct top_getter_16;
+
+        template<typename>
+        struct top_getter_32;
+
+        template<uint8_t top, uint8_t ...values>
+        struct top_getter_8<stack<top, values...>>
+        {
+            static constexpr uint8_t value = top;
+        };
+
+        template<uint8_t top_1, uint8_t top_0, uint8_t ...values>
+        struct top_getter_16<stack<top_1, top_0, values...>>
+        {
+            static constexpr uint16_t value = (static_cast<uint16_t>(top_1) << 8) + static_cast<uint16_t>(top_0);
+        };
+
+        template<uint8_t top_3, uint8_t top_2, uint8_t top_1, uint8_t top_0, uint8_t ...values>
+        struct top_getter_32<stack<top_3, top_2, top_1, top_0, values...>>
+        {
+            static constexpr uint32_t value = (static_cast<uint16_t>(top_3) << 24) + (static_cast<uint16_t>(top_2) << 16) + (static_cast<uint16_t>(top_1) << 8) + static_cast<uint16_t>(top_0);
+        };
+    }
+
+    template <typename stack_t>
+    constexpr uint8_t stack_top_8 = details::top_getter_8<stack_t>::value;
+
+    template <typename stack_t>
+    constexpr uint16_t stack_top_16 = details::top_getter_16<stack_t>::value;
+
+    template <typename stack_t>
+    constexpr uint32_t stack_top_32 = details::top_getter_32<stack_t>::value;
+
+    //
+    // basic tests
+    //
 
     namespace tests
     {
-        using test_stack = stack<0, 1, 2, 3, 4, 5, 6>;
+        using test_stack = stack<0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77>;
 
-        static_assert(stack_pop<uint8_t, test_stack>::top == 1, "");
-        static_assert(stack_pop<uint16_t, test_stack>::top == 2, "");
-        static_assert(stack_pop<uint32_t, test_stack>::top == 4, "");
+        static_assert(stack_top_8<test_stack> == 0x00, "");
+        static_assert(stack_top_16<test_stack> == 0x0011, "");
+        static_assert(stack_top_32<test_stack> == 0x00112233, "");
 
-        static_assert(stack_push_8<0xdd, test_stack>::top == 0xdd, "");
-        static_assert(stack_push_16<0xccdd, test_stack>::top == 0xcc, "");
-        static_assert(stack_push_32<0xaabbccdd, test_stack>::top == 0xaa, "");
+        static_assert(stack_top_8<stack_pop_8<test_stack>> == 0x11, "");
+        static_assert(stack_top_16<stack_pop_16<test_stack>> == 0x2233, "");
+        static_assert(stack_top_32<stack_pop_32<test_stack>> == 0x44556677, "");
+
+        static_assert(stack_top_8<stack_push_8<0xaa, test_stack>> == 0xaa, "");
+        static_assert(stack_top_16<stack_push_16<0xaabb, test_stack>> == 0xaabb, "");
+        static_assert(stack_top_32<stack_push_32<0xaabbccdd, test_stack>> == 0xaabbccdd, "");
     }
 }
