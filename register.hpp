@@ -45,13 +45,13 @@ namespace cai
     };
 
     using startup_registers_state = registers_state<0xaabbccdd,
-            0x67452301,
-            0x67452301,
-            0x67452301,
-            0x67452301,
-            0x67452301,
-            0x67452301,
-            0x67452301>;
+            0xaabbccdd,
+            0xaabbccdd,
+            0xaabbccdd,
+            0xaabbccdd,
+            0xaabbccdd,
+            0xaabbccdd,
+            0xaabbccdd>;
 
 
     namespace details

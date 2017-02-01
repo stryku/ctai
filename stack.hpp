@@ -139,6 +139,35 @@ namespace cai
     template <uint32_t push_v, typename stack_t>
     using stack_push_32 = typename stack_push_impl<uint32_t, push_v, stack_t>::new_stack;
 
+
+
+    namespace details
+    {
+        template <typename, uint32_t, typename>
+        struct stack_push_impl;
+
+        template<uint8_t val_to_push, uint8_t ...values>
+        struct stack_push_impl<uint8_t, val_to_push, stack<values...>>
+        {
+            using type = stack_push_8<val_to_push, stack<values...>>;
+        };
+
+        template<uint16_t val_to_push, uint8_t ...values>
+        struct stack_push_impl<uint16_t, val_to_push, stack<values...>>
+        {
+            using type = stack_push_16<val_to_push, stack<values...>>;
+        };
+
+        template<uint32_t val_to_push, uint8_t ...values>
+        struct stack_push_impl<uint32_t, val_to_push, stack<values...>>
+        {
+            using type = stack_push_32<val_to_push, stack<values...>>;
+        };
+    }
+
+    template <typename size_type, uint32_t val, typename stack_t>
+    using stack_push = typename details::stack_push_impl<size_type, val, stack_t>::type;
+
     //
     // get stack top
     //
@@ -182,31 +211,34 @@ namespace cai
     template <typename stack_t>
     constexpr uint32_t stack_top_32 = details::top_getter_32<stack_t>::value;
 
-    template <typename, typename>
-    struct stack_top_impl;
 
 
-    template <uint8_t ...values>
-    struct stack_top_impl<uint8_t, stack<values...>>
+    namespace details
     {
-        static constexpr uint8_t val = stack_top_8<stack<values...>>;
-    };
+        template <typename, typename>
+        struct stack_top_impl;
 
-    template <uint8_t ...values>
-    struct stack_top_impl<uint16_t, stack<values...>>
-    {
-        static constexpr uint16_t val = stack_top_16<stack<values...>>;
-    };
+        template<uint8_t ...values>
+        struct stack_top_impl<uint8_t, stack<values...>>
+        {
+            static constexpr uint8_t val = stack_top_8<stack<values...>>;
+        };
 
-    template <uint8_t ...values>
-    struct stack_top_impl<uint32_t, stack<values...>>
-    {
-        static constexpr uint32_t val = stack_top_32<stack<values...>>;
-    };
+        template<uint8_t ...values>
+        struct stack_top_impl<uint16_t, stack<values...>>
+        {
+            static constexpr uint16_t val = stack_top_16<stack<values...>>;
+        };
 
+        template<uint8_t ...values>
+        struct stack_top_impl<uint32_t, stack<values...>>
+        {
+            static constexpr uint32_t val = stack_top_32<stack<values...>>;
+        };
+    }
 
     template <typename size_type, typename stack_t>
-    constexpr auto stack_top = stack_top_impl<size_type, stack_t>::val;
+    constexpr auto stack_top = details::stack_top_impl<size_type, stack_t>::val;
 
     //
     // basic tests
