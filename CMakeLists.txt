@@ -13,7 +13,7 @@ set(INCLUDE_FILES
         instructions/ids_vaules.hpp
         instructions/decode.hpp execute/ex_push.hpp execute/ex_instruction.hpp)
 
-set(SOURCE_FILES main.cpp static_warning.hpp traits.hpp)
+set(SOURCE_FILES main.cpp static_warning.hpp traits.hpp execute/ex_pop.hpp)
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR})
 
