@@ -21,7 +21,7 @@ namespace cai
         struct to_flags_impl<
                 flags<cf, zf>>
         {
-            using type = typename flags<cf, zf>;
+            using type = flags<cf, zf>;
         };
     }
 
