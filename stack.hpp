@@ -12,6 +12,21 @@ namespace cai
 
     using startup_stack = stack<0, 0, 0 ,0>;
 
+    namespace details
+    {
+        template <typename>
+        struct to_stack_impl;
+
+
+        template <uint8_t ...values>
+        struct to_stack_impl<stack<values...>>
+        {
+            using type = stack<values...>;
+        };
+    }
+
+    template <typename stack_t>
+    using to_stack = typename details::to_stack_impl<stack_t>::type;
     //
     //stack pop implementation
     //
@@ -166,6 +181,32 @@ namespace cai
 
     template <typename stack_t>
     constexpr uint32_t stack_top_32 = details::top_getter_32<stack_t>::value;
+
+    template <typename, typename>
+    struct stack_top_impl;
+
+
+    template <uint8_t ...values>
+    struct stack_top_impl<uint8_t, stack<values...>>
+    {
+        static constexpr uint8_t val = stack_top_8<stack<values...>>;
+    };
+
+    template <uint8_t ...values>
+    struct stack_top_impl<uint16_t, stack<values...>>
+    {
+        static constexpr uint16_t val = stack_top_16<stack<values...>>;
+    };
+
+    template <uint8_t ...values>
+    struct stack_top_impl<uint32_t, stack<values...>>
+    {
+        static constexpr uint32_t val = stack_top_32<stack<values...>>;
+    };
+
+
+    template <typename size_type, typename stack_t>
+    constexpr auto stack_top = stack_top_impl<size_type, stack_t>::val;
 
     //
     // basic tests
