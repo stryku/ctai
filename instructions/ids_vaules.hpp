@@ -13,7 +13,9 @@ namespace cai
         enum class id_t
         {
             PUSH_REG,
-            POP_REG
+            POP_REG,
+            ADD_REG_REG
+
         };
 
         template <size_t id_v>

@@ -19,7 +19,7 @@ namespace cai
     };
 
     template <uint32_t reg_val, uint8_t new_val> static constexpr auto set_reg_l = (reg_val & 0xffffff00) | new_val;
-    template <uint32_t reg_val, uint8_t new_val> static constexpr auto set_reg_h = (reg_val & 0xffff00ff) | new_val;
+    template <uint32_t reg_val, uint8_t new_val> static constexpr auto set_reg_h = (reg_val & 0xffff00ff) | (static_cast<uint32_t>(new_val) << 8);
     template <uint32_t reg_val, uint16_t new_val> static constexpr auto set_reg_x = (reg_val & 0xffff0000) | new_val;
     template <uint32_t reg_val, uint32_t new_val> static constexpr auto set_reg_ex = new_val;
 
