@@ -14,7 +14,8 @@ namespace cai
         {
             PUSH_REG,
             POP_REG,
-            ADD_REG_REG
+            ADD_REG_REG,
+            SUB_REG_REG
 
         };
 
