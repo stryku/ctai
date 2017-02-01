@@ -15,8 +15,9 @@ namespace cai
             PUSH_REG,
             POP_REG,
             ADD_REG_REG,
-            SUB_REG_REG
-
+            SUB_REG_REG,
+            CMP_REG_REG,
+            MOV_REG_REG
         };
 
         template <size_t id_v>

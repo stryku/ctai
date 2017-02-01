@@ -5,6 +5,9 @@
 #include "execute/ex_pop.hpp"
 #include "execute/ex_add.hpp"
 #include "execute/ex_sub.hpp"
+#include "execute/ex_cmp.hpp"
+#include "execute/ex_mov.hpp"
+
 
 int main() {
     std::cout << "Hello, World!" << std::endl;
