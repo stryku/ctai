@@ -8,6 +8,7 @@
 #include "execute/ex_cmp.hpp"
 #include "execute/ex_mov.hpp"
 #include "execute/ex_mul.hpp"
+#include "string.hpp"
 
 
 int main() {
