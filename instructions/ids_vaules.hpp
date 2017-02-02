@@ -18,7 +18,10 @@ namespace cai
             SUB_REG_REG,
             CMP_REG_REG,
             MOV_REG_REG,
-            MOV_MEM_VAL_mem_eq_reg_minus_const,
+
+            MOV_MEM_VAL__mem_eq_reg_minus_const,
+            MOV_MEM_VAL__mem_eq_reg_plus_const,
+
             MUL_REG_REG
         };
 
@@ -27,6 +30,49 @@ namespace cai
 
         template <id_t id_v>
         static constexpr auto to_size = static_cast<size_t>(id_v);
+    }
+
+    namespace memory
+    {
+        enum class id_t
+        {
+            s_8,
+            s_16,
+            s_32
+        };
+
+        template <size_t id_v>
+        static constexpr auto to_id = static_cast<id_t>(id_v);
+
+        template <id_t id_v>
+        static constexpr auto to_size = static_cast<size_t>(id_v);
+
+        namespace details
+        {
+            template <id_t>
+            struct to_mem_type_impl;
+
+            template <>
+            struct to_mem_type_impl<id_t::s_8>
+            {
+                using type = uint8_t;
+            };
+
+            template <>
+            struct to_mem_type_impl<id_t::s_16>
+            {
+                using type = uint16_t;
+            };
+
+            template <>
+            struct to_mem_type_impl<id_t::s_32>
+            {
+                using type = uint32_t;
+            };
+        }
+
+        template <id_t t>
+        using to_mem_type = typename details::to_mem_type_impl<t>::type;
     }
 
     namespace operands
