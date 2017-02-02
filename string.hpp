@@ -8,6 +8,11 @@ namespace cai
         static constexpr auto size = sizeof...(chars);
     };
 
+    template <typename T, T... chars>
+    constexpr auto operator""_s() {
+        return string<chars...>{};
+    }
+
     namespace details
     {
         template <typename str>
@@ -61,6 +66,10 @@ namespace cai
     {
         static_assert(
                 string_eq<string<'a','b'>, string<'a','b'>>
+                ,"");
+
+        static_assert(
+                string_eq<string<'a','b'>, decltype("ab"_s)>
                 ,"");
 
         static_assert(
