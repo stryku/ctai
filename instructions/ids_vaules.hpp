@@ -17,7 +17,8 @@ namespace cai
             ADD_REG_REG,
             SUB_REG_REG,
             CMP_REG_REG,
-            MOV_REG_REG
+            MOV_REG_REG,
+            MUL_REG_REG
         };
 
         template <size_t id_v>

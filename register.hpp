@@ -31,8 +31,10 @@ namespace cai
 
         template <uint16_t new_val> using set_low = simple_reg<(val | 0xffff0000) | new_val>;
         template <uint32_t new_val> using set_val = simple_reg<new_val>;
-
     };
+
+    template <uint32_t reg_val, uint16_t new_val> static constexpr auto set_simple_reg_low = (reg_val & 0xffff0000) | new_val;
+    template <uint32_t reg_val, uint32_t new_val> static constexpr auto set_simple_reg = new_val;
 
     template <uint32_t eax_val,
             uint32_t ebx_val,
@@ -63,6 +65,33 @@ namespace cai
         template <uint8_t val> using set_ah = registers_state<set_reg_h<eax_val, val>, ebx_val, ecx_val, edx_val, esp_val, ebp_val, esi_val, edi_val>;
         template <uint16_t val> using set_ax = registers_state<set_reg_x<eax_val, val>, ebx_val, ecx_val, edx_val, esp_val, ebp_val, esi_val, edi_val>;
         template <uint32_t val> using set_eax = registers_state<set_reg_ex<eax_val, val>, ebx_val, ecx_val, edx_val, esp_val, ebp_val, esi_val, edi_val>;
+
+        template <uint8_t val> using set_bl = registers_state<eax_val, set_reg_l<ebx_val, val>, ecx_val, edx_val, esp_val, ebp_val, esi_val, edi_val>;
+        template <uint8_t val> using set_bh = registers_state<eax_val, set_reg_h<ebx_val, val>, ecx_val, edx_val, esp_val, ebp_val, esi_val, edi_val>;
+        template <uint16_t val> using set_bx = registers_state<eax_val, set_reg_x<ebx_val, val>, ecx_val, edx_val, esp_val, ebp_val, esi_val, edi_val>;
+        template <uint32_t val> using set_ebx = registers_state<eax_val, set_reg_ex<ebx_val, val>, ecx_val, edx_val, esp_val, ebp_val, esi_val, edi_val>;
+
+        template <uint8_t val> using set_cl = registers_state<eax_val, ebx_val, set_reg_l<ecx_val, val>, edx_val, esp_val, ebp_val, esi_val, edi_val>;
+        template <uint8_t val> using set_ch = registers_state<eax_val, ebx_val, set_reg_h<ecx_val, val>, edx_val, esp_val, ebp_val, esi_val, edi_val>;
+        template <uint16_t val> using set_cx = registers_state<eax_val, ebx_val, set_reg_x<ecx_val, val>, edx_val, esp_val, ebp_val, esi_val, edi_val>;
+        template <uint32_t val> using set_ecx = registers_state<eax_val, ebx_val, set_reg_ex<ecx_val, val>, edx_val, esp_val, ebp_val, esi_val, edi_val>;
+
+        template <uint8_t val> using set_dl = registers_state<eax_val, ebx_val, ecx_val, set_reg_l<edx_val, val>, esp_val, ebp_val, esi_val, edi_val>;
+        template <uint8_t val> using set_dh = registers_state<eax_val, ebx_val, ecx_val, set_reg_h<edx_val, val>, esp_val, ebp_val, esi_val, edi_val>;
+        template <uint16_t val> using set_dx = registers_state<eax_val, ebx_val, ecx_val, set_reg_x<edx_val, val>, esp_val, ebp_val, esi_val, edi_val>;
+        template <uint32_t val> using set_edx = registers_state<eax_val, ebx_val, ecx_val, set_reg_ex<edx_val, val>, esp_val, ebp_val, esi_val, edi_val>;
+
+        template <uint16_t val> using set_sp = registers_state<eax_val, ebx_val, ecx_val, edx_val, set_simple_reg_low<esp_val, val>, ebp_val, esi_val, edi_val>;
+        template <uint32_t val> using set_esp = registers_state<eax_val, ebx_val, ecx_val, edx_val, set_simple_reg<esp_val, val>, ebp_val, esi_val, edi_val>;
+
+        template <uint16_t val> using set_bp = registers_state<eax_val, ebx_val, ecx_val, edx_val, esp_val, set_simple_reg_low<ebp_val, val>, esi_val, edi_val>;
+        template <uint32_t val> using set_ebp = registers_state<eax_val, ebx_val, ecx_val, edx_val, esp_val, set_simple_reg<ebp_val, val>, esi_val, edi_val>;
+
+        template <uint16_t val> using set_si = registers_state<eax_val, ebx_val, ecx_val, edx_val, esp_val, ebp_val, set_simple_reg_low<esp_val, val>, edi_val>;
+        template <uint32_t val> using set_esi = registers_state<eax_val, ebx_val, ecx_val, edx_val, esp_val, ebp_val, set_simple_reg<esp_val, val>, edi_val>;
+
+        template <uint16_t val> using set_di = registers_state<eax_val, ebx_val, ecx_val, edx_val, esp_val, ebp_val, esp_val, set_simple_reg_low<edi_val, val>>;
+        template <uint32_t val> using set_edi = registers_state<eax_val, ebx_val, ecx_val, edx_val, esp_val, ebp_val, esp_val, set_simple_reg<edi_val, val>>;
     };
 
     using startup_registers_state = registers_state<0xaabbccdd,
@@ -216,6 +245,7 @@ namespace cai
     template <typename state, regs::id_t id>
     constexpr auto get_reg = details::get_reg_impl<state, id>::val;
 
+
     namespace details
     {
         template <typename state, regs::id_t id, uint32_t val>
@@ -232,6 +262,73 @@ namespace cai
 
         template <typename state, uint32_t val>
         struct set_reg_impl<state, regs::id_t::EAX, val> { using type = typename to_register_state<state>::template set_eax<val>; };
+
+
+        template <typename state, uint32_t val>
+        struct set_reg_impl<state, regs::id_t::BL, val> { using type = typename to_register_state<state>::template set_bl<static_cast<uint8_t>(val)>; };
+
+        template <typename state, uint32_t val>
+        struct set_reg_impl<state, regs::id_t::BH, val> { using type = typename to_register_state<state>::template set_bh<static_cast<uint8_t>(val)>; };
+
+        template <typename state, uint32_t val>
+        struct set_reg_impl<state, regs::id_t::BX, val> { using type = typename to_register_state<state>::template set_bx<static_cast<uint16_t>(val)>; };
+
+        template <typename state, uint32_t val>
+        struct set_reg_impl<state, regs::id_t::EBX, val> { using type = typename to_register_state<state>::template set_ebx<val>; };
+
+
+        template <typename state, uint32_t val>
+        struct set_reg_impl<state, regs::id_t::CL, val> { using type = typename to_register_state<state>::template set_cl<static_cast<uint8_t>(val)>; };
+
+        template <typename state, uint32_t val>
+        struct set_reg_impl<state, regs::id_t::CH, val> { using type = typename to_register_state<state>::template set_ch<static_cast<uint8_t>(val)>; };
+
+        template <typename state, uint32_t val>
+        struct set_reg_impl<state, regs::id_t::CX, val> { using type = typename to_register_state<state>::template set_cx<static_cast<uint16_t>(val)>; };
+
+        template <typename state, uint32_t val>
+        struct set_reg_impl<state, regs::id_t::ECX, val> { using type = typename to_register_state<state>::template set_ecx<val>; };
+
+
+        template <typename state, uint32_t val>
+        struct set_reg_impl<state, regs::id_t::DL, val> { using type = typename to_register_state<state>::template set_dl<static_cast<uint8_t>(val)>; };
+
+        template <typename state, uint32_t val>
+        struct set_reg_impl<state, regs::id_t::DH, val> { using type = typename to_register_state<state>::template set_dh<static_cast<uint8_t>(val)>; };
+
+        template <typename state, uint32_t val>
+        struct set_reg_impl<state, regs::id_t::DX, val> { using type = typename to_register_state<state>::template set_dx<static_cast<uint16_t>(val)>; };
+
+        template <typename state, uint32_t val>
+        struct set_reg_impl<state, regs::id_t::EDX, val> { using type = typename to_register_state<state>::template set_edx<val>; };
+
+
+        template <typename state, uint32_t val>
+        struct set_reg_impl<state, regs::id_t::SP, val> { using type = typename to_register_state<state>::template set_sp<static_cast<uint16_t>(val)>; };
+
+        template <typename state, uint32_t val>
+        struct set_reg_impl<state, regs::id_t::ESP, val> { using type = typename to_register_state<state>::template set_esp<val>; };
+
+
+        template <typename state, uint32_t val>
+        struct set_reg_impl<state, regs::id_t::BP, val> { using type = typename to_register_state<state>::template set_bp<static_cast<uint16_t>(val)>; };
+
+        template <typename state, uint32_t val>
+        struct set_reg_impl<state, regs::id_t::EBP, val> { using type = typename to_register_state<state>::template set_ebp<val>; };
+
+
+        template <typename state, uint32_t val>
+        struct set_reg_impl<state, regs::id_t::SI, val> { using type = typename to_register_state<state>::template set_si<static_cast<uint16_t>(val)>; };
+
+        template <typename state, uint32_t val>
+        struct set_reg_impl<state, regs::id_t::ESI, val> { using type = typename to_register_state<state>::template set_esi<val>; };
+
+
+        template <typename state, uint32_t val>
+        struct set_reg_impl<state, regs::id_t::DI, val> { using type = typename to_register_state<state>::template set_di<static_cast<uint16_t>(val)>; };
+
+        template <typename state, uint32_t val>
+        struct set_reg_impl<state, regs::id_t::EDI, val> { using type = typename to_register_state<state>::template set_edi<val>; };
     }
 
     template <typename state, regs::id_t id, uint32_t val>
