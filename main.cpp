@@ -9,6 +9,7 @@
 #include "execute/ex_mov.hpp"
 #include "execute/ex_mul.hpp"
 #include "string.hpp"
+#include "tokenize/tokenizer.hpp"
 
 
 int main() {

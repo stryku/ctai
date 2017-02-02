@@ -131,5 +131,8 @@ namespace cai
         static_assert(!string_eq<string<'a','b','c'>, string<'a','b'>>, "");
         static_assert(!string_eq<string<'A','b'>, string<'a','b'>>, "");
         static_assert(!string_eq<string<'a','b'>, string<'a','b','c'>>, "");
+
+        static_assert(string_front<decltype("abc"_s)> == 'a', "");
+        static_assert(string_front<decltype(" abc"_s)> == ' ', "");
     }
 }

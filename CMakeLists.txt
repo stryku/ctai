@@ -11,7 +11,7 @@ set(INCLUDE_FILES
         instructions/push.hpp
         instructions/instruction.hpp
         instructions/ids_vaules.hpp
-        instructions/decode.hpp execute/ex_push.hpp execute/ex_instruction.hpp execute/ex_add.hpp execute/ex_cmp.hpp execute/ex_mul.hpp tokenize/tokens.hpp)
+        instructions/decode.hpp execute/ex_push.hpp execute/ex_instruction.hpp execute/ex_add.hpp execute/ex_cmp.hpp execute/ex_mul.hpp tokenize/tokens.hpp tokenize/tokenizer.hpp tokenize/tuple.hpp)
 
 set(SOURCE_FILES main.cpp static_warning.hpp traits.hpp execute/ex_pop.hpp execute/ex_sub.hpp execute/ex_mov.hpp string.hpp)
 
