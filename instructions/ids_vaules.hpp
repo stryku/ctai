@@ -18,6 +18,7 @@ namespace cai
             SUB_REG_REG,
             CMP_REG_REG,
             MOV_REG_REG,
+            MOV_MEM_VAL_mem_eq_reg_minus_const,
             MUL_REG_REG
         };
 

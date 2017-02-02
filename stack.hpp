@@ -8,7 +8,9 @@ namespace cai
 {
     template <uint8_t ...values>
     struct stack
-    {};
+    {
+        static constexpr auto size = sizeof...(values);
+    };
 
     //using startup_stack = stack<0, 0, 0 ,0>;
     using startup_stack = stack<0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff>;
@@ -50,7 +52,7 @@ namespace cai
         };
 
         template <size_t count, uint8_t top, uint8_t ...values>
-        struct pop_front_impl<count,false,  top, values... >
+        struct pop_front_impl<count, false,  top, values... >
         {
             using type = typename pop_front_impl<count-1, count == 1, values...>::type;
         };
@@ -242,6 +244,66 @@ namespace cai
     constexpr auto stack_top = details::stack_top_impl<size_type, stack_t>::val;
 
     //
+    // stack_take
+    //
+
+    namespace details
+    {
+        template <size_t, bool, typename, typename>
+        struct stack_take_impl;
+
+        template <uint8_t ...taken, uint8_t ...left>
+        struct stack_take_impl<0, true, stack<taken...>, stack<left...>>
+        {
+            using type = stack_take_impl;
+
+            using taken_stack = stack<taken...>;
+            using left_stack = stack<left...>;
+        };
+
+        template <size_t count, uint8_t to_take, uint8_t ...taken, uint8_t ...left>
+        struct stack_take_impl<count, false, stack<taken...>, stack<to_take, left...>>
+        {
+            using type = stack_take_impl<count-1,
+                                         count == 1,
+                                         stack<taken..., to_take>,
+                                         stack<left...>>;
+
+            using taken_stack = typename type::taken_stack;
+            using left_stack = typename type::left_stack;
+        };
+    }
+
+    template <size_t count, typename stack_t>
+    using stack_take = typename details::stack_take_impl<count, count==0, stack<>, stack_t>::type;
+
+    //
+    // stack_set
+    //
+
+    namespace details
+    {
+        template <uint8_t, size_t, typename>
+        struct stack_set_impl;
+
+        template <uint8_t val_to_set, size_t ptr, uint8_t ...values>
+        struct stack_set_impl<val_to_set, ptr, stack<values...>>
+        {
+            using stack_t = stack<values...>;
+            static constexpr auto to_take = stack_t::size - ptr - 1;
+
+            using stack_take_t = stack_take<to_take, stack_t>;
+            using stack_after_pop = stack_pop_8<typename stack_take_t::type::left_stack>;
+            using stack_after_push = stack_push_8<val_to_set, stack_after_pop>;
+            using result_stack = stack_merge<typename stack_take_t::taken_stack, stack_after_push>;
+        };
+    }
+
+    //WARNING: you can't set value at 0 ptr
+    template <uint8_t val, size_t ptr, typename stack_t>
+    using stack_set = typename details::stack_set_impl<val, ptr, stack_t>::result_stack;
+
+    //
     // basic tests
     //
 
@@ -260,5 +322,26 @@ namespace cai
         static_assert(stack_top_8<stack_push_8<0xaa, test_stack>> == 0xaa, "");
         static_assert(stack_top_16<stack_push_16<0xaabb, test_stack>> == 0xaabb, "");
         static_assert(stack_top_32<stack_push_32<0xaabbccdd, test_stack>> == 0xaabbccdd, "");
+
+        static_assert(
+                std::is_same<stack_take<2, test_stack>::type::left_stack,
+                             stack<0x22, 0x33, 0x44, 0x55, 0x66, 0x77>>::value
+                , "");
+
+        static_assert(
+                std::is_same<stack_take<2, test_stack>::type::taken_stack ,
+                             stack<0x00, 0x11>>::value
+                , "");
+
+        static_assert(
+                std::is_same<stack_take<0, test_stack>::type::left_stack,
+                        test_stack>::value
+                , "");
+
+        static_assert(
+                std::is_same<stack_set<0xff, 1, test_stack>,
+                        stack<0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0xff, 0x77>>::value
+                , "");
+
     }
 }

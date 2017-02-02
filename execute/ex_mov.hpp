@@ -21,6 +21,21 @@ namespace cai
             using type = machine_state<typename state::stack_t, typename state::flags_t, new_regs_state>;
         };
 
+    /*
+
+        template<typename state_t, size_t mem_ptr_reg, size_t mem_ptr_const, size_t val>
+        struct ex_instruction<state_t, inst::to_size<inst::id_t::MOV_MEM_VAL_mem_eq_reg_minus_const>, regs::to_id<mem_ptr_reg>, mem_ptr_const, val>
+        {
+            using state = to_machine_state<state_t>;
+
+            static constexpr auto mem_reg_val = get_reg<typename state::registers_state_t, regs::to_id<mem_ptr_reg>>;
+            static constexpr auto mem_ptr = mem_reg_val - mem_ptr_const;
+
+            using new_regs_state = set_reg<typename state::registers_state_t, regs::to_id<reg1>, static_cast<uint32_t>(val2)>; //move register to register
+
+            using type = machine_state<typename state::stack_t, typename state::flags_t, new_regs_state>;
+        };*/
+
         namespace tests
         {
             static_assert(get_reg<ex_instruction<startup_machine_state,
