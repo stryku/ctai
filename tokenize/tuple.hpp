@@ -21,6 +21,6 @@ namespace cai
         };
     }
 
-    template <typename s, typename tail>
-    using tuple_append = typename details::tuple_append_impl<s, tail>::type;
+    template <typename tup, typename tail>
+    using tuple_append = typename details::tuple_append_impl<tup, tail>::type;
 }

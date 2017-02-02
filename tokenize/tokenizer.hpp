@@ -1,8 +1,10 @@
 #pragma once
 
+#include "string.hpp"
+#include "tuple.hpp"
+
 #include <type_traits>
 
-#include "string.hpp"
 
 namespace cai
 {
@@ -48,11 +50,32 @@ namespace cai
     template <typename s>
     using get_token = details::get_token_impl<s, string<>>;
 
-    template <typename str, typename current_tokens>
-    struct tokenizer
+    namespace details
     {
+        template <typename s, typename current_tokens>
+        struct tokenize_impl;
 
-    };
+        template <typename current_tokens>
+        struct tokenize_impl<string<>, current_tokens>
+        {
+            using tokens = current_tokens;
+        };
+
+        template <char ...str_chars, typename current_tokens>
+        struct tokenize_impl<string<str_chars...>, current_tokens>
+        {
+            using str = string<str_chars...>;
+            using get_token_t = get_token<str>;
+
+            using next_tokens = tuple_append<current_tokens, typename get_token_t::result_token>;
+            using next_string = typename get_token_t::result_string;
+
+            using tokens = typename tokenize_impl<next_string, next_tokens>::tokens;
+        };
+    }
+
+    template <typename s>
+    using tokenize = typename details::tokenize_impl<s, tuple<>>::tokens;
 
     namespace tests
     {
@@ -61,5 +84,8 @@ namespace cai
 
         static_assert(std::is_same<typename get_token<decltype("abc def"_s)>::result_string,
                                    decltype("def"_s)>::value, "");
+
+        static_assert(std::is_same<tokenize<decltype("abc def"_s)>,
+                                   tuple<decltype("abc"_s), decltype("def"_s)>>::value, "");
     }
 }
