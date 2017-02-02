@@ -80,6 +80,37 @@ namespace cai
             using type = machine_state<stack_after_set, typename state::flags_t, typename state::registers_state_t>;
         };
 
+        // mov reg, * ptr [mem_ptr_reg - mem_ptr_const]
+        template<typename state_t, size_t reg, size_t mem_ptr_reg, size_t mem_ptr_const, size_t mem_size>
+        struct ex_instruction<state_t, inst::to_size<inst::id_t::MOV_REG_MEM__mem_eq_reg_minus_const>, reg, mem_ptr_reg, mem_ptr_const, mem_size>
+        {
+            using state = to_machine_state<state_t>;
+
+            static constexpr auto mem_reg_val = get_reg<typename state::registers_state_t, regs::to_id<mem_ptr_reg>>;
+            static constexpr auto mem_ptr = mem_reg_val - mem_ptr_const;
+            static constexpr auto mem_val = stack_get<memory::to_mem_type<memory::to_id<mem_size>>, mem_ptr, typename state::stack_t>;
+
+
+            using new_regs_state = set_reg<typename state::registers_state_t, regs::to_id<reg>, static_cast<uint32_t>(mem_val)>;
+
+            using type = machine_state<typename state::stack_t, typename state::flags_t, new_regs_state>;
+        };
+
+        // mov reg, * ptr [mem_ptr_reg - mem_ptr_const]
+        template<typename state_t, size_t reg, size_t mem_ptr_reg, size_t mem_ptr_const, size_t mem_size>
+        struct ex_instruction<state_t, inst::to_size<inst::id_t::MOV_REG_MEM__mem_eq_reg_plus_const>, reg, mem_ptr_reg, mem_ptr_const, mem_size>
+        {
+            using state = to_machine_state<state_t>;
+
+            static constexpr auto mem_reg_val = get_reg<typename state::registers_state_t, regs::to_id<mem_ptr_reg>>;
+            static constexpr auto mem_ptr = mem_reg_val + mem_ptr_const;
+            static constexpr auto mem_val = stack_get<memory::to_mem_type<memory::to_id<mem_size>>, mem_ptr, typename state::stack_t>;
+
+            using new_regs_state = set_reg<typename state::registers_state_t, regs::to_id<reg>, static_cast<uint32_t>(mem_val)>;
+
+            using type = machine_state<typename state::stack_t, typename state::flags_t, new_regs_state>;
+        };
+
         //
         // TESTS
         //
@@ -189,6 +220,26 @@ namespace cai
                                                    1,
                                                    memory::to_size<memory::id_t::s_32>,
                                                    regs::to_size<regs::id_t::EBX>>::type::stack_t> == 0xaabbccdd
+                    ,"");
+
+            //mov eax, dword ptr [eax - 1] ; eax == 6
+            static_assert(get_reg<ex_instruction<mov_tests_machine_state,
+                                                 inst::to_size<inst::id_t::MOV_REG_MEM__mem_eq_reg_minus_const>,
+                                                 regs::to_size<regs::id_t::EAX>,
+                                                 regs::to_size<regs::id_t::EAX>,
+                                                 1,
+                                                 memory::to_size<memory::id_t::s_32>>::type::registers_state_t,
+                                                 regs::id_t::EAX> == 0xaabbccdd
+                    ,"");
+
+            //mov eax, dword ptr [eax + 1] ; eax == 6
+            static_assert(get_reg<ex_instruction<mov_tests_machine_state,
+                                                 inst::to_size<inst::id_t::MOV_REG_MEM__mem_eq_reg_plus_const>,
+                                                 regs::to_size<regs::id_t::EAX>,
+                                                 regs::to_size<regs::id_t::EAX>,
+                                                 1,
+                                                 memory::to_size<memory::id_t::s_32>>::type::registers_state_t,
+                                                 regs::id_t::EAX> == 0x8899aabb
                     ,"");
         }
     }
