@@ -65,6 +65,21 @@ namespace cai
             using type = machine_state<stack_after_set, typename state::flags_t, typename state::registers_state_t>;
         };
 
+        // mov * ptr [mem_ptr_reg + mem_ptr_const], reg
+        template<typename state_t, size_t mem_ptr_reg, size_t mem_ptr_const, size_t mem_size, size_t reg>
+        struct ex_instruction<state_t, inst::to_size<inst::id_t::MOV_MEM_REG__mem_eq_reg_plus_const>, mem_ptr_reg, mem_ptr_const, mem_size, reg>
+        {
+            using state = to_machine_state<state_t>;
+
+            static constexpr auto mem_reg_val = get_reg<typename state::registers_state_t, regs::to_id<mem_ptr_reg>>;
+            static constexpr auto reg_val = get_reg<typename state::registers_state_t, regs::to_id<reg>>;
+            static constexpr auto mem_ptr = mem_reg_val + mem_ptr_const;
+
+            using stack_after_set = stack_set<memory::to_mem_type<memory::to_id<mem_size>>, static_cast<uint32_t>(reg_val), mem_ptr, typename state::stack_t>;
+
+            using type = machine_state<stack_after_set, typename state::flags_t, typename state::registers_state_t>;
+        };
+
         //
         // TESTS
         //
@@ -159,6 +174,17 @@ namespace cai
                                     5,
                                     ex_instruction<mov_tests_machine_state,
                                                    inst::to_size<inst::id_t::MOV_MEM_REG__mem_eq_reg_minus_const>,
+                                                   regs::to_size<regs::id_t::EAX>,
+                                                   1,
+                                                   memory::to_size<memory::id_t::s_32>,
+                                                   regs::to_size<regs::id_t::EBX>>::type::stack_t> == 0xaabbccdd
+                    ,"");
+
+            //mov dword ptr [eax + 1], ebx ; eax == 6, ebx = 0xaabbccdd
+            static_assert(stack_get<uint32_t,
+                                    7,
+                                    ex_instruction<mov_tests_machine_state,
+                                                   inst::to_size<inst::id_t::MOV_MEM_REG__mem_eq_reg_plus_const>,
                                                    regs::to_size<regs::id_t::EAX>,
                                                    1,
                                                    memory::to_size<memory::id_t::s_32>,

@@ -22,6 +22,7 @@ namespace cai
             MOV_MEM_VAL__mem_eq_reg_minus_const,
             MOV_MEM_VAL__mem_eq_reg_plus_const,
             MOV_MEM_REG__mem_eq_reg_minus_const,
+            MOV_MEM_REG__mem_eq_reg_plus_const,
 
             MUL_REG_REG
         };
