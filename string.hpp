@@ -8,10 +8,6 @@ namespace cai
         static constexpr auto size = sizeof...(chars);
     };
 
-    template <typename T, T... chars>
-    constexpr auto operator""_s() {
-        return string<chars...>{};
-    }
 
     //
     // to_string
@@ -123,6 +119,16 @@ namespace cai
     using string_pop_front = typename details::string_pop_front_impl<s>::type;
 
 
+
+}
+
+template <typename T, T... chars>
+constexpr auto operator""_s() {
+    return cai::string<chars...>{};
+}
+
+namespace cai
+{
     namespace tests
     {
         static_assert(string_eq<string<'a','b'>, string<'a','b'>>, "");

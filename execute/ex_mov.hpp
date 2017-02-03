@@ -151,7 +151,7 @@ namespace cai
                           regs::id_t::AX> == static_cast<uint32_t>(0xdd)
                     ,"");
 
-            using mov_tests_machine_state = machine_state<startup_stack, startup_flags_state, registers_state<6, 0xaabbccdd,0,0,0,0,0,0>>;
+            using mov_tests_machine_state = machine_state<startup_stack, startup_flags_state, registers_state<6, 0xaabbccdd,0,0,0,0,0,0, 0>>;
 
 
             //mov byte ptr [eax - 1], 0xff ; eax = 6

@@ -9,14 +9,17 @@ namespace cai
 {
     namespace execute
     {
-        template<typename state_t, size_t reg>
-        struct ex_instruction<state_t, inst::to_size<inst::id_t::POP_REG>, reg>
+        template<typename state_t, size_t reg, size_t ...opcodes>
+        struct ex_instruction<state_t, inst::to_size<inst::id_t::POP_REG>, reg, opcodes...>
         {
             using state = to_machine_state<state_t>;
 
             static constexpr auto val = stack_top<regs::reg_size_type<regs::to_id<reg>>, typename state::stack_t>; // get value from stack
             using new_stack = stack_pop<regs::reg_size_type<regs::to_id<reg>>, typename state::stack_t>; // pop from stack
-            using new_regs_state = set_reg<typename state::registers_state_t, regs::to_id<reg>, static_cast<uint32_t>(val)>; //move value to register
+            using new_regs_state_after_pop = set_reg<typename state::registers_state_t, regs::to_id<reg>, static_cast<uint32_t>(val)>; //move value to register
+
+            static constexpr auto eip_val = get_reg<new_regs_state_after_pop, regs::id_t::EIP> + 2;
+            using new_regs_state = set_reg<new_regs_state_after_pop, regs::id_t::EIP, eip_val>;
 
             using type = machine_state<new_stack, typename state::flags_t, new_regs_state>;
         };

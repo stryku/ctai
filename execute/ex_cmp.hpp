@@ -27,7 +27,7 @@ namespace cai
 
         namespace tests
         {
-            using cmp_test_machine_state = machine_state<startup_stack, startup_flags_state, registers_state<0x0,0xaaaabbbb, 0xaabbccdd, 0,0,0,0,0>>;
+            using cmp_test_machine_state = machine_state<startup_stack, startup_flags_state, registers_state<0x0,0xaaaabbbb, 0xaabbccdd, 0,0,0,0,0, 0>>;
 
             static_assert(
                     ex_instruction<

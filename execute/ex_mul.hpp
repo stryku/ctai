@@ -71,7 +71,7 @@ namespace cai
         namespace tests
         {
 
-            using mul_tests_startup_machine_state = machine_state<startup_stack, startup_flags_state, registers_state<0x00000002, 0x00000102, 0x000000ff, 0xffffffff,0,0,0,0>>;
+            using mul_tests_startup_machine_state = machine_state<startup_stack, startup_flags_state, registers_state<0x00000002, 0x00000102, 0x000000ff, 0xffffffff,0,0,0,0, 0>>;
 
             static_assert(get_reg<ex_instruction<mul_tests_startup_machine_state,
                                   inst::to_size<inst::id_t::MUL_REG_REG>,

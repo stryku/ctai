@@ -86,4 +86,28 @@ namespace cai
 
     template <typename l, typename r>
     using values_merge = typename details::values_merge_impl<l, r>::type;
+
+    namespace details
+    {
+        template <size_t, bool, typename>
+        struct values_drop_impl;
+
+        template <size_t ...left>
+        struct values_drop_impl<0, true, values_container<left...>>
+        {
+            using type = values_container<left...>;
+        };
+
+        template <size_t count, size_t to_drop, size_t ...left>
+        struct values_drop_impl<count, false, values_container<to_drop, left...>>
+        {
+            using type = typename values_drop_impl<count-1,
+                                          count == 1,
+                                          values_container<left...>>::type;
+        };
+    }
+
+    template <size_t count, typename values>
+    using values_drop = typename details::values_drop_impl<count, count==0, values>::type;
+
 }

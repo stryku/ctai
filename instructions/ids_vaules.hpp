@@ -5,6 +5,7 @@
 #include <type_traits>
 
 #include <cstddef>
+#include <cstdint>
 
 namespace cai
 {
@@ -12,6 +13,7 @@ namespace cai
     {
         enum class id_t
         {
+            EXIT,
             PUSH_REG,
             POP_REG,
             ADD_REG_REG,

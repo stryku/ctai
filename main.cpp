@@ -1,20 +1,13 @@
-#include <iostream>
-#include "stack.hpp"
-#include "register.hpp"
-#include "machine_state.hpp"
-#include "execute/ex_pop.hpp"
-#include "execute/ex_add.hpp"
-#include "execute/ex_sub.hpp"
-#include "execute/ex_cmp.hpp"
-#include "execute/ex_mov.hpp"
-#include "execute/ex_mul.hpp"
 #include "string.hpp"
-#include "tokenize/tokenizer.hpp"
-#include "instructions/instructions_matchers.hpp"
-#include "assembler/assembler.hpp"
+#include "execute.hpp"
 
+#include <iostream>
 
-int main() {
-    std::cout << "Hello, World!" << std::endl;
+using code = decltype("push ebx pop eax exit"_s);
+constexpr auto ret_val = cai::execute_code<code>;
+
+int main()
+{
+    std::cout << std::hex << ret_val;
     return 0;
 }

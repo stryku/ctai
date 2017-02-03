@@ -49,14 +49,14 @@ namespace cai
                                   inst::to_size<inst::id_t::SUB_REG_REG>,
                                   regs::to_size<regs::id_t::AX>,
                                   regs::to_size<regs::id_t::BX>>::type::registers_state_t,
-                                  regs::id_t::AX> == static_cast<uint16_t>(0xccdd - 0xccdd)
+                                  regs::id_t::AX> == static_cast<uint16_t>(0xccdd - static_cast<uint16_t>(0xbada55))
                     ,"");
 
             static_assert(get_reg<ex_instruction<startup_machine_state,
                                   inst::to_size<inst::id_t::SUB_REG_REG>,
                                   regs::to_size<regs::id_t::EAX>,
                                   regs::to_size<regs::id_t::EBX>>::type::registers_state_t,
-                                  regs::id_t::EAX> == static_cast<uint32_t>(0xaabbccdd - 0xaabbccdd)
+                                  regs::id_t::EAX> == static_cast<uint32_t>(0xaabbccdd - 0xbada55)
                     ,"");
         }
     }

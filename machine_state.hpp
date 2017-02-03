@@ -3,6 +3,7 @@
 #include "register.hpp"
 #include "flags.hpp"
 #include "stack.hpp"
+#include "tuple.hpp"
 
 namespace cai
 {
@@ -36,6 +37,23 @@ namespace cai
 
     template <typename state>
     using to_machine_state = typename details::to_machine_state_impl<state>::type;
+
+    //
+    //get_next_instruction
+    //
+    namespace details
+    {
+        template <typename state, typename opcodes>
+        struct get_next_instruction_impl
+        {
+            using regs_sate = typename to_machine_state<state>::registers_state_t;
+            static constexpr auto eip_val = get_reg<regs_sate, regs::id_t::EIP>;
+            using type = values_drop<eip_val, opcodes>;
+        };
+    }
+
+    template <typename state, typename opcodes>
+    using get_next_instruction = typename details::get_next_instruction_impl<state, opcodes>::type;
 
     using startup_machine_state = machine_state<startup_stack, startup_flags_state, startup_registers_state>;
 }

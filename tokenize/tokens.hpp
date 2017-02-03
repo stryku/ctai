@@ -8,6 +8,8 @@ namespace cai
     {
         using tok_empty = decltype(""_s);
 
+        using tok_exit = decltype("exit"_s);
+
         using tok_mov = decltype("mov"_s);
         using tok_add = decltype("add"_s);
         using tok_push = decltype("push"_s);
