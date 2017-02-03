@@ -10,6 +10,8 @@
 #include "execute/ex_mul.hpp"
 #include "string.hpp"
 #include "tokenize/tokenizer.hpp"
+#include "instructions/instructions_matchers.hpp"
+#include "assembler/assembler.hpp"
 
 
 int main() {

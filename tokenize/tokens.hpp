@@ -16,6 +16,9 @@ namespace cai
         using tok_mul = decltype("mul"_s);
         using tok_cmp = decltype("cmp"_s);
 
+        using tok_eax = decltype("eax"_s);
+        using tok_ebx = decltype("ebx"_s);
+
         using tok_byte = decltype("BYTE"_s);
         using tok_word = decltype("WORD"_s);
         using tok_dword = decltype("DWORD"_s);
