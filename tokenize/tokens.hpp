@@ -31,5 +31,29 @@ namespace cai
         using tok_minus = decltype("-"_s);
         using tok_plus = decltype("+"_s);
         using tok_comma = decltype(","_s);
+
+        template <typename value>
+        struct reg_token : to_string<value>
+        {
+            using str_type = to_string<value>;
+        };
+
+        //using tok_eax = reg_token<decltype("eax"_s)>;
+        //using tok_ebx = reg_token<decltype("ebx"_s)>;
     }
+
+    template <typename type>
+    constexpr auto is_reg_token = is_in_t<type, tokens::tok_eax , tokens::tok_ebx>;
+
+    namespace details
+    {
+        template <typename>
+        struct token_to_reg_val_impl;
+
+        template <> struct token_to_reg_val_impl<tokens::tok_eax> { static constexpr auto value = regs::to_size<regs::id_t::EAX>; };
+        template <> struct token_to_reg_val_impl<tokens::tok_ebx> { static constexpr auto value = regs::to_size<regs::id_t::EBX>; };
+    }
+
+    template <typename token>
+    constexpr auto token_to_reg_val = details::token_to_reg_val_impl<token>::value;
 }

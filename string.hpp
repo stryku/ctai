@@ -119,6 +119,37 @@ namespace cai
     using string_pop_front = typename details::string_pop_front_impl<s>::type;
 
 
+    //
+    // string_to_int
+    //
+    namespace details
+    {
+        template <typename, int sign = 1, int current_val = 0>
+        struct string_to_int_impl;
+
+        template <int sign, int current_val>
+        struct string_to_int_impl<string<>, sign, current_val>
+        {
+            static constexpr auto value = current_val;
+        };
+
+        template <int sign, int current_val, char current_char, char ...chars>
+        struct string_to_int_impl<string<current_char, chars...>, sign, current_val>
+        {
+            static constexpr auto nex_val = sign * (current_val* 10 + (current_char - '0'));
+            static constexpr auto value = string_to_int_impl<string<chars...>, sign, nex_val>::value;
+        };
+
+        template <int sign, int current_val, char current_char, char ...chars>
+        struct string_to_int_impl<string<'-', current_char, chars...>, sign, current_val>
+        {
+            static constexpr auto nex_val = sign * (current_val * 10 + (current_char - '0'));
+            static constexpr auto value = string_to_int_impl<string<chars...>, -1, nex_val>::value;
+        };
+    }
+
+    template <typename str>
+    constexpr auto string_to_int = details::string_to_int_impl<str>::value;
 
 }
 

@@ -2,7 +2,7 @@
 
 #include "tuple.hpp"
 #include "tokenize/tokens.hpp"
-#include "ids_vaules.hpp"
+#include "instructions/ids_vaules.hpp"
 
 namespace cai
 {
@@ -17,7 +17,7 @@ namespace cai
             using instruction = values_container<inst::to_size<inst::id_t::EXIT>>;
             using rest_of_tokens_t = tuple<rest_of_tokens...>;
         };
-
+/*
         //push eax
         template <typename ...rest_of_tokens>
         struct matcher_impl<tuple<tokens::tok_push, tokens::tok_eax, rest_of_tokens...>>
@@ -39,7 +39,7 @@ namespace cai
 
             using rest_of_tokens_t = tuple<rest_of_tokens...>;
         };
-
+*/
         //pop eax
         template <typename ...rest_of_tokens>
         struct matcher_impl<tuple<tokens::tok_pop, tokens::tok_eax, rest_of_tokens...>>
@@ -65,10 +65,15 @@ namespace cai
 
     template <typename tokens>
     using instruction_match = typename details::matcher_impl<tokens>;
+}
 
+#include "push_matcher.hpp"
+
+namespace cai
+{
     namespace tests
     {
         static_assert(std::is_same<instruction_match<tuple<tokens::tok_push, tokens::tok_eax, string<>, string<>>>::instruction,
-                                   values_container<inst::to_size<inst::id_t::PUSH_REG>, regs::to_size<regs::id_t::EAX>>>::value, "");
+                values_container<inst::to_size<inst::id_t::PUSH_REG>, regs::to_size<regs::id_t::EAX>>>::value, "");
     }
 }
