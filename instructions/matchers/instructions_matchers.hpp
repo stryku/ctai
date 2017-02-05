@@ -17,50 +17,6 @@ namespace cai
             using instruction = values_container<inst::to_size<inst::id_t::EXIT>>;
             using rest_of_tokens_t = tuple<rest_of_tokens...>;
         };
-/*
-        //push eax
-        template <typename ...rest_of_tokens>
-        struct matcher_impl<tuple<tokens::tok_push, tokens::tok_eax, rest_of_tokens...>>
-        {
-            using instruction = values_container<
-                    inst::to_size<inst::id_t::PUSH_REG>,
-                    regs::to_size<regs::id_t::EAX>>;
-
-            using rest_of_tokens_t = tuple<rest_of_tokens...>;
-        };
-
-        //push ebx
-        template <typename ...rest_of_tokens>
-        struct matcher_impl<tuple<tokens::tok_push, tokens::tok_ebx, rest_of_tokens...>>
-        {
-            using instruction = values_container<
-                    inst::to_size<inst::id_t::PUSH_REG>,
-                    regs::to_size<regs::id_t::EBX>>;
-
-            using rest_of_tokens_t = tuple<rest_of_tokens...>;
-        };
-*/
-        //pop eax
-        template <typename ...rest_of_tokens>
-        struct matcher_impl<tuple<tokens::tok_pop, tokens::tok_eax, rest_of_tokens...>>
-        {
-            using instruction = values_container<
-                    inst::to_size<inst::id_t::POP_REG>,
-                    regs::to_size<regs::id_t::EAX>>;
-
-            using rest_of_tokens_t = tuple<rest_of_tokens...>;
-        };
-
-        //pop ebx
-        template <typename ...rest_of_tokens>
-        struct matcher_impl<tuple<tokens::tok_pop, tokens::tok_ebx, rest_of_tokens...>>
-        {
-            using instruction = values_container<
-                    inst::to_size<inst::id_t::POP_REG>,
-                    regs::to_size<regs::id_t::EBX>>;
-
-            using rest_of_tokens_t = tuple<rest_of_tokens...>;
-        };
     }
 
     template <typename tokens>
@@ -68,6 +24,8 @@ namespace cai
 }
 
 #include "push_matcher.hpp"
+#include "pop_matcher.hpp"
+#include "mov_matcher.hpp"
 
 namespace cai
 {

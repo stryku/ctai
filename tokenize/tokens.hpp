@@ -20,6 +20,8 @@ namespace cai
 
         using tok_eax = decltype("eax"_s);
         using tok_ebx = decltype("ebx"_s);
+        using tok_ecx = decltype("ecx"_s);
+        using tok_edx = decltype("edx"_s);
 
         using tok_byte = decltype("BYTE"_s);
         using tok_word = decltype("WORD"_s);
@@ -52,6 +54,8 @@ namespace cai
 
         template <> struct token_to_reg_val_impl<tokens::tok_eax> { static constexpr auto value = regs::to_size<regs::id_t::EAX>; };
         template <> struct token_to_reg_val_impl<tokens::tok_ebx> { static constexpr auto value = regs::to_size<regs::id_t::EBX>; };
+        template <> struct token_to_reg_val_impl<tokens::tok_ecx> { static constexpr auto value = regs::to_size<regs::id_t::ECX>; };
+        template <> struct token_to_reg_val_impl<tokens::tok_edx> { static constexpr auto value = regs::to_size<regs::id_t::EDX>; };
     }
 
     template <typename token>

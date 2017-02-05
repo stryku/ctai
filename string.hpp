@@ -130,20 +130,20 @@ namespace cai
         template <int sign, int current_val>
         struct string_to_int_impl<string<>, sign, current_val>
         {
-            static constexpr auto value = current_val;
+            static constexpr auto value = sign * current_val;
         };
 
         template <int sign, int current_val, char current_char, char ...chars>
         struct string_to_int_impl<string<current_char, chars...>, sign, current_val>
         {
-            static constexpr auto nex_val = sign * (current_val* 10 + (current_char - '0'));
+            static constexpr auto nex_val = current_val* 10 + (current_char - '0');
             static constexpr auto value = string_to_int_impl<string<chars...>, sign, nex_val>::value;
         };
 
         template <int sign, int current_val, char current_char, char ...chars>
         struct string_to_int_impl<string<'-', current_char, chars...>, sign, current_val>
         {
-            static constexpr auto nex_val = sign * (current_val * 10 + (current_char - '0'));
+            static constexpr auto nex_val = current_val * 10 + (current_char - '0');
             static constexpr auto value = string_to_int_impl<string<chars...>, -1, nex_val>::value;
         };
     }
@@ -171,5 +171,9 @@ namespace cai
 
         static_assert(string_front<decltype("abc"_s)> == 'a', "");
         static_assert(string_front<decltype(" abc"_s)> == ' ', "");
+
+        static_assert(string_to_int<decltype("2"_s)> == 2, "");
+        static_assert(string_to_int<decltype("-2"_s)> == -2, "");
+
     }
 }

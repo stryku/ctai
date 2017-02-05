@@ -3,28 +3,41 @@
 #include "machine_state.hpp"
 #include "instructions/instruction.hpp"
 #include "execute/ex_instruction.hpp"
+#include "execute/eip_adjuster.hpp"
 #include "instructions/ids_vaules.hpp"
 
 namespace cai
 {
     namespace execute
     {
-        template<typename state_t, size_t reg1, size_t reg2>
-        struct ex_instruction<state_t, inst::to_size<inst::id_t::MOV_REG_REG>, reg1, reg2>
+        template<typename state_t, size_t reg1, size_t reg2, size_t ...rest_of_opcodes>
+        struct ex_instruction<state_t, inst::to_size<inst::id_t::MOV_REG_REG>, reg1, reg2, rest_of_opcodes...>
         {
             using state = to_machine_state<state_t>;
 
             static constexpr auto val2 = get_reg<typename state::registers_state_t, regs::to_id<reg2>>; // get reg2 value
 
             using new_regs_state = set_reg<typename state::registers_state_t, regs::to_id<reg1>, static_cast<uint32_t>(val2)>; //move register to register
+            using final_regs_state = adjust_eip<new_regs_state, inst::id_t::MOV_REG_REG>;
 
-            using type = machine_state<typename state::stack_t, typename state::flags_t, new_regs_state>;
+            using type = machine_state<typename state::stack_t, typename state::flags_t, final_regs_state>;
+        };
+
+        template<typename state_t, size_t reg1, size_t val, size_t ...rest_of_opcodes>
+        struct ex_instruction<state_t, inst::to_size<inst::id_t::MOV_REG_VAL>, reg1, val, rest_of_opcodes...>
+        {
+            using state = to_machine_state<state_t>;
+
+            using new_regs_state = set_reg<typename state::registers_state_t, regs::to_id<reg1>, static_cast<uint32_t>(val)>; //move register to register
+            using final_regs_state = adjust_eip<new_regs_state, inst::id_t::MOV_REG_VAL>;
+
+            using type = machine_state<typename state::stack_t, typename state::flags_t, final_regs_state>;
         };
 
 
         // mov * ptr [mem_ptr_reg - mem_ptr_const], val
-        template<typename state_t, size_t mem_ptr_reg, size_t mem_ptr_const, size_t mem_size, size_t val>
-        struct ex_instruction<state_t, inst::to_size<inst::id_t::MOV_MEM_VAL__mem_eq_reg_minus_const>, mem_ptr_reg, mem_ptr_const, mem_size, val>
+        template<typename state_t, size_t mem_ptr_reg, size_t mem_ptr_const, size_t mem_size, size_t val, size_t ...rest_of_opcodes>
+        struct ex_instruction<state_t, inst::to_size<inst::id_t::MOV_MEM_VAL__mem_eq_reg_minus_const>, mem_ptr_reg, mem_ptr_const, mem_size, val, rest_of_opcodes...>
         {
             using state = to_machine_state<state_t>;
 
@@ -33,12 +46,14 @@ namespace cai
 
             using stack_after_set = stack_set<memory::to_mem_type<memory::to_id<mem_size>>, static_cast<uint32_t>(val), mem_ptr, typename state::stack_t>;
 
-            using type = machine_state<stack_after_set, typename state::flags_t, typename state::registers_state_t>;
+            using final_regs_state = adjust_eip<typename state::registers_state_t, inst::id_t::MOV_MEM_VAL__mem_eq_reg_minus_const>;
+
+            using type = machine_state<stack_after_set, typename state::flags_t, final_regs_state>;
         };
 
         // mov * ptr [mem_ptr_reg + mem_ptr_const], val
-        template<typename state_t, size_t mem_ptr_reg, size_t mem_ptr_const, size_t mem_size, size_t val>
-        struct ex_instruction<state_t, inst::to_size<inst::id_t::MOV_MEM_VAL__mem_eq_reg_plus_const>, mem_ptr_reg, mem_ptr_const, mem_size, val>
+        template<typename state_t, size_t mem_ptr_reg, size_t mem_ptr_const, size_t mem_size, size_t val, size_t ...rest_of_opcodes>
+        struct ex_instruction<state_t, inst::to_size<inst::id_t::MOV_MEM_VAL__mem_eq_reg_plus_const>, mem_ptr_reg, mem_ptr_const, mem_size, val, rest_of_opcodes...>
         {
             using state = to_machine_state<state_t>;
 
@@ -47,12 +62,14 @@ namespace cai
 
             using stack_after_set = stack_set<memory::to_mem_type<memory::to_id<mem_size>>, static_cast<uint32_t>(val), mem_ptr, typename state::stack_t>;
 
-            using type = machine_state<stack_after_set, typename state::flags_t, typename state::registers_state_t>;
+            using final_regs_state = adjust_eip<typename state::registers_state_t, inst::id_t::MOV_MEM_VAL__mem_eq_reg_plus_const>;
+
+            using type = machine_state<stack_after_set, typename state::flags_t, final_regs_state>;
         };
 
         // mov * ptr [mem_ptr_reg + mem_ptr_const], reg
-        template<typename state_t, size_t mem_ptr_reg, size_t mem_ptr_const, size_t mem_size, size_t reg>
-        struct ex_instruction<state_t, inst::to_size<inst::id_t::MOV_MEM_REG__mem_eq_reg_minus_const>, mem_ptr_reg, mem_ptr_const, mem_size, reg>
+        template<typename state_t, size_t mem_ptr_reg, size_t mem_ptr_const, size_t mem_size, size_t reg, size_t ...rest_of_opcodes>
+        struct ex_instruction<state_t, inst::to_size<inst::id_t::MOV_MEM_REG__mem_eq_reg_minus_const>, mem_ptr_reg, mem_ptr_const, mem_size, reg, rest_of_opcodes...>
         {
             using state = to_machine_state<state_t>;
 
@@ -62,12 +79,14 @@ namespace cai
 
             using stack_after_set = stack_set<memory::to_mem_type<memory::to_id<mem_size>>, static_cast<uint32_t>(reg_val), mem_ptr, typename state::stack_t>;
 
-            using type = machine_state<stack_after_set, typename state::flags_t, typename state::registers_state_t>;
+            using final_regs_state = adjust_eip<typename state::registers_state_t, inst::id_t::MOV_MEM_REG__mem_eq_reg_minus_const>;
+
+            using type = machine_state<stack_after_set, typename state::flags_t, final_regs_state>;
         };
 
         // mov * ptr [mem_ptr_reg + mem_ptr_const], reg
-        template<typename state_t, size_t mem_ptr_reg, size_t mem_ptr_const, size_t mem_size, size_t reg>
-        struct ex_instruction<state_t, inst::to_size<inst::id_t::MOV_MEM_REG__mem_eq_reg_plus_const>, mem_ptr_reg, mem_ptr_const, mem_size, reg>
+        template<typename state_t, size_t mem_ptr_reg, size_t mem_ptr_const, size_t mem_size, size_t reg, size_t ...rest_of_opcodes>
+        struct ex_instruction<state_t, inst::to_size<inst::id_t::MOV_MEM_REG__mem_eq_reg_plus_const>, mem_ptr_reg, mem_ptr_const, mem_size, reg, rest_of_opcodes...>
         {
             using state = to_machine_state<state_t>;
 
@@ -77,12 +96,14 @@ namespace cai
 
             using stack_after_set = stack_set<memory::to_mem_type<memory::to_id<mem_size>>, static_cast<uint32_t>(reg_val), mem_ptr, typename state::stack_t>;
 
-            using type = machine_state<stack_after_set, typename state::flags_t, typename state::registers_state_t>;
+            using final_regs_state = adjust_eip<typename state::registers_state_t, inst::id_t::MOV_MEM_REG__mem_eq_reg_plus_const>;
+
+            using type = machine_state<stack_after_set, typename state::flags_t, final_regs_state>;
         };
 
         // mov reg, * ptr [mem_ptr_reg - mem_ptr_const]
-        template<typename state_t, size_t reg, size_t mem_ptr_reg, size_t mem_ptr_const, size_t mem_size>
-        struct ex_instruction<state_t, inst::to_size<inst::id_t::MOV_REG_MEM__mem_eq_reg_minus_const>, reg, mem_ptr_reg, mem_ptr_const, mem_size>
+        template<typename state_t, size_t reg, size_t mem_ptr_reg, size_t mem_ptr_const, size_t mem_size, size_t ...rest_of_opcodes>
+        struct ex_instruction<state_t, inst::to_size<inst::id_t::MOV_REG_MEM__mem_eq_reg_minus_const>, reg, mem_ptr_reg, mem_ptr_const, mem_size, rest_of_opcodes...>
         {
             using state = to_machine_state<state_t>;
 
@@ -90,15 +111,16 @@ namespace cai
             static constexpr auto mem_ptr = mem_reg_val - mem_ptr_const;
             static constexpr auto mem_val = stack_get<memory::to_mem_type<memory::to_id<mem_size>>, mem_ptr, typename state::stack_t>;
 
-
             using new_regs_state = set_reg<typename state::registers_state_t, regs::to_id<reg>, static_cast<uint32_t>(mem_val)>;
 
-            using type = machine_state<typename state::stack_t, typename state::flags_t, new_regs_state>;
+            using final_regs_state = adjust_eip<new_regs_state, inst::id_t::MOV_REG_MEM__mem_eq_reg_minus_const>;
+
+            using type = machine_state<typename state::stack_t, typename state::flags_t, final_regs_state>;
         };
 
         // mov reg, * ptr [mem_ptr_reg - mem_ptr_const]
-        template<typename state_t, size_t reg, size_t mem_ptr_reg, size_t mem_ptr_const, size_t mem_size>
-        struct ex_instruction<state_t, inst::to_size<inst::id_t::MOV_REG_MEM__mem_eq_reg_plus_const>, reg, mem_ptr_reg, mem_ptr_const, mem_size>
+        template<typename state_t, size_t reg, size_t mem_ptr_reg, size_t mem_ptr_const, size_t mem_size, size_t ...rest_of_opcodes>
+        struct ex_instruction<state_t, inst::to_size<inst::id_t::MOV_REG_MEM__mem_eq_reg_plus_const>, reg, mem_ptr_reg, mem_ptr_const, mem_size, rest_of_opcodes...>
         {
             using state = to_machine_state<state_t>;
 
@@ -108,7 +130,9 @@ namespace cai
 
             using new_regs_state = set_reg<typename state::registers_state_t, regs::to_id<reg>, static_cast<uint32_t>(mem_val)>;
 
-            using type = machine_state<typename state::stack_t, typename state::flags_t, new_regs_state>;
+            using final_regs_state = adjust_eip<new_regs_state, inst::id_t::MOV_REG_MEM__mem_eq_reg_minus_const>;
+
+            using type = machine_state<typename state::stack_t, typename state::flags_t, final_regs_state>;
         };
 
         //

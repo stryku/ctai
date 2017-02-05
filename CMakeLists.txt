@@ -34,7 +34,7 @@ set(INCLUDE_FILES
         tokenize/tokenizer.hpp
 
 
-        assembler/assembler.hpp instructions/matchers/register_matcher.hpp)
+        assembler/assembler.hpp instructions/matchers/register_matcher.hpp instructions/matchers/pop_matcher.hpp instructions/matchers/mov_matcher.hpp instructions/matchers/plus_minus_decoder.hpp instructions/matchers/mem_size_decoder.hpp instructions/matchers/add_matcher.hpp execute/eip_adjuster.hpp)
 
 
 set(SOURCE_FILES

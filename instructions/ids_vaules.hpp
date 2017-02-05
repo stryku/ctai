@@ -16,10 +16,15 @@ namespace cai
             EXIT,
             PUSH_REG,
             POP_REG,
+
             ADD_REG_REG,
+            ADD_REG_VAL,
+
             SUB_REG_REG,
             CMP_REG_REG,
+
             MOV_REG_REG,
+            MOV_REG_VAL,
 
 
             MOV_MEM_VAL__mem_eq_reg_minus_const,

@@ -3,6 +3,28 @@
 
 #include <iostream>
 
+namespace tests
+{
+    static_assert(
+            cai::execute_code<
+                    decltype(
+                    "mov eax , 6 "
+                            "exit"_s
+                    )
+            > == 6
+            ,"");
+
+    static_assert(
+            cai::execute_code<
+                    decltype("mov ebx , -6 "
+                            "push ebx "
+                            "pop eax "
+                            "exit"_s
+                    )
+            > == -6
+            ,"");
+}
+
 using code = decltype(
 "push ebx "
 "pop eax "
