@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.6)
 project(ctai)
 
-add_definitions(-std=c++1z -ftemplate-backtrace-limit=0)
+add_definitions(-std=c++1z -ftemplate-backtrace-limit=0 -ftemplate-depth=1024)
 
 set(INCLUDE_FILES
         register.hpp
