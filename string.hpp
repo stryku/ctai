@@ -1,5 +1,7 @@
 #pragma once
 
+#include <type_traits>
+
 namespace cai
 {
     template <char ...chars>
@@ -151,6 +153,40 @@ namespace cai
     template <typename str>
     constexpr auto string_to_int = details::string_to_int_impl<str>::value;
 
+    //
+    //string_from_int
+    //
+    namespace details
+    {
+        template <int value, typename current_string = string<>>
+        struct string_from_int_impl;
+
+        template <typename current_string>
+        struct string_from_int_impl<0, current_string>
+        {
+            using type = current_string;
+        };
+
+        template <int value, char ...chars>
+        struct string_from_int_impl<value, string<chars...>>
+        {
+            using type = typename string_from_int_impl<
+                    value/10,
+                    string<chars..., value % 10 + '0'>>::type;
+        };
+
+        template <int value>
+        struct prepare_sign_and_convert
+        {
+            using type = typename std::conditional_t<
+                    value < 0,
+                    string_from_int_impl<value * -1, string<'-'>>,
+                    string_from_int_impl<value>
+                    >::type;
+        };
+    }
+    template <int value>
+    using string_from_int = typename details::prepare_sign_and_convert<value>::type;
 }
 
 template <typename T, T... chars>

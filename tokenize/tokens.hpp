@@ -22,6 +22,11 @@ namespace cai
         using tok_ebx = decltype("ebx"_s);
         using tok_ecx = decltype("ecx"_s);
         using tok_edx = decltype("edx"_s);
+        using tok_esp = decltype("esp"_s);
+        using tok_ebp = decltype("ebp"_s);
+        using tok_edi = decltype("edi"_s);
+        using tok_esi = decltype("esi"_s);
+        using tok_eip = decltype("eip"_s);
 
         using tok_byte = decltype("BYTE"_s);
         using tok_word = decltype("WORD"_s);
@@ -45,7 +50,16 @@ namespace cai
     }
 
     template <typename type>
-    constexpr auto is_reg_token = is_in_t<type, tokens::tok_eax , tokens::tok_ebx>;
+    constexpr auto is_reg_token = is_in_t<type,
+            tokens::tok_eax,
+            tokens::tok_ebx,
+            tokens::tok_ecx,
+            tokens::tok_edx,
+            tokens::tok_esp,
+            tokens::tok_ebp,
+            tokens::tok_edi,
+            tokens::tok_esi,
+            tokens::tok_eip>;
 
     namespace details
     {
@@ -56,6 +70,12 @@ namespace cai
         template <> struct token_to_reg_val_impl<tokens::tok_ebx> { static constexpr auto value = regs::to_size<regs::id_t::EBX>; };
         template <> struct token_to_reg_val_impl<tokens::tok_ecx> { static constexpr auto value = regs::to_size<regs::id_t::ECX>; };
         template <> struct token_to_reg_val_impl<tokens::tok_edx> { static constexpr auto value = regs::to_size<regs::id_t::EDX>; };
+
+        template <> struct token_to_reg_val_impl<tokens::tok_esp> { static constexpr auto value = regs::to_size<regs::id_t::ESP>; };
+        template <> struct token_to_reg_val_impl<tokens::tok_ebp> { static constexpr auto value = regs::to_size<regs::id_t::EBP>; };
+        template <> struct token_to_reg_val_impl<tokens::tok_edi> { static constexpr auto value = regs::to_size<regs::id_t::EDI>; };
+        template <> struct token_to_reg_val_impl<tokens::tok_esi> { static constexpr auto value = regs::to_size<regs::id_t::ESI>; };
+        template <> struct token_to_reg_val_impl<tokens::tok_eip> { static constexpr auto value = regs::to_size<regs::id_t::EIP>; };
     }
 
     template <typename token>

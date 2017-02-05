@@ -3,6 +3,7 @@
 #include "tuple.hpp"
 #include "tokenize/tokens.hpp"
 #include "instructions/ids_vaules.hpp"
+#include "eip_change.hpp"
 
 namespace cai
 {
@@ -15,6 +16,9 @@ namespace cai
         struct matcher_impl<tuple<tokens::tok_exit, rest_of_tokens...>>
         {
             using instruction = values_container<inst::to_size<inst::id_t::EXIT>>;
+            static constexpr auto eip_change = get_eip_change<inst::id_t::EXIT>;
+
+            using instruction_tokens = tuple<tokens::tok_exit>;
             using rest_of_tokens_t = tuple<rest_of_tokens...>;
         };
     }
@@ -26,6 +30,7 @@ namespace cai
 #include "push_matcher.hpp"
 #include "pop_matcher.hpp"
 #include "mov_matcher.hpp"
+#include "add_matcher.hpp"
 
 namespace cai
 {

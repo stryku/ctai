@@ -17,6 +17,9 @@ namespace cai
                     inst::to_size<inst::id_t::POP_REG>,
                     operand_decoder<operand>>;
 
+            static constexpr auto eip_change = get_eip_change<inst::id_t::POP_REG>;
+            using instruction_tokens = tuple<tokens::tok_pop, operand>;
+
             using rest_of_tokens_t = tuple<rest_of_tokens...>;
         };
     }

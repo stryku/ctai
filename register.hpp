@@ -102,9 +102,9 @@ namespace cai
     using startup_registers_state = registers_state<
             0xaabbccdd, //eax
             0xbada55,   //ebx
-            0xaabbccdd, //etc
-            0xaabbccdd,
-            0xaabbccdd,
+            0xaabbccdd, //ecx
+            0xaabbccdd, //edx
+            15, //esp
             0xaabbccdd,
             0xaabbccdd,
             0xaabbccdd,
