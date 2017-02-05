@@ -32,6 +32,8 @@ namespace cai
 #include "mov_matcher.hpp"
 #include "add_matcher.hpp"
 #include "jmp_matcher.hpp"
+#include "jge_matcher.hpp"
+#include "cmp_matcher.hpp"
 
 namespace cai
 {
