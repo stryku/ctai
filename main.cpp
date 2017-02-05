@@ -49,6 +49,18 @@ namespace tests
                     )
             > == 33
             ,"");
+
+    static_assert(
+            cai::execute_code<
+                    decltype(
+                            "jmp .jump_here "
+                            "mov eax , 12 "
+                        ":jump_here "
+                            "mov eax , 6 "
+                            "exit"_s
+                    )
+            > == 6
+            ,"");
 }
 
 using code = decltype(

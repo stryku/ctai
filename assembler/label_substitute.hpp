@@ -23,11 +23,11 @@ namespace cai
         //label match
         template <char ...label_chars, typename ...rest_of_tokens, typename labels, typename ...current_tokens>
         struct substitute_labels_impl<
-                tuple<string<':', label_chars...>, rest_of_tokens...>,
+                tuple<string<'.', label_chars...>, rest_of_tokens...>,
                 labels,
                 tuple<current_tokens...>>
         {
-            static constexpr auto ip = labels_get_ip<labels, string<label_chars...>>;
+            static constexpr auto ip = labels_get_ip<labels, string<'.', label_chars...>>;
             using str_ip = string_from_int<ip>;
 
             using substitued = substitute_labels_impl<
@@ -63,7 +63,14 @@ namespace cai
                 std::is_same<
                         substutite_labels<tuple<decltype("abc"_s), decltype("def"_s)>, tuple<>>,
                         tuple<decltype("abc"_s), decltype("def"_s)>
-                        >::value
+                >::value
+                ,"");
+
+        static_assert(
+                std::is_same<
+                        substutite_labels<tuple<decltype(".label"_s), decltype("abc"_s), decltype("def"_s)>, tuple<label_metadata<decltype(".label"_s), 12>>>,
+                        tuple<decltype("12"_s), decltype("abc"_s), decltype("def"_s)>
+                >::value
                 ,"");
     }
 }

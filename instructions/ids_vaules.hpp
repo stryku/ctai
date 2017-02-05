@@ -17,6 +17,9 @@ namespace cai
             PUSH_REG,
             POP_REG,
 
+            JMP,
+            JGE,
+
             ADD_REG_REG,
             ADD_REG_VAL,
 

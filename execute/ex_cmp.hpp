@@ -5,6 +5,9 @@
 #include "execute/ex_instruction.hpp"
 #include "instructions/ids_vaules.hpp"
 
+#include <numeric>
+#include <limits>
+
 namespace cai
 {
     namespace execute
@@ -16,11 +19,15 @@ namespace cai
 
             static constexpr auto val1 = get_reg<typename state::registers_state_t, regs::to_id<reg1>>; // get reg1 value
             static constexpr auto val2 = get_reg<typename state::registers_state_t, regs::to_id<reg2>>; // get reg1 value
+            static constexpr int result = static_cast<int64_t>(val1) - static_cast<int64_t>(val2);
 
             static constexpr bool zf = (val1 == val2);
             static constexpr bool cf = (static_cast<uint64_t>(val1) < static_cast<uint64_t>(val2)); //set if borrow
+            static constexpr bool sf = (result < 0);
+            static constexpr bool of = (result < std::numeric_limits<int32_t>::min() ||
+                                        result > std::numeric_limits<int32_t>::max());
 
-            using new_flags_state = flags<cf, zf>;
+            using new_flags_state = flags<cf, zf, sf, of>;
 
             using type = machine_state<typename state::stack_t, new_flags_state, typename state::registers_state_t>;
         };

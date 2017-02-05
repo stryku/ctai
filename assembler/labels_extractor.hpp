@@ -33,7 +33,7 @@ namespace cai
                     tuple<rest_of_tokens...>,
                     current_ip,
                     tuple<current_tokens...>,
-                    tuple<current_labels..., label_metadata<string<label_chars...>, current_ip>>>;
+                    tuple<current_labels..., label_metadata<string<'.', label_chars...>, current_ip>>>;
 
             using tokens = typename extracted::tokens;
             using labels = typename extracted::labels;
@@ -77,8 +77,8 @@ namespace cai
         static_assert(
                 std::is_same<
                         extract_labels<tuple<decltype(":label0"_s), decltype("push"_s), decltype("eax"_s), decltype(":label1"_s)>>::labels,
-                tuple<label_metadata<decltype("label0"_s), 0>,
-                label_metadata<decltype("label1"_s), 2>>
+                tuple<label_metadata<decltype(".label0"_s), 0>,
+                label_metadata<decltype(".label1"_s), 2>>
                                           >::value
                 ,"");
     }

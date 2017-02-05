@@ -23,7 +23,7 @@ namespace cai
 
             static constexpr bool cf = ((result & 0xff00) != 0);
 
-            using new_flags_state = flags<cf, false>; //I know that mul shouldn't set zf flag. I'm sorry.
+            using new_flags_state = set_cf<typename state::flags_t, cf>;
 
             using type = machine_state<typename state::stack_t, new_flags_state, new_regs_state>;
         };
@@ -43,7 +43,7 @@ namespace cai
 
             static constexpr bool cf = ((result & 0xffff0000) != 0);
 
-            using new_flags_state = flags<cf, true>; //false - true: 1 - 1
+            using new_flags_state = set_cf<typename state::flags_t, cf>;
 
             using type = machine_state<typename state::stack_t, new_flags_state, regs_state_after_dx>;
         };
@@ -63,7 +63,7 @@ namespace cai
 
             static constexpr bool cf = ((result & 0xffff0000) != 0);
 
-            using new_flags_state = flags<cf, true>; //false - true: 1 - 1
+            using new_flags_state = set_cf<typename state::flags_t, cf>;
 
             using type = machine_state<typename state::stack_t, new_flags_state, regs_state_after_edx>;
         };

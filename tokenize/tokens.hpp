@@ -17,6 +17,8 @@ namespace cai
         using tok_sub = decltype("sub"_s);
         using tok_mul = decltype("mul"_s);
         using tok_cmp = decltype("cmp"_s);
+        using tok_jmp= decltype("jmp"_s);
+        using tok_jge = decltype("jge"_s);
 
         using tok_eax = decltype("eax"_s);
         using tok_ebx = decltype("ebx"_s);

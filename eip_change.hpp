@@ -27,6 +27,8 @@ namespace cai
         template <> constexpr size_t eip_change<inst::id_t::MOV_REG_REG> = 3;
         template <> constexpr size_t eip_change<inst::id_t::PUSH_REG> = 2;
         template <> constexpr size_t eip_change<inst::id_t::POP_REG> = 2;
+        template <> constexpr size_t eip_change<inst::id_t::JMP> = 2;
+        template <> constexpr size_t eip_change<inst::id_t::JGE> = 2;
     }
 
     template <inst::id_t instruction>
