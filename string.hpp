@@ -1,5 +1,7 @@
 #pragma once
 
+#include <type_traits>
+
 namespace cai
 {
     template <char ...chars>
@@ -101,6 +103,24 @@ namespace cai
     using string_append = typename details::string_append_impl<s, value>::type;
 
     //
+    //string_merge
+    //
+    namespace details
+    {
+        template <typename, typename>
+        struct string_merge_impl;
+
+        template <char ...chars1, char ...chars2>
+        struct string_merge_impl<string<chars1...>, string<chars2...>>
+        {
+            using type = string<chars1..., chars2...>;
+        };
+    }
+
+    template <typename s, typename s2>
+    using string_merge = typename details::string_merge_impl<s, s2>::type;
+
+    //
     //string_pop_front
     //
     namespace details
@@ -119,7 +139,74 @@ namespace cai
     using string_pop_front = typename details::string_pop_front_impl<s>::type;
 
 
+    //
+    // string_to_int
+    //
+    namespace details
+    {
+        template <typename, int sign = 1, int current_val = 0>
+        struct string_to_int_impl;
 
+        template <int sign, int current_val>
+        struct string_to_int_impl<string<>, sign, current_val>
+        {
+            static constexpr auto value = sign * current_val;
+        };
+
+        template <int sign, int current_val, char current_char, char ...chars>
+        struct string_to_int_impl<string<current_char, chars...>, sign, current_val>
+        {
+            static constexpr auto nex_val = current_val * 10 + (current_char - '0');
+            static constexpr auto value = string_to_int_impl<string<chars...>, sign, nex_val>::value;
+        };
+
+        template <int sign, int current_val, char current_char, char ...chars>
+        struct string_to_int_impl<string<'-', current_char, chars...>, sign, current_val>
+        {
+            static constexpr auto nex_val = current_val * 10 + (current_char - '0');
+            static constexpr auto value = string_to_int_impl<string<chars...>, -1, nex_val>::value;
+        };
+    }
+
+    template <typename str>
+    constexpr auto string_to_int = details::string_to_int_impl<str>::value;
+
+    //
+    //string_from_int
+    //
+    namespace details
+    {
+        template <int value, bool end, typename sign_str, typename current_string = string<>>
+        struct string_from_int_impl;
+
+        template <typename sign_str, typename current_string>
+        struct string_from_int_impl<0, true, sign_str, current_string>
+        {
+            using type = string_merge<sign_str, current_string>;
+        };
+
+        template <int value, typename sign_str, char ...chars>
+        struct string_from_int_impl<value, false, sign_str, string<chars...>>
+        {
+            using type = typename string_from_int_impl<
+                    value/10,
+                    value/10 == 0,
+                    sign_str,
+                    string<value % 10 + '0', chars...>>::type;
+        };
+
+        template <int value>
+        struct prepare_sign_and_convert
+        {
+            using type = typename std::conditional_t<
+                    value < 0,
+                    string_from_int_impl<value * -1, value == 0, string<'-'>>,
+                    string_from_int_impl<value, value == 0, string<>>
+                    >::type;
+        };
+    }
+    template <int value>
+    using string_from_int = typename details::prepare_sign_and_convert<value>::type;
 }
 
 template <typename T, T... chars>
@@ -140,5 +227,12 @@ namespace cai
 
         static_assert(string_front<decltype("abc"_s)> == 'a', "");
         static_assert(string_front<decltype(" abc"_s)> == ' ', "");
+
+        static_assert(string_to_int<decltype("12"_s)> == 12, "");
+        static_assert(string_to_int<decltype("-2"_s)> == -2, "");
+
+        static_assert(std::is_same<string_from_int<12>, decltype("12"_s)>::value, "");
+        static_assert(std::is_same<string_from_int<-2>, decltype("-2"_s)>::value, "");
+
     }
 }

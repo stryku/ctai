@@ -19,6 +19,8 @@ namespace cai {
 #include "execute/ex_cmp.hpp"
 #include "execute/ex_mov.hpp"
 #include "execute/ex_mul.hpp"
+#include "execute/ex_jmp.hpp"
+#include "execute/ex_jge.hpp"
 
 namespace cai
 {

@@ -8,6 +8,8 @@
 #include "execute/ex_push.hpp"
 #include "tokenize/tokenizer.hpp"
 #include "assembler/assembler.hpp"
+#include "assembler/label_substitute.hpp"
+#include "assembler/labels_extractor.hpp"
 
 #include <cstddef>
 
@@ -40,7 +42,11 @@ namespace cai
         struct prepare_and_execute
         {
             using tokens = tokenize<code>;
-            using opcodes = assemble<tokens>;
+            using extract_labels_result = extract_labels<tokens>;
+            using tokens_without_labels = typename extract_labels_result::tokens;
+            using labels_metadata = typename extract_labels_result::labels;
+            using tokens_after_labels_substitution = substutite_labels<tokens_without_labels, labels_metadata>;
+            using opcodes = assemble<tokens_after_labels_substitution>;
             using machine_state = startup_machine_state;
 
             static constexpr auto ret_val = execute_impl<machine_state, opcodes>::ret_val;
