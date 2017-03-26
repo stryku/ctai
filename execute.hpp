@@ -9,7 +9,7 @@
 #include "tokenize/tokenizer.hpp"
 #include "assembler/assembler.hpp"
 #include "assembler/label_substitute.hpp"
-#include "assembler/labels_extractor.hpp"
+#include "assembler/label_extract.hpp"
 
 #include <cstddef>
 
