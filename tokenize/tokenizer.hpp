@@ -41,8 +41,10 @@ namespace cai
 
             using string_without_token_char = string<str_chars...>;
 
-            using result_token = typename get_token_impl<string_without_token_char, string_append<token, curr_char>>::result_token;
-            using rest_of_string = typename get_token_impl<string_without_token_char, string_append<token, curr_char>>::rest_of_string;
+            using result_t = get_token_impl<string_without_token_char, string_append<token, curr_char>>;
+
+            using result_token = typename result_t::result_token;
+            using rest_of_string = typename result_t::rest_of_string;
         };
     }
 
