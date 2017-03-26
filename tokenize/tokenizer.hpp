@@ -23,25 +23,19 @@ namespace cai
             using rest_of_string = string<>;
         };
 
-        template <char ...str_chars, char ...token_chars>
-        struct get_token_impl<string<' ', str_chars...>, string<token_chars...>>
+        template <char ...str_chars, typename current_token>
+        struct get_token_impl<string<' ', str_chars...>, current_token>
         {
-            using str = string<str_chars...>;
-            using token = string<token_chars...>;
-
-            using result_token = token;
-            using rest_of_string = str;
+            using result_token = current_token;
+            using rest_of_string = string<str_chars...>;
         };
 
-        template <char curr_char, char ...str_chars, char ...token_chars>
-        struct get_token_impl<string<curr_char, str_chars...>, string<token_chars...>>
+        template <char curr_char, char ...str_chars, typename current_token>
+        struct get_token_impl<string<curr_char, str_chars...>, current_token>
         {
-            using str = string<curr_char, str_chars...>;
-            using token = string<token_chars...>;
-
             using string_without_token_char = string<str_chars...>;
 
-            using result_t = get_token_impl<string_without_token_char, string_append<token, curr_char>>;
+            using result_t = get_token_impl<string_without_token_char, string_append<current_token, curr_char>>;
 
             using result_token = typename result_t::result_token;
             using rest_of_string = typename result_t::rest_of_string;
