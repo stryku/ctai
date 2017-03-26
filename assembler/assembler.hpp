@@ -29,7 +29,7 @@ namespace cai
 
     namespace details
     {
-        template <typename tokens, typename instructions_t>
+        template <typename tokens, typename instructions_t = values_container<>>
         struct assemble_impl;
 
         template <typename curr_instructions>
@@ -51,7 +51,7 @@ namespace cai
     }
 
     template <typename tokens>
-    using assemble = typename details::assemble_impl<tokens, values_container<>>::instructions_result;
+    using assemble = typename details::assemble_impl<tokens>::instructions_result;
 
     namespace tests
     {
