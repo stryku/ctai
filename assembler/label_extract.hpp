@@ -22,40 +22,40 @@ namespace cai
         };
 
         //label match
-        template <size_t current_ip, char ...label_chars, typename ...rest_of_tokens, typename ...current_tokens, typename ...current_labels>
+        template <size_t current_ip, char ...label_chars, typename ...rest_of_tokens, typename ...result_tokens, typename ...result_labels>
         struct extract_labels_impl<
                 tuple<string<':', label_chars...>, rest_of_tokens...>,
                 current_ip,
-                tuple<current_tokens...>,
-                tuple<current_labels...>>
+                tuple<result_tokens...>,
+                tuple<result_labels...>>
         {
             using extracted = extract_labels_impl<
                     tuple<rest_of_tokens...>,
                     current_ip,
-                    tuple<current_tokens...>,
-                    tuple<current_labels..., label_metadata<string<'.', label_chars...>, current_ip>>>;
+                    tuple<result_tokens...>,
+                    tuple<result_labels..., label_metadata<string<'.', label_chars...>, current_ip>>>;
 
             using tokens = typename extracted::tokens;
             using labels = typename extracted::labels;
         };
 
         //normal instruction
-        template <size_t current_ip, typename current_basic_token, typename ...basic_tokens, typename ...current_tokens, typename current_labels>
+        template <size_t current_ip, typename current_basic_token, typename ...basic_tokens, typename ...result_tokens, typename result_labels>
         struct extract_labels_impl<
                 tuple<current_basic_token, basic_tokens...>,
                 current_ip,
-                tuple<current_tokens...>,
-                current_labels>
+                tuple<result_tokens...>,
+                result_labels>
         {
             using instruction = instruction_match<tuple<current_basic_token, basic_tokens...>>;
-            using next_tokens = tuple_merge<tuple<current_tokens...>, typename instruction::instruction_tokens>;
+            using next_tokens = tuple_merge<tuple<result_tokens...>, typename instruction::instruction_tokens>;
             static constexpr auto nex_ip = current_ip + instruction::eip_change;
 
             using extracted = extract_labels_impl<
                     typename instruction::rest_of_tokens_t,
                     nex_ip,
                     next_tokens,
-                    current_labels>;
+                    result_labels>;
 
             using tokens = typename extracted::tokens;
             using labels = typename extracted::labels;
@@ -68,18 +68,16 @@ namespace cai
     namespace tests
     {
         static_assert(
-                std::is_same<
-                        extract_labels<tuple<decltype(":label0"_s), decltype("push"_s), decltype("eax"_s)>>::tokens,
-                tuple<decltype("push"_s), decltype("eax"_s)>
-                                          >::value
+                std::is_same<extract_labels<tuple<decltype(":label0"_s), decltype("push"_s), decltype("eax"_s)>>::tokens,
+                             tuple<decltype("push"_s), decltype("eax"_s)>
+                             >::value
                 ,"");
 
         static_assert(
-                std::is_same<
-                        extract_labels<tuple<decltype(":label0"_s), decltype("push"_s), decltype("eax"_s), decltype(":label1"_s)>>::labels,
-                tuple<label_metadata<decltype(".label0"_s), 0>,
-                label_metadata<decltype(".label1"_s), 2>>
-                                          >::value
+                std::is_same<extract_labels<tuple<decltype(":label0"_s), decltype("push"_s), decltype("eax"_s), decltype(":label1"_s)>>::labels,
+                             tuple<label_metadata<decltype(".label0"_s), 0>,
+                                   label_metadata<decltype(".label1"_s), 2>>
+                             >::value
                 ,"");
     }
 }

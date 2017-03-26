@@ -13,14 +13,14 @@ namespace cai
     //
     namespace details
     {
-        template <typename str, typename curr_token>
+        template <typename str, typename curr_token = string<>>
         struct get_token_impl;
 
         template <typename current_token>
         struct get_token_impl<string<>, current_token>
         {
             using result_token = current_token;
-            using result_string = string<>;
+            using rest_of_string = string<>;
         };
 
         template <char ...str_chars, char ...token_chars>
@@ -30,7 +30,7 @@ namespace cai
             using token = string<token_chars...>;
 
             using result_token = token;
-            using result_string = str;
+            using rest_of_string = str;
         };
 
         template <char curr_char, char ...str_chars, char ...token_chars>
@@ -39,16 +39,15 @@ namespace cai
             using str = string<curr_char, str_chars...>;
             using token = string<token_chars...>;
 
-            //static constexpr auto curr_char = string_front<str>;
-            using popped_str = string<str_chars...>;
+            using string_without_token_char = string<str_chars...>;
 
-            using result_token = typename get_token_impl<popped_str, string_append<token, curr_char>>::result_token;
-            using result_string = typename get_token_impl<popped_str, string_append<token, curr_char>>::result_string;
+            using result_token = typename get_token_impl<string_without_token_char, string_append<token, curr_char>>::result_token;
+            using rest_of_string = typename get_token_impl<string_without_token_char, string_append<token, curr_char>>::rest_of_string;
         };
     }
 
     template <typename s>
-    using get_token = details::get_token_impl<s, string<>>;
+    using get_token = details::get_token_impl<s>;
 
     namespace details
     {
@@ -68,7 +67,7 @@ namespace cai
             using get_token_t = get_token<str>;
 
             using next_tokens = tuple_append<current_tokens, typename get_token_t::result_token>;
-            using next_string = typename get_token_t::result_string;
+            using next_string = typename get_token_t::rest_of_string;
 
             using tokens = typename tokenize_impl<next_string, next_tokens>::tokens;
         };
@@ -82,7 +81,7 @@ namespace cai
         static_assert(std::is_same<typename get_token<decltype("abc def"_s)>::result_token,
                                    decltype("abc"_s)>::value, "");
 
-        static_assert(std::is_same<typename get_token<decltype("abc def"_s)>::result_string,
+        static_assert(std::is_same<typename get_token<decltype("abc def"_s)>::rest_of_string,
                                    decltype("def"_s)>::value, "");
 
         static_assert(std::is_same<tokenize<decltype("abc def"_s)>,

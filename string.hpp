@@ -176,22 +176,22 @@ namespace cai
     //
     namespace details
     {
-        template <int value, bool end, typename sign_str, typename current_string = string<>>
+        template <int value, typename sign_str, bool end = false, typename current_string = string<>>
         struct string_from_int_impl;
 
         template <typename sign_str, typename current_string>
-        struct string_from_int_impl<0, true, sign_str, current_string>
+        struct string_from_int_impl<0, sign_str, true, current_string>
         {
             using type = string_merge<sign_str, current_string>;
         };
 
         template <int value, typename sign_str, char ...chars>
-        struct string_from_int_impl<value, false, sign_str, string<chars...>>
+        struct string_from_int_impl<value, sign_str, false, string<chars...>>
         {
             using type = typename string_from_int_impl<
                     value/10,
-                    value/10 == 0,
                     sign_str,
+                    value/10 == 0,
                     string<value % 10 + '0', chars...>>::type;
         };
 
@@ -200,8 +200,8 @@ namespace cai
         {
             using type = typename std::conditional_t<
                     value < 0,
-                    string_from_int_impl<value * -1, value == 0, string<'-'>>,
-                    string_from_int_impl<value, value == 0, string<>>
+                    string_from_int_impl<value * -1, string<'-'>>,
+                    string_from_int_impl<value, string<>>
                     >::type;
         };
     }
