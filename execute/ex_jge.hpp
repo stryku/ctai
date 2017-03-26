@@ -25,7 +25,7 @@ namespace cai
                     set_reg<typename state::registers_state_t, regs::id_t::EIP, static_cast<uint32_t>(ip)>,
                     adjust_eip<typename state::registers_state_t, inst::id_t::JGE>>;
 
-            using type = machine_state<typename state::stack_t, typename state::flags_t, final_regs_state>;
+            using next_machine_state = machine_state<typename state::stack_t, typename state::flags_t, final_regs_state>;
         };
 
         namespace tests

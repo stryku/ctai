@@ -24,7 +24,7 @@ namespace cai
 
             using instruction = values_container<
                     inst::to_size<instruction_type>,
-                    token_to_reg_val<reg_token>,
+                    token_to_reg_opcode<reg_token>,
                     operand_decoder<operand>>;
 
             static constexpr auto eip_change = get_eip_change<inst::id_t::MOV_REG_REG>;
@@ -57,8 +57,8 @@ namespace cai
 
             using instruction = values_container<
                     inst::to_size<instruction_type>,
-                    token_to_reg_val<reg_token>,
-                    token_to_reg_val<mem_ptr_reg>,
+                    token_to_reg_opcode<reg_token>,
+                    token_to_reg_opcode<mem_ptr_reg>,
                     string_to_int<mem_ptr_const>,
                     memory::to_size<mem_size_decoder<mem_size_token>>>;
 
@@ -107,7 +107,7 @@ namespace cai
 
             using instruction = values_container<
                     inst::to_size<instruction_type>,
-                    token_to_reg_val<mem_ptr_reg>,
+                    token_to_reg_opcode<mem_ptr_reg>,
                     string_to_int<mem_ptr_const>,
                     memory::to_size<mem_size_decoder<mem_size_token>>,
                     operand_decoder<reg_or_val>>;
