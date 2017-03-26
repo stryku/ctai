@@ -25,7 +25,7 @@ namespace cai
 
             using new_flags_state = set_cf<typename state::flags_t, cf>;
 
-            using type = machine_state<typename state::stack_t, new_flags_state, new_regs_state>;
+            using next_machine_state = machine_state<typename state::stack_t, new_flags_state, new_regs_state>;
         };
 
         // mul ax, ...
@@ -45,7 +45,7 @@ namespace cai
 
             using new_flags_state = set_cf<typename state::flags_t, cf>;
 
-            using type = machine_state<typename state::stack_t, new_flags_state, regs_state_after_dx>;
+            using next_machine_state = machine_state<typename state::stack_t, new_flags_state, regs_state_after_dx>;
         };
 
         // mul eax, ...
@@ -65,7 +65,7 @@ namespace cai
 
             using new_flags_state = set_cf<typename state::flags_t, cf>;
 
-            using type = machine_state<typename state::stack_t, new_flags_state, regs_state_after_edx>;
+            using next_machine_state = machine_state<typename state::stack_t, new_flags_state, regs_state_after_edx>;
         };
 
         namespace tests
@@ -76,28 +76,28 @@ namespace cai
             static_assert(get_reg<ex_instruction<mul_tests_startup_machine_state,
                                   inst::to_size<inst::id_t::MUL_REG_REG>,
                                   regs::to_size<regs::id_t::AL>,
-                                  regs::to_size<regs::id_t::BL>>::type::registers_state_t,
+                                  regs::to_size<regs::id_t::BL>>::next_machine_state::registers_state_t,
                                   regs::id_t::AX> == static_cast<uint16_t>(0x02 * 0x02)
                     ,"");
 
             static_assert(get_reg<ex_instruction<mul_tests_startup_machine_state,
                                   inst::to_size<inst::id_t::MUL_REG_REG>,
                           regs::to_size<regs::id_t::AX>,
-                          regs::to_size<regs::id_t::BX>>::type::registers_state_t,
+                          regs::to_size<regs::id_t::BX>>::next_machine_state::registers_state_t,
                           regs::id_t::AX> == static_cast<uint16_t>(0x0002 * 0x0102)
                     ,"");
 
             static_assert(get_reg<ex_instruction<mul_tests_startup_machine_state,
                                   inst::to_size<inst::id_t::MUL_REG_REG>,
                           regs::to_size<regs::id_t::EAX>,
-                          regs::to_size<regs::id_t::EDX>>::type::registers_state_t,
+                          regs::to_size<regs::id_t::EDX>>::next_machine_state::registers_state_t,
                           regs::id_t::EAX> == static_cast<uint32_t>(0x00000002 * 0xffffffff)
                     ,"");
 
             static_assert(get_reg<ex_instruction<mul_tests_startup_machine_state,
                                   inst::to_size<inst::id_t::MUL_REG_REG>,
                           regs::to_size<regs::id_t::EAX>,
-                          regs::to_size<regs::id_t::EDX>>::type::registers_state_t,
+                          regs::to_size<regs::id_t::EDX>>::next_machine_state::registers_state_t,
                           regs::id_t::EDX> == static_cast<uint32_t>(((static_cast<uint64_t>(0x00000002) * static_cast<uint64_t>(0xffffffff)) & 0xffffffff00000000) >> 32)
                     ,"");
 

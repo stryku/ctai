@@ -14,7 +14,7 @@ namespace cai
         template <typename token>
         struct reg_token_decoder
         {
-            static constexpr size_t value = token_to_reg_val<token>;
+            static constexpr size_t value = token_to_reg_opcode<token>;
         };
 
         template <typename token>
