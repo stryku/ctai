@@ -11,7 +11,7 @@ namespace cai
     //
     namespace details
     {
-        template <typename, size_t current_ip = 0,  typename final_tokens = tuple<>, typename final_labels = tuple<>>
+        template <typename tokens, size_t current_ip = 0,  typename final_tokens = tuple<>, typename final_labels = tuple<>>
         struct extract_labels_impl;
 
         template <size_t ip, typename final_tokens, typename final_labels>
@@ -40,14 +40,14 @@ namespace cai
         };
 
         //normal instruction
-        template <size_t current_ip, typename current_basic_token, typename ...basic_tokens, typename ...result_tokens, typename result_labels>
+        template <size_t current_ip, typename current_token, typename ...rest_of_tokens, typename ...result_tokens, typename result_labels>
         struct extract_labels_impl<
-                tuple<current_basic_token, basic_tokens...>,
+                tuple<current_token, rest_of_tokens...>,
                 current_ip,
                 tuple<result_tokens...>,
                 result_labels>
         {
-            using instruction = instruction_match<tuple<current_basic_token, basic_tokens...>>;
+            using instruction = instruction_match<tuple<current_token, rest_of_tokens...>>;
             using next_tokens = tuple_merge<tuple<result_tokens...>, typename instruction::instruction_tokens>;
             static constexpr auto nex_ip = current_ip + instruction::eip_change;
 
