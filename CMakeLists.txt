@@ -1,7 +1,9 @@
-cmake_minimum_required(VERSION 3.6)
+cmake_minimum_required(VERSION 3.5)
 project(ctai)
 
 add_definitions(-std=c++1z -ftemplate-backtrace-limit=0 -ftemplate-depth=1024)
+
+set(CMAKE_CXX_COMPILER clang++-3.9)
 
 set(INCLUDE_FILES
         register.hpp
