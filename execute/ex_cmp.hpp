@@ -29,10 +29,9 @@ namespace cai
 
             using new_flags_state = flags<cf, zf, sf, of>;
 
-        using final_regs_state = adjust_eip<typename state::registers_state_t, inst::id_t::CMP_REG_REG>;
+            using final_regs_state = adjust_eip<typename state::registers_state_t, inst::id_t::CMP_REG_REG>;
 
-
-        using type = machine_state<typename state::stack_t, new_flags_state, final_regs_state>;
+            using next_machine_state = machine_state<typename state::stack_t, new_flags_state, final_regs_state>;
         };
 
         namespace tests
@@ -44,7 +43,7 @@ namespace cai
                             cmp_test_machine_state,
                             inst::to_size<inst::id_t::CMP_REG_REG>,
                             regs::to_size<regs::id_t::AL>,
-                            regs::to_size<regs::id_t::AH>>::type::flags.CF == false
+                            regs::to_size<regs::id_t::AH>>::next_machine_state::flags.CF == false
                     ,"");
 
             static_assert(
@@ -52,7 +51,7 @@ namespace cai
                     cmp_test_machine_state,
                     inst::to_size<inst::id_t::CMP_REG_REG>,
                     regs::to_size<regs::id_t::AL>,
-                    regs::to_size<regs::id_t::AH>>::type::flags.ZF == true
+                    regs::to_size<regs::id_t::AH>>::next_machine_state::flags.ZF == true
                     ,"");
 
             static_assert(
@@ -60,7 +59,7 @@ namespace cai
                     cmp_test_machine_state,
                     inst::to_size<inst::id_t::CMP_REG_REG>,
                     regs::to_size<regs::id_t::BX>,
-                    regs::to_size<regs::id_t::AX>>::type::flags.CF == false
+                    regs::to_size<regs::id_t::AX>>::next_machine_state::flags.CF == false
                     ,"");
 
             static_assert(
@@ -68,7 +67,7 @@ namespace cai
                     cmp_test_machine_state,
                     inst::to_size<inst::id_t::CMP_REG_REG>,
                     regs::to_size<regs::id_t::AX>,
-                    regs::to_size<regs::id_t::BX>>::type::flags.CF == true
+                    regs::to_size<regs::id_t::BX>>::next_machine_state::flags.CF == true
                     ,"");
 
             static_assert(
@@ -76,7 +75,7 @@ namespace cai
                     cmp_test_machine_state,
                     inst::to_size<inst::id_t::CMP_REG_REG>,
                     regs::to_size<regs::id_t::EAX>,
-                    regs::to_size<regs::id_t::EBX>>::type::flags.CF == true
+                    regs::to_size<regs::id_t::EBX>>::next_machine_state::flags.CF == true
                     ,"");
 
             static_assert(
@@ -84,7 +83,7 @@ namespace cai
                     cmp_test_machine_state,
                     inst::to_size<inst::id_t::CMP_REG_REG>,
                     regs::to_size<regs::id_t::ECX>,
-                    regs::to_size<regs::id_t::EDX>>::type::flags.SF == true
+                    regs::to_size<regs::id_t::EDX>>::next_machine_state::flags.SF == true
                     ,"");
         }
     }

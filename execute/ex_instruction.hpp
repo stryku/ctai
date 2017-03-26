@@ -6,7 +6,7 @@
 
 namespace cai {
     namespace execute {
-        template<typename state, size_t ...operands>
+        template<typename state, size_t ...opcodes>
         struct ex_instruction;
     }
 }
@@ -32,10 +32,10 @@ namespace cai
         template <typename state, size_t ...opcodes>
         struct execute_instruction_impl<state, values_container<opcodes...>>
         {
-            using type = typename execute::ex_instruction<state, opcodes...>::type;
+            using next_machine_state = typename execute::ex_instruction<state, opcodes...>::next_machine_state;
         };
     }
 
     template <typename state, typename opcodes>
-    using execute_instruction = typename details::execute_instruction_impl<state, opcodes>::type;
+    using execute_instruction = typename details::execute_instruction_impl<state, opcodes>::next_machine_state;
 }

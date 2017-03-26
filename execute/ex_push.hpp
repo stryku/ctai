@@ -22,9 +22,9 @@ namespace cai
             static constexpr auto eip_val = get_reg<typename state::registers_state_t, regs::id_t::EIP> + 2;
             using new_regs_state = set_reg<typename state::registers_state_t, regs::id_t::EIP, eip_val>;
 
-            using type = machine_state<new_stack,
-                    typename state::flags_t,
-                    new_regs_state>;
+            using next_machine_state = machine_state<new_stack,
+                                                     typename state::flags_t,
+                                                     new_regs_state>;
         };
 
 
@@ -35,39 +35,39 @@ namespace cai
             static_assert(stack_top<regs::reg_size_type<regs::id_t::AL>,
                                     to_machine_state<typename ex_instruction<startup_machine_state,
                                                                              inst::to_size<inst::id_t::PUSH_REG>,
-                                                                             regs::to_size<regs::id_t::AL>>::type>::stack_t> == 0xdd, "");
+                                                                             regs::to_size<regs::id_t::AL>>::next_machine_state>::stack_t> == 0xdd, "");
 
             static_assert(stack_top<regs::reg_size_type<regs::id_t::AH>,
                                     to_machine_state<typename ex_instruction<startup_machine_state,
                                                                              inst::to_size<inst::id_t::PUSH_REG>,
-                                                                             regs::to_size<regs::id_t::AH>>::type>::stack_t> == 0xcc, "");
+                                                                             regs::to_size<regs::id_t::AH>>::next_machine_state>::stack_t> == 0xcc, "");
 
 
 
             static_assert(stack_top<regs::reg_size_type<regs::id_t::AH>,
                                     to_machine_state<typename ex_instruction<startup_machine_state,
                                                                              inst::to_size<inst::id_t::PUSH_REG>,
-                                                                             regs::to_size<regs::id_t::AX>>::type>::stack_t> == 0xcc, "");
+                                                                             regs::to_size<regs::id_t::AX>>::next_machine_state>::stack_t> == 0xcc, "");
 
             static_assert(stack_top<regs::reg_size_type<regs::id_t::AX>,
                                     to_machine_state<typename ex_instruction<startup_machine_state,
                                                                              inst::to_size<inst::id_t::PUSH_REG>,
-                                                                             regs::to_size<regs::id_t::AX>>::type>::stack_t> == 0xccdd, "");
+                                                                             regs::to_size<regs::id_t::AX>>::next_machine_state>::stack_t> == 0xccdd, "");
 
             static_assert(stack_top<regs::reg_size_type<regs::id_t::AL>,
                                     to_machine_state<typename ex_instruction<startup_machine_state,
                                                                              inst::to_size<inst::id_t::PUSH_REG>,
-                                                                             regs::to_size<regs::id_t::EAX>>::type>::stack_t> == 0xaa, "");
+                                                                             regs::to_size<regs::id_t::EAX>>::next_machine_state>::stack_t> == 0xaa, "");
 
             static_assert(stack_top<regs::reg_size_type<regs::id_t::AX>,
                                     to_machine_state<typename ex_instruction<startup_machine_state,
                                                                              inst::to_size<inst::id_t::PUSH_REG>,
-                                                                             regs::to_size<regs::id_t::EAX>>::type>::stack_t> == 0xaabb, "");
+                                                                             regs::to_size<regs::id_t::EAX>>::next_machine_state>::stack_t> == 0xaabb, "");
 
             static_assert(stack_top<regs::reg_size_type<regs::id_t::EAX>,
                                     to_machine_state<typename ex_instruction<startup_machine_state,
                                                                              inst::to_size<inst::id_t::PUSH_REG>,
-                                                                             regs::to_size<regs::id_t::EAX>>::type>::stack_t> == 0xaabbccdd, "");
+                                                                             regs::to_size<regs::id_t::EAX>>::next_machine_state>::stack_t> == 0xaabbccdd, "");
         }
     }
 }

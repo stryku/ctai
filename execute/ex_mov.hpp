@@ -20,7 +20,7 @@ namespace cai
             using new_regs_state = set_reg<typename state::registers_state_t, regs::to_id<reg1>, static_cast<uint32_t>(val2)>; //move register to register
             using final_regs_state = adjust_eip<new_regs_state, inst::id_t::MOV_REG_REG>;
 
-            using type = machine_state<typename state::stack_t, typename state::flags_t, final_regs_state>;
+            using next_machine_state = machine_state<typename state::stack_t, typename state::flags_t, final_regs_state>;
         };
 
         template<typename state_t, size_t reg1, size_t val, size_t ...rest_of_opcodes>
@@ -31,7 +31,7 @@ namespace cai
             using new_regs_state = set_reg<typename state::registers_state_t, regs::to_id<reg1>, static_cast<uint32_t>(val)>; //move register to register
             using final_regs_state = adjust_eip<new_regs_state, inst::id_t::MOV_REG_VAL>;
 
-            using type = machine_state<typename state::stack_t, typename state::flags_t, final_regs_state>;
+            using next_machine_state = machine_state<typename state::stack_t, typename state::flags_t, final_regs_state>;
         };
 
 
@@ -48,7 +48,7 @@ namespace cai
 
             using final_regs_state = adjust_eip<typename state::registers_state_t, inst::id_t::MOV_MEM_VAL__mem_eq_reg_minus_const>;
 
-            using type = machine_state<stack_after_set, typename state::flags_t, final_regs_state>;
+            using next_machine_state = machine_state<stack_after_set, typename state::flags_t, final_regs_state>;
         };
 
         // mov * ptr [mem_ptr_reg + mem_ptr_const], val
@@ -64,7 +64,7 @@ namespace cai
 
             using final_regs_state = adjust_eip<typename state::registers_state_t, inst::id_t::MOV_MEM_VAL__mem_eq_reg_plus_const>;
 
-            using type = machine_state<stack_after_set, typename state::flags_t, final_regs_state>;
+            using next_machine_state = machine_state<stack_after_set, typename state::flags_t, final_regs_state>;
         };
 
         // mov * ptr [mem_ptr_reg + mem_ptr_const], reg
@@ -81,7 +81,7 @@ namespace cai
 
             using final_regs_state = adjust_eip<typename state::registers_state_t, inst::id_t::MOV_MEM_REG__mem_eq_reg_minus_const>;
 
-            using type = machine_state<stack_after_set, typename state::flags_t, final_regs_state>;
+            using next_machine_state = machine_state<stack_after_set, typename state::flags_t, final_regs_state>;
         };
 
         // mov * ptr [mem_ptr_reg + mem_ptr_const], reg
@@ -98,7 +98,7 @@ namespace cai
 
             using final_regs_state = adjust_eip<typename state::registers_state_t, inst::id_t::MOV_MEM_REG__mem_eq_reg_plus_const>;
 
-            using type = machine_state<stack_after_set, typename state::flags_t, final_regs_state>;
+            using next_machine_state = machine_state<stack_after_set, typename state::flags_t, final_regs_state>;
         };
 
         // mov reg, * ptr [mem_ptr_reg - mem_ptr_const]
@@ -115,7 +115,7 @@ namespace cai
 
             using final_regs_state = adjust_eip<new_regs_state, inst::id_t::MOV_REG_MEM__mem_eq_reg_minus_const>;
 
-            using type = machine_state<typename state::stack_t, typename state::flags_t, final_regs_state>;
+            using next_machine_state = machine_state<typename state::stack_t, typename state::flags_t, final_regs_state>;
         };
 
         // mov reg, * ptr [mem_ptr_reg - mem_ptr_const]
@@ -132,7 +132,7 @@ namespace cai
 
             using final_regs_state = adjust_eip<new_regs_state, inst::id_t::MOV_REG_MEM__mem_eq_reg_minus_const>;
 
-            using type = machine_state<typename state::stack_t, typename state::flags_t, final_regs_state>;
+            using next_machine_state = machine_state<typename state::stack_t, typename state::flags_t, final_regs_state>;
         };
 
         //
@@ -143,35 +143,35 @@ namespace cai
             static_assert(get_reg<ex_instruction<startup_machine_state,
                                   inst::to_size<inst::id_t::MOV_REG_REG>,
                                   regs::to_size<regs::id_t::AL>,
-                                  regs::to_size<regs::id_t::AH>>::type::registers_state_t,
+                                  regs::to_size<regs::id_t::AH>>::next_machine_state::registers_state_t,
                                   regs::id_t::AL> == static_cast<uint8_t>(0xcc)
                     ,"");
 
             static_assert(get_reg<ex_instruction<startup_machine_state,
                           inst::to_size<inst::id_t::MOV_REG_REG>,
                           regs::to_size<regs::id_t::AL>,
-                          regs::to_size<regs::id_t::AX>>::type::registers_state_t,
+                          regs::to_size<regs::id_t::AX>>::next_machine_state::registers_state_t,
                           regs::id_t::AL> == static_cast<uint8_t>(0xdd)
                     ,"");
 
             static_assert(get_reg<ex_instruction<startup_machine_state,
                           inst::to_size<inst::id_t::MOV_REG_REG>,
                           regs::to_size<regs::id_t::AL>,
-                          regs::to_size<regs::id_t::EAX>>::type::registers_state_t,
+                          regs::to_size<regs::id_t::EAX>>::next_machine_state::registers_state_t,
                           regs::id_t::AL> == static_cast<uint8_t>(0xdd)
                     ,"");
 
             static_assert(get_reg<ex_instruction<startup_machine_state,
                           inst::to_size<inst::id_t::MOV_REG_REG>,
                           regs::to_size<regs::id_t::AL>,
-                          regs::to_size<regs::id_t::AH>>::type::registers_state_t,
+                          regs::to_size<regs::id_t::AH>>::next_machine_state::registers_state_t,
                           regs::id_t::EAX> == static_cast<uint32_t>(0xaabbcccc)
                     ,"");
 
             static_assert(get_reg<ex_instruction<startup_machine_state,
                           inst::to_size<inst::id_t::MOV_REG_REG>,
                           regs::to_size<regs::id_t::AX>,
-                          regs::to_size<regs::id_t::AL>>::type::registers_state_t,
+                          regs::to_size<regs::id_t::AL>>::next_machine_state::registers_state_t,
                           regs::id_t::AX> == static_cast<uint32_t>(0xdd)
                     ,"");
 
@@ -186,7 +186,7 @@ namespace cai
                                                    regs::to_size<regs::id_t::EAX>,
                                                    1,
                                                    memory::to_size<memory::id_t::s_8>,
-                                                   0xfa>::type::stack_t> == 0xfa
+                                                   0xfa>::next_machine_state::stack_t> == 0xfa
                     ,"");
 
             //mov byte ptr [eax + 1], 0xfa ; eax == 6
@@ -197,7 +197,7 @@ namespace cai
                                                    regs::to_size<regs::id_t::EAX>,
                                                    1,
                                                    memory::to_size<memory::id_t::s_8>,
-                                                   0xfa>::type::stack_t> == 0xfa
+                                                   0xfa>::next_machine_state::stack_t> == 0xfa
                     ,"");
 
             //mov word ptr [eax + 1], 0xfafb ; eax == 6
@@ -208,7 +208,7 @@ namespace cai
                                                    regs::to_size<regs::id_t::EAX>,
                                                    1,
                                                    memory::to_size<memory::id_t::s_16>,
-                                                   0xfafb>::type::stack_t> == 0xfafb
+                                                   0xfafb>::next_machine_state::stack_t> == 0xfafb
                     ,"");
 
             //mov dword ptr [eax + 1], 0xfafbfcfd ; eax == 6
@@ -219,7 +219,7 @@ namespace cai
                                                    regs::to_size<regs::id_t::EAX>,
                                                    1,
                                                    memory::to_size<memory::id_t::s_32>,
-                                                   0xfafbfcfd>::type::stack_t> == 0xfafbfcfd
+                                                   0xfafbfcfd>::next_machine_state::stack_t> == 0xfafbfcfd
                     ,"");
 
 
@@ -232,7 +232,7 @@ namespace cai
                                                    regs::to_size<regs::id_t::EAX>,
                                                    1,
                                                    memory::to_size<memory::id_t::s_32>,
-                                                   regs::to_size<regs::id_t::EBX>>::type::stack_t> == 0xaabbccdd
+                                                   regs::to_size<regs::id_t::EBX>>::next_machine_state::stack_t> == 0xaabbccdd
                     ,"");
 
             //mov dword ptr [eax + 1], ebx ; eax == 6, ebx = 0xaabbccdd
@@ -243,7 +243,7 @@ namespace cai
                                                    regs::to_size<regs::id_t::EAX>,
                                                    1,
                                                    memory::to_size<memory::id_t::s_32>,
-                                                   regs::to_size<regs::id_t::EBX>>::type::stack_t> == 0xaabbccdd
+                                                   regs::to_size<regs::id_t::EBX>>::next_machine_state::stack_t> == 0xaabbccdd
                     ,"");
 
             //mov eax, dword ptr [eax - 1] ; eax == 6
@@ -252,7 +252,7 @@ namespace cai
                                                  regs::to_size<regs::id_t::EAX>,
                                                  regs::to_size<regs::id_t::EAX>,
                                                  1,
-                                                 memory::to_size<memory::id_t::s_32>>::type::registers_state_t,
+                                                 memory::to_size<memory::id_t::s_32>>::next_machine_state::registers_state_t,
                                                  regs::id_t::EAX> == 0xaabbccdd
                     ,"");
 
@@ -262,7 +262,7 @@ namespace cai
                                                  regs::to_size<regs::id_t::EAX>,
                                                  regs::to_size<regs::id_t::EAX>,
                                                  1,
-                                                 memory::to_size<memory::id_t::s_32>>::type::registers_state_t,
+                                                 memory::to_size<memory::id_t::s_32>>::next_machine_state::registers_state_t,
                                                  regs::id_t::EAX> == 0x8899aabb
                     ,"");
         }
