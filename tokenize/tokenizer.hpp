@@ -47,7 +47,7 @@ namespace cai
 
     namespace details
     {
-        template <typename s, typename current_tokens>
+        template <typename s, typename current_tokens = tuple<>>
         struct tokenize_impl;
 
         template <typename current_tokens>
@@ -70,7 +70,7 @@ namespace cai
     }
 
     template <typename s>
-    using tokenize = typename details::tokenize_impl<s, tuple<>>::tokens;
+    using tokenize = typename details::tokenize_impl<s>::tokens;
 
     namespace tests
     {
