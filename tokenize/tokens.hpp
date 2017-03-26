@@ -52,7 +52,7 @@ namespace cai
     }
 
     template <typename type>
-    constexpr auto is_reg_token = is_in_t<type,
+    constexpr auto is_reg_token = is_type_in_v<type,
             tokens::tok_eax,
             tokens::tok_ebx,
             tokens::tok_ecx,

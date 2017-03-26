@@ -150,9 +150,9 @@ namespace cai
         template <id_t reg>
         struct reg_size_type_impl
         {
-            using type = std::conditional_t<is_in<to_size<reg>, to_size<id_t::AL>, to_size<id_t::AH>, to_size<id_t::BL>, to_size<id_t::BH>, to_size<id_t::CL>, to_size<id_t::CH>>, // check if regex is 1 byte long
+            using type = std::conditional_t<is_value_in_v<to_size<reg>, to_size<id_t::AL>, to_size<id_t::AH>, to_size<id_t::BL>, to_size<id_t::BH>, to_size<id_t::CL>, to_size<id_t::CH>>, // check if regex is 1 byte long
                     uint8_t,
-                    std::conditional_t<is_in<to_size<reg>, to_size<id_t::AX>, to_size<id_t::BX>, to_size<id_t::CX>, to_size<id_t::DX>, to_size<id_t::SI>, to_size<id_t::DI>, to_size<id_t::BP>, to_size<id_t::SP>, to_size<id_t::IP>>, // check if register is 2 bytes long
+                    std::conditional_t<is_value_in_v<to_size<reg>, to_size<id_t::AX>, to_size<id_t::BX>, to_size<id_t::CX>, to_size<id_t::DX>, to_size<id_t::SI>, to_size<id_t::DI>, to_size<id_t::BP>, to_size<id_t::SP>, to_size<id_t::IP>>, // check if register is 2 bytes long
                             uint16_t, uint32_t >>;
 
         };
