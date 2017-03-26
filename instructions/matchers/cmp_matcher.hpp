@@ -22,7 +22,7 @@ namespace cai
 
             using instruction = values_container<
                     inst::to_size<instruction_type>,
-                    token_to_reg_val<reg_token>,
+                    token_to_reg_opcode<reg_token>,
                     operand_decoder<operand>>;
 
             static constexpr auto eip_change = get_eip_change<instruction_type>;

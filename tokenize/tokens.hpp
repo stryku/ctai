@@ -66,20 +66,20 @@ namespace cai
     namespace details
     {
         template <typename>
-        struct token_to_reg_val_impl;
+        struct token_to_reg_opcode_impl;
 
-        template <> struct token_to_reg_val_impl<tokens::tok_eax> { static constexpr auto value = regs::to_size<regs::id_t::EAX>; };
-        template <> struct token_to_reg_val_impl<tokens::tok_ebx> { static constexpr auto value = regs::to_size<regs::id_t::EBX>; };
-        template <> struct token_to_reg_val_impl<tokens::tok_ecx> { static constexpr auto value = regs::to_size<regs::id_t::ECX>; };
-        template <> struct token_to_reg_val_impl<tokens::tok_edx> { static constexpr auto value = regs::to_size<regs::id_t::EDX>; };
+        template <> struct token_to_reg_opcode_impl<tokens::tok_eax> { static constexpr auto value = regs::to_size<regs::id_t::EAX>; };
+        template <> struct token_to_reg_opcode_impl<tokens::tok_ebx> { static constexpr auto value = regs::to_size<regs::id_t::EBX>; };
+        template <> struct token_to_reg_opcode_impl<tokens::tok_ecx> { static constexpr auto value = regs::to_size<regs::id_t::ECX>; };
+        template <> struct token_to_reg_opcode_impl<tokens::tok_edx> { static constexpr auto value = regs::to_size<regs::id_t::EDX>; };
 
-        template <> struct token_to_reg_val_impl<tokens::tok_esp> { static constexpr auto value = regs::to_size<regs::id_t::ESP>; };
-        template <> struct token_to_reg_val_impl<tokens::tok_ebp> { static constexpr auto value = regs::to_size<regs::id_t::EBP>; };
-        template <> struct token_to_reg_val_impl<tokens::tok_edi> { static constexpr auto value = regs::to_size<regs::id_t::EDI>; };
-        template <> struct token_to_reg_val_impl<tokens::tok_esi> { static constexpr auto value = regs::to_size<regs::id_t::ESI>; };
-        template <> struct token_to_reg_val_impl<tokens::tok_eip> { static constexpr auto value = regs::to_size<regs::id_t::EIP>; };
+        template <> struct token_to_reg_opcode_impl<tokens::tok_esp> { static constexpr auto value = regs::to_size<regs::id_t::ESP>; };
+        template <> struct token_to_reg_opcode_impl<tokens::tok_ebp> { static constexpr auto value = regs::to_size<regs::id_t::EBP>; };
+        template <> struct token_to_reg_opcode_impl<tokens::tok_edi> { static constexpr auto value = regs::to_size<regs::id_t::EDI>; };
+        template <> struct token_to_reg_opcode_impl<tokens::tok_esi> { static constexpr auto value = regs::to_size<regs::id_t::ESI>; };
+        template <> struct token_to_reg_opcode_impl<tokens::tok_eip> { static constexpr auto value = regs::to_size<regs::id_t::EIP>; };
     }
 
     template <typename token>
-    constexpr auto token_to_reg_val = details::token_to_reg_val_impl<token>::value;
+    constexpr auto token_to_reg_opcode = details::token_to_reg_opcode_impl<token>::value;
 }
