@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace cai
+namespace ctai
 {
     namespace instructions
     {

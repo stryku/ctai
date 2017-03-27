@@ -5,7 +5,7 @@
 #include "instructions/ids_vaules.hpp"
 #include "eip_change.hpp"
 
-namespace cai
+namespace ctai
 {
     namespace details
     {
@@ -35,7 +35,7 @@ namespace cai
 #include "jge_matcher.hpp"
 #include "cmp_matcher.hpp"
 
-namespace cai
+namespace ctai
 {
     namespace tests
     {

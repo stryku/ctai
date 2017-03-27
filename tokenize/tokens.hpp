@@ -2,7 +2,7 @@
 
 #include "string.hpp"
 
-namespace cai
+namespace ctai
 {
     namespace tokens
     {

@@ -37,6 +37,6 @@ using code = decltype(
 
 int main()
 {
-    std::cout << "15th element of fibonacci series is: " << cai::execute_code<code>;
+    std::cout << "15th element of fibonacci series is: " << ctai::execute_code<code>;
     return 0;
 }

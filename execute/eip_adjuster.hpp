@@ -7,7 +7,7 @@
 #include <cstddef>
 #include <tuple.hpp>
 
-namespace cai
+namespace ctai
 {
     namespace details
     {

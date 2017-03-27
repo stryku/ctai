@@ -5,7 +5,7 @@
 #include "stack.hpp"
 #include "tuple.hpp"
 
-namespace cai
+namespace ctai
 {
     template <typename stack_type, typename flags_type, typename registers_state_type>
     struct machine_state

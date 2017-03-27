@@ -5,7 +5,7 @@
 
 #include <cstdint>
 
-namespace cai
+namespace ctai
 {
     template <uint32_t val>
     struct reg
