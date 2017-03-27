@@ -13,7 +13,7 @@
 
 #include <cstddef>
 
-namespace cai
+namespace ctai
 {
     namespace details
     {

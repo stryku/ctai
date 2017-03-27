@@ -2,7 +2,7 @@
 
 #include <type_traits>
 
-namespace cai
+namespace ctai
 {
     template <char ...chars>
     struct string
@@ -211,10 +211,10 @@ namespace cai
 
 template <typename T, T... chars>
 constexpr auto operator""_s() {
-    return cai::string<chars...>{};
+    return ctai::string<chars...>{};
 }
 
-namespace cai
+namespace ctai
 {
     namespace tests
     {

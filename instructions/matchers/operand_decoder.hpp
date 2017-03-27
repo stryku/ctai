@@ -7,7 +7,7 @@
 #include <type_traits>
 
 // We assume that operand can be reg or const value
-namespace cai
+namespace ctai
 {
     namespace details
     {

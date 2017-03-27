@@ -4,7 +4,7 @@
 #include "string.hpp"
 #include "instructions/matchers/instructions_matchers.hpp"
 
-namespace cai
+namespace ctai
 {
     //
     // extract_labels

@@ -7,7 +7,7 @@
 #include <cstddef>
 #include <cstdint>
 
-namespace cai
+namespace ctai
 {
     namespace inst
     {
@@ -162,18 +162,18 @@ namespace cai
 
         namespace tests
         {
-            static_assert(std::is_same<reg_size_type<::cai::regs::id_t::AL>, uint8_t>::value, "");
-            static_assert(std::is_same<reg_size_type<::cai::regs::id_t::AH>, uint8_t>::value, "");
-            static_assert(std::is_same<reg_size_type<::cai::regs::id_t::CL>, uint8_t>::value, "");
-            static_assert(std::is_same<reg_size_type<::cai::regs::id_t::CH>, uint8_t>::value, "");
+            static_assert(std::is_same<reg_size_type<::ctai::regs::id_t::AL>, uint8_t>::value, "");
+            static_assert(std::is_same<reg_size_type<::ctai::regs::id_t::AH>, uint8_t>::value, "");
+            static_assert(std::is_same<reg_size_type<::ctai::regs::id_t::CL>, uint8_t>::value, "");
+            static_assert(std::is_same<reg_size_type<::ctai::regs::id_t::CH>, uint8_t>::value, "");
 
-            static_assert(std::is_same<reg_size_type<::cai::regs::id_t::AX>, uint16_t>::value, "");
-            static_assert(std::is_same<reg_size_type<::cai::regs::id_t::BX>, uint16_t>::value, "");
-            static_assert(std::is_same<reg_size_type<::cai::regs::id_t::SP>, uint16_t>::value, "");
-            static_assert(std::is_same<reg_size_type<::cai::regs::id_t::IP>, uint16_t>::value, "");
+            static_assert(std::is_same<reg_size_type<::ctai::regs::id_t::AX>, uint16_t>::value, "");
+            static_assert(std::is_same<reg_size_type<::ctai::regs::id_t::BX>, uint16_t>::value, "");
+            static_assert(std::is_same<reg_size_type<::ctai::regs::id_t::SP>, uint16_t>::value, "");
+            static_assert(std::is_same<reg_size_type<::ctai::regs::id_t::IP>, uint16_t>::value, "");
 
-            static_assert(std::is_same<reg_size_type<::cai::regs::id_t::EAX>, uint32_t>::value, "");
-            static_assert(std::is_same<reg_size_type<::cai::regs::id_t::EBX>, uint32_t>::value, "");
+            static_assert(std::is_same<reg_size_type<::ctai::regs::id_t::EAX>, uint32_t>::value, "");
+            static_assert(std::is_same<reg_size_type<::ctai::regs::id_t::EBX>, uint32_t>::value, "");
         }
     }
 }

@@ -4,7 +4,7 @@
 
 #include <cstddef>
 
-namespace cai {
+namespace ctai {
     namespace execute {
         template<typename state, size_t ...opcodes>
         struct ex_instruction;
@@ -22,7 +22,7 @@ namespace cai {
 #include "execute/ex_jmp.hpp"
 #include "execute/ex_jge.hpp"
 
-namespace cai
+namespace ctai
 {
     namespace details
     {

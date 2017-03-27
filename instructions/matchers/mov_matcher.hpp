@@ -7,7 +7,7 @@
 #include "instructions/matchers/plus_minus_decoder.hpp"
 #include "instructions/matchers/mem_size_decoder.hpp"
 
-namespace cai
+namespace ctai
 {
     namespace details
     {
