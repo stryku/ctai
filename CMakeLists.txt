@@ -17,6 +17,8 @@ set(INCLUDE_FILES
         labels.hpp
         eip_change.hpp
 
+        containers/values_container.hpp
+
         instructions/push.hpp
         instructions/instruction.hpp
         instructions/ids_vaules.hpp
