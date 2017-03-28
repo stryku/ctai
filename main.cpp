@@ -40,3 +40,5 @@ int main()
     std::cout << "15th element of fibonacci series is: " << ctai::execute_code<code>;
     return 0;
 }
+
+#include "tests/tests_main.hpp"
