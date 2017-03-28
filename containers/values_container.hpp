@@ -82,5 +82,39 @@ namespace ctai
 
         template <typename container>
         using pop_front = typename details::pop_front_impl<container>::result;
+
+
+        //
+        // take
+        //
+        namespace details
+        {
+            template <size_t count, bool end, typename rest, typename taken = values_container<>>
+            struct take_impl;
+
+            template <auto ...rest_of_values, auto ...taken_values>
+            struct take_impl<0, true, values_container<rest_of_values...>, values_container<taken_values...>>
+            {
+                using type = take_impl;
+
+                using taken_container = values_container<taken_values...>;
+                using rest_container = values_container<rest_of_values...>;
+            };
+
+            template <size_t count, auto to_take, auto ...rest_of_values, auto ...taken_values>
+            struct take_impl<count, false, values_container<to_take, rest_of_values...>, values_container<taken_values...>>
+            {
+                using type = take_impl<count-1,
+                                       count == 1,
+                                       values_container<rest_of_values...>,
+                                       values_container<taken_values..., to_take>>;
+
+                using taken_container = typename type::taken_container;
+                using rest_container = typename type::rest_container;
+            };
+        }
+
+        template <size_t count, typename container_t>
+        using take = typename details::take_impl<count, count==0, container_t>::type;
     }
 }
