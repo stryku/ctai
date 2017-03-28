@@ -116,5 +116,30 @@ namespace ctai
 
         template <size_t count, typename container_t>
         using take = typename details::take_impl<count, count==0, container_t>::type;
+
+        //
+        //set
+        //
+        namespace details
+        {
+            template <size_t position, typename container, auto ...values>
+            struct set_impl
+            {
+                using take_result = take<position, container>;
+
+                using taken_front = typename take_result::taken_container;
+                using taken_rest = typename take_result::rest_container;
+
+                static constexpr auto values_count = sizeof...(values);
+
+                using rest_of_rest = typename take<values_count, taken_rest>::rest_container;
+                using merged_back = merge<values_container<values...>, rest_of_rest >;
+
+                using result = merge<taken_front, merged_back>;
+            };
+        }
+
+        template <size_t position, typename container, auto ...values>
+        using set = typename details::set_impl<position, container, values...>::result;
     }
 }
