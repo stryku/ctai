@@ -17,6 +17,8 @@ set(INCLUDE_FILES
         labels.hpp
         eip_change.hpp
 
+        containers/values_container.hpp
+
         instructions/push.hpp
         instructions/instruction.hpp
         instructions/ids_vaules.hpp
@@ -53,11 +55,11 @@ set(INCLUDE_FILES
 
         assembler/assembler.hpp
         assembler/label_substitute.hpp
-        assembler/label_extract.hpp)
+        assembler/label_extract.hpp tests/values_container_tests.hpp tests/tests_macros.hpp)
 
 
 set(SOURCE_FILES
-        main.cpp  )
+        main.cpp tests/tests_main.hpp)
 
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR})
 
