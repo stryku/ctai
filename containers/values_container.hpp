@@ -168,6 +168,21 @@ namespace ctai
         template <size_t count, typename container>
         using drop_front = typename details::drop_front_impl<count, count==0, container>::result;
 
+        //
+        //get
+        //
+        namespace details
+        {
+            template <size_t ptr, typename container>
+            struct get_impl
+            {
+                using after_drop = drop_front<ptr, container>;
 
+                static constexpr auto val = front<after_drop>;
+            };
+        }
+
+        template <size_t ptr, typename container>
+        constexpr auto get = details::get_impl<ptr, container>::val;
     }
 }
