@@ -2,7 +2,7 @@
 
 namespace ctai
 {
-    namespace values_container
+    namespace values_container_n
     {
         template<auto ...values>
         struct values_container
@@ -37,10 +37,10 @@ namespace ctai
             template <typename container, auto value>
             struct append_impl;
 
-            template <auto ...chars, auto value>
-            struct append_impl<values_container<chars...>, value>
+            template <auto ...values, auto value>
+            struct append_impl<values_container<values...>, value>
             {
-                using result = values_container<chars..., value>;
+                using result = values_container<values..., value>;
             };
         }
 
@@ -48,7 +48,7 @@ namespace ctai
         using append = typename details::append_impl<container, value>::result;
 
         //
-        //string_merge
+        //merge
         //
         namespace details
         {
