@@ -141,5 +141,33 @@ namespace ctai
 
         template <size_t position, typename container, auto ...values>
         using set = typename details::set_impl<position, container, values...>::result;
+
+        //
+        //drop_front
+        //
+        namespace details
+        {
+            template <size_t count, bool end, typename rest>
+            struct drop_front_impl;
+
+            template <auto ...rest_of_values>
+            struct drop_front_impl<0, true, values_container<rest_of_values...>>
+            {
+                using result = values_container<rest_of_values...>;
+            };
+
+            template <size_t count, auto to_drop, auto ...rest_of_values>
+            struct drop_front_impl<count, false, values_container<to_drop, rest_of_values...>>
+            {
+                using result = typename drop_front_impl<count-1,
+                                                        count == 1,
+                                                        values_container<rest_of_values...>>::result;
+            };
+        }
+
+        template <size_t count, typename container>
+        using drop_front = typename details::drop_front_impl<count, count==0, container>::result;
+
+
     }
 }
