@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utility>
+
 namespace ctai
 {
     namespace values_container_n
@@ -184,5 +186,24 @@ namespace ctai
 
         template <size_t ptr, typename container>
         constexpr auto get = details::get_impl<ptr, container>::val;
+
+        //
+        //create
+        //
+        namespace details
+        {
+            template <typename value_type, typename Is>
+            struct create_impl;
+
+
+            template <typename value_type, auto ...tmps>
+            struct create_impl<value_type, std::integer_sequence<size_t, tmps...>>
+            {
+                using result = values_container<static_cast<value_type>(tmps^tmps)...>;
+            };
+        }
+
+        template <typename value_type, size_t size>
+        using create = typename details::create_impl<value_type, std::make_index_sequence<size>>::result;
     }
 }

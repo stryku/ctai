@@ -156,22 +156,39 @@ namespace ctai::tests::values_container
         namespace t1
         {
             constexpr auto expected = 6;
-            constexpr auto resultt = values_container_n::get<0, test_con>;
-            ASSERT_EQ(resultt, expected);
+            constexpr auto result = values_container_n::get<0, test_con>;
+            ASSERT_EQ(result, expected);
         }
 
         namespace t2
         {
             constexpr auto expected = 7;
-            constexpr auto resultt = values_container_n::get<1, test_con>;
-            ASSERT_EQ(resultt, expected);
+            constexpr auto result = values_container_n::get<1, test_con>;
+            ASSERT_EQ(result, expected);
         }
 
         namespace t3
         {
             constexpr auto expected = 8;
-            constexpr auto resultt = values_container_n::get<2, test_con>;
-            ASSERT_EQ(resultt, expected);
+            constexpr auto result = values_container_n::get<2, test_con>;
+            ASSERT_EQ(result, expected);
+        }
+    }
+
+    namespace test_create
+    {
+        namespace t1
+        {
+            constexpr auto expected = 0;
+            using result = values_container_n::create<uint8_t, 0>;
+            ASSERT_EQ(result::size, expected);
+        }
+
+        namespace t2
+        {
+            constexpr auto expected = 22;
+            using result = values_container_n::create<uint8_t, 22>;
+            ASSERT_EQ(result::size, expected);
         }
     }
 }
