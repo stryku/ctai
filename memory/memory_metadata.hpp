@@ -57,6 +57,14 @@ namespace ctai
 
             template <typename metadata, size_t ptr>
             using find_allocated_block = typename details::find_allocated_block_impl<metadata, ptr>::result;
+
+            //
+            //reserve_block
+            //
+            namespace details
+            {
+
+            }
         }
     }
 }

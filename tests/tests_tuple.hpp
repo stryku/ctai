@@ -27,4 +27,56 @@ namespace ctai::tests::tuple
             ASSERT_EQ_T(expected, result);
         }
     }
+
+    namespace test_find_if
+    {
+        template <size_t desired>
+        struct predicate
+        {
+            template <typename pair>
+            static constexpr auto value = ( pair::second == desired);
+        };
+
+        template <size_t first_v, size_t second_v>
+        struct pair
+        {
+            static constexpr auto first = first_v;
+            static constexpr auto second = second_v;
+        };
+
+        using test_tuple_pairs = ctai::tuple_n::tuple<pair<1,2>,
+                                                      pair<2,3>,
+                                                      pair<5,6>>;
+
+
+        namespace find_if_empty_tuple
+        {
+            using expected = ctai::utils::empty_type;
+            using test_predicate = predicate<2>;
+            using result = ctai::tuple_n::find_if<ctai::tuple_n::tuple<>,
+                                                  test_predicate>;
+
+            ASSERT_EQ_T(expected, result);
+        }
+
+        namespace find_if_not_empty_not_found
+        {
+            using expected = ctai::utils::empty_type;
+            using test_predicate = predicate<999>;
+            using result = ctai::tuple_n::find_if<test_tuple_pairs,
+                                                  test_predicate>;
+
+            ASSERT_EQ_T(expected, result);
+        }
+
+        namespace find_if_not_empty_found
+        {
+            using expected = pair<2,3>;
+            using test_predicate = predicate<3>;
+            using result = ctai::tuple_n::find_if<test_tuple_pairs,
+                                                  test_predicate>;
+
+            ASSERT_EQ_T(expected, result);
+        }
+    }
 }

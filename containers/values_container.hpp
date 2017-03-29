@@ -30,7 +30,6 @@ namespace ctai
         template<typename container>
         constexpr auto front = details::front_impl<container>::value;
 
-
         //
         //append
         //
@@ -48,6 +47,35 @@ namespace ctai
 
         template <typename container, auto value>
         using append = typename details::append_impl<container, value>::result;
+
+        //
+        //create_with_val
+        //
+        namespace details
+        {
+            template <size_t count, auto val, bool end, typename current_container = values_container<>>
+            struct create_with_val_impl;
+
+            template <auto val, typename current_container>
+            struct create_with_val_impl<0, val, true, current_container>
+            {
+                using result = current_container;
+            };
+
+            template <size_t count, auto val, typename current_container>
+            struct create_with_val_impl<count, val, false, current_container>
+            {
+                using next_container = append<current_container, val>;
+
+                using result = typename create_with_val_impl<count - 1,
+                                                             val,
+                                                             count == 1,
+                                                             next_container>::result;
+            };
+        }
+
+        template <size_t size, auto val>
+        using create_with_val = typename details::create_with_val_impl<size, val, size == 0>::result;
 
         //
         //merge
@@ -143,6 +171,31 @@ namespace ctai
 
         template <size_t position, typename container, auto ...values>
         using set = typename details::set_impl<position, container, values...>::result;
+
+        //
+        //set_val
+        //
+        namespace details
+        {
+            template <size_t position, size_t count, typename container, size_t val>
+            struct set_val_impl
+            {
+                using take_result = take<position, container>;
+                using front = typename take_result::taken_container;
+                using rest = typename take_result::rest_container;
+
+                using tail = typename take<count, rest>::rest_container;
+
+                using setted_part = create_with_val<count, val>;
+
+                using merged_tail = merge<setted_part, tail>;
+
+                using result = merge<front,merged_tail>;
+            };
+        }
+
+        template <size_t position, size_t count, typename container, size_t val>
+        using set_val = typename details::set_val_impl<position, count, container, val>::result;
 
         //
         //drop_front
