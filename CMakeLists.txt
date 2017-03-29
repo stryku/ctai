@@ -55,7 +55,7 @@ set(INCLUDE_FILES
 
         assembler/assembler.hpp
         assembler/label_substitute.hpp
-        assembler/label_extract.hpp tests/values_container_tests.hpp tests/tests_macros.hpp memory/memory.hpp)
+        assembler/label_extract.hpp tests/values_container_tests.hpp tests/tests_macros.hpp memory/memory.hpp memory/memory_alloc.hpp memory/memory_metadata.hpp utils/empty_type.hpp utils/predicate.hpp tests/tests_tuple.hpp)
 
 
 set(SOURCE_FILES
