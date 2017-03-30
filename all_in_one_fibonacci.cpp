@@ -1,3 +1,6 @@
+//Compiler flags:
+//-std=c++1z -O3
+
 #include <type_traits>
 #include <cstdlib>
 #include <stdint.h>
