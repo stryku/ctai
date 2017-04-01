@@ -177,7 +177,7 @@ namespace ctai
         //
         namespace details
         {
-            template <size_t position, size_t count, typename container, size_t val>
+            template <typename container, size_t position, size_t count, auto val>
             struct set_val_impl
             {
                 using take_result = take<position, container>;
@@ -194,8 +194,8 @@ namespace ctai
             };
         }
 
-        template <size_t position, size_t count, typename container, size_t val>
-        using set_val = typename details::set_val_impl<position, count, container, val>::result;
+        template <typename container, size_t position, size_t count, auto val>
+        using set_val = typename details::set_val_impl<container, position, count, val>::result; // todo tests
 
         //
         //drop_front

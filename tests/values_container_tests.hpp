@@ -191,4 +191,53 @@ namespace ctai::tests::values_container
             ASSERT_EQ(result::size, expected);
         }
     }
+
+    namespace test_create_with_val
+    {
+        namespace create_with_val_zero_size
+        {
+            using expected = con<>;
+            using test_type = values_container_n::create_with_val<0, 11>;
+            ASSERT_EQ_T(test_type, expected);
+        }
+
+        namespace create_with_val_one_size
+        {
+            using expected = con<3>;
+            using test_type = values_container_n::create_with_val<1, 3>;
+            ASSERT_EQ_T(test_type, expected);
+        }
+
+        namespace create_with_val_some_size
+        {
+            using expected = con<11, 11, 11>;
+            using test_type = values_container_n::create_with_val<3, 11>;
+            ASSERT_EQ_T(test_type, expected);
+        }
+
+        namespace create_with_val_bool
+        {
+            using expected = con<true, true, true>;
+            using test_type = values_container_n::create_with_val<3, true>;
+            ASSERT_EQ_T(test_type, expected);
+        }
+    }
+
+    namespace test_set_val
+    {
+
+        namespace set_val_zero_count
+        {
+            using expected = test_con;
+            using test_result = values_container_n::set_val<test_con, 0, 0, 0>;
+            ASSERT_EQ_T(test_result, expected);
+        }
+
+        namespace set_val_one_count
+        {
+            using expected = con<3, 7,8>;
+            using test_result = values_container_n::set_val<test_con, 0, 1, 3>;
+            ASSERT_EQ_T(test_result, expected);
+        }
+    }
 }
