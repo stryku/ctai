@@ -90,6 +90,32 @@ namespace ctai
 
             template <typename metadata, size_t ptr, size_t size>
             using reserve_block = typename details::reserve_block_impl<metadata, ptr, size>::result;
+
+            //
+            //free_block
+            //
+            namespace details
+            {
+                template <typename metadata, size_t ptr, size_t size>
+                struct free_block_impl;
+
+                template <typename used_bytes,
+                          typename allocated_blocks,
+                          size_t ptr,
+                          size_t size>
+                struct free_block_impl<memory_metadata<used_bytes,
+                                                       allocated_blocks>,
+                                       ptr,
+                                       size>
+                {
+                    using new_used_bytes = values_container_n::set_val<used_bytes, ptr,size, true>;
+                    using new_allocated_blocks = std::conditional_t<(size > 0),
+                                                                    tuple_n::append<allocated_blocks, allocated_block<ptr, size>>,
+                                                                    allocated_blocks>;
+
+                    using result = memory_metadata<new_used_bytes, new_allocated_blocks>;
+                };
+            }
         }
     }
 }

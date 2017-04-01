@@ -67,7 +67,7 @@ set(INCLUDE_FILES
         tests/tests_values_container.hpp
         tests/tests_macros.hpp
         tests/tests_tuple.hpp
-        tests/tests_memory_metadata.hpp)
+        tests/tests_memory_metadata.hpp utils/bad_value.hpp)
 
 
 set(SOURCE_FILES
