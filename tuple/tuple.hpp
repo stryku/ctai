@@ -85,7 +85,7 @@ namespace ctai
             };
         }
 
-        template <size_t count, typename tuple_t>
+        template <typename tuple_t, size_t count>
         using take = typename details::take_impl<count, count==0, tuple_t>::type;
 
         //
@@ -150,5 +150,25 @@ namespace ctai
 
         template <typename tuple_t, typename predicate>
         constexpr auto find_if_it = details::find_if_it_impl<tuple_t, predicate>::result;
+
+        //
+        //erase
+        //
+        namespace details
+        {
+            template <typename tuple_t, size_t iterator, size_t count>
+            struct erase_impl
+            {
+                using take_result = take<tuple_t, iterator>;
+                using head = typename take_result::taken;
+                using whole_tail = typename take_result::rest;
+                using tail = typename take<whole_tail, count>::rest;
+
+                using result = merge<head, tail>;
+            };
+        }
+
+        template <typename tuple_t, size_t iterator, size_t count = 1>
+        using erase = typename details::erase_impl<tuple_t, iterator, count>::result;
     }
 }

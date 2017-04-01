@@ -136,7 +136,7 @@ namespace ctai::tests::tuple
         {
             using expected_taken = ctai::tuple_n::tuple<>;
             using expected_rest = test_tuple;
-            using result = ctai::tuple_n::take<0, test_tuple>;
+            using result = ctai::tuple_n::take<test_tuple, 0>;
 
             ASSERT_EQ_T(expected_taken, typename result::taken);
             ASSERT_EQ_T(expected_rest, typename result::rest);
@@ -146,7 +146,7 @@ namespace ctai::tests::tuple
         {
             using expected_taken = ctai::tuple_n::tuple<int>;
             using expected_rest = ctai::tuple_n::tuple<char>;
-            using result = ctai::tuple_n::take<1, test_tuple>;
+            using result = ctai::tuple_n::take<test_tuple, 1>;
 
             ASSERT_EQ_T(expected_taken, typename result::taken);
             ASSERT_EQ_T(expected_rest, typename result::rest);
@@ -156,10 +156,48 @@ namespace ctai::tests::tuple
         {
             using expected_taken = ctai::tuple_n::tuple<int, char>;
             using expected_rest = ctai::tuple_n::tuple<>;
-            using result = ctai::tuple_n::take<2, test_tuple>;
+            using result = ctai::tuple_n::take<test_tuple, 2>;
 
             ASSERT_EQ_T(expected_taken, typename result::taken);
             ASSERT_EQ_T(expected_rest, typename result::rest);
+        }
+    }
+
+    namespace test_erase
+    {
+        namespace erase_zero
+        {
+            using expected = test_tuple;
+            using result = ctai::tuple_n::erase<test_tuple, 0, 0>;
+
+            ASSERT_EQ_T(expected, result);
+        }
+
+        namespace erase_one
+        {
+            namespace t1
+            {
+                using expected = ctai::tuple_n::tuple<char>;
+                using result = ctai::tuple_n::erase<test_tuple, 0, 1>;
+
+                ASSERT_EQ_T(expected, result);
+            }
+
+            namespace t2
+            {
+                using expected = ctai::tuple_n::tuple<int>;
+                using result = ctai::tuple_n::erase<test_tuple, 1, 1>;
+
+                ASSERT_EQ_T(expected, result);
+            }
+        }
+
+        namespace erase_all
+        {
+            using expected = ctai::tuple_n::tuple<>;
+            using result = ctai::tuple_n::erase<test_tuple, 0, 2>;
+
+            ASSERT_EQ_T(expected, result);
         }
     }
 }
