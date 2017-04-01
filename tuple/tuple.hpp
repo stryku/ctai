@@ -34,6 +34,24 @@ namespace ctai
         using append = typename details::append_impl<tup, tail>::type;
 
         //
+        //front
+        //
+        namespace details
+        {
+            template<typename tuple_t>
+            struct front_impl;
+
+            template<typename front, typename ...chars>
+            struct front_impl<tuple<front, chars...>>
+            {
+                using result = front;
+            };
+        }
+
+        template<typename tuple_t>
+        using front = details::front_impl<tuple_t>::result;
+
+        //
         // merge
         //
         namespace details
@@ -170,5 +188,48 @@ namespace ctai
 
         template <typename tuple_t, size_t iterator, size_t count = 1>
         using erase = typename details::erase_impl<tuple_t, iterator, count>::result;
+
+
+        //
+        //drop_front
+        //
+        namespace details
+        {
+            template <typename rest, size_t count, bool end>
+            struct drop_front_impl;
+
+            template <typename ...rest_of_types>
+            struct drop_front_impl<tuple<rest_of_types...>, 0, true>
+            {
+                using result = tuple<rest_of_types...>;
+            };
+
+            template <size_t count, typename to_drop, typename ...rest_of_types>
+            struct drop_front_impl<tuple<to_drop, rest_of_types...>, count, false>
+            {
+                using result = typename drop_front_impl<tuple<rest_of_types...>,
+                                                        count-1,
+                                                        count == 1>::result;
+            };
+        }
+
+        template <typename tuple_t, size_t count>
+        using drop_front = typename details::drop_front_impl<tuple_t, count, count==0>::result;
+
+        //
+        //get
+        //
+        namespace details
+        {
+            template <typename tuple_t, size_t position>
+            struct get_impl
+            {
+                using after_drop = drop_front<tuple_t, position>;
+                using result = front<after_drop>;
+            };
+        }
+
+        template <typename tuple_t, size_t position>
+        using get = details::get_impl<tuple_t, ptr>::result;
     }
 }
