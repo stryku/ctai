@@ -48,7 +48,6 @@ namespace ctai::tests::tuple
                                                       pair<2,3>,
                                                       pair<5,6>>;
 
-
         namespace find_if_empty_tuple
         {
             using expected = ctai::utils::empty_type;
@@ -77,6 +76,39 @@ namespace ctai::tests::tuple
                                                   test_predicate>;
 
             ASSERT_EQ_T(expected, result);
+        }
+    }
+
+    namespace test_take
+    {
+        namespace take_zero
+        {
+            using expected_taken = ctai::tuple_n::tuple<>;
+            using expected_rest = test_tuple;
+            using result = ctai::tuple_n::take<0, test_tuple>;
+
+            ASSERT_EQ_T(expected_taken, typename result::taken);
+            ASSERT_EQ_T(expected_rest, typename result::rest);
+        }
+
+        namespace take_one
+        {
+            using expected_taken = ctai::tuple_n::tuple<int>;
+            using expected_rest = ctai::tuple_n::tuple<char>;
+            using result = ctai::tuple_n::take<1, test_tuple>;
+
+            ASSERT_EQ_T(expected_taken, typename result::taken);
+            ASSERT_EQ_T(expected_rest, typename result::rest);
+        }
+
+        namespace take_all
+        {
+            using expected_taken = ctai::tuple_n::tuple<int, char>;
+            using expected_rest = ctai::tuple_n::tuple<>;
+            using result = ctai::tuple_n::take<2, test_tuple>;
+
+            ASSERT_EQ_T(expected_taken, typename result::taken);
+            ASSERT_EQ_T(expected_rest, typename result::rest);
         }
     }
 }

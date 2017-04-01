@@ -51,10 +51,41 @@ namespace ctai
             };
         }
 
-        template<typename l,
-                 typename r>
+        template<typename l, typename r>
         using merge = typename details::merge_impl<l, r>::type;
 
+        //
+        // take
+        //
+        namespace details
+        {
+            template <size_t count, bool end, typename rest, typename taken = tuple<>>
+            struct take_impl;
+
+            template <typename ...rest_of_types, typename ...taken_types>
+            struct take_impl<0, true, tuple<rest_of_types...>, tuple<taken_types...>>
+            {
+                using type = take_impl;
+
+                using taken = tuple<taken_types...>;
+                using rest = tuple<rest_of_types...>;
+            };
+
+            template <size_t count, typename to_take, typename ...rest_of_types, typename ...taken_types>
+            struct take_impl<count, false, tuple<to_take, rest_of_types...>, tuple<taken_types...>>
+            {
+                using type = take_impl<count-1,
+                                       count == 1,
+                                       tuple<rest_of_types...>,
+                                       tuple<taken_types..., to_take>>;
+
+                using taken = typename type::taken;
+                using rest = typename type::rest;
+            };
+        }
+
+        template <size_t count, typename tuple_t>
+        using take = typename details::take_impl<count, count==0, tuple_t>::type;
 
         //
         //find_if
