@@ -55,7 +55,19 @@ set(INCLUDE_FILES
 
         assembler/assembler.hpp
         assembler/label_substitute.hpp
-        assembler/label_extract.hpp tests/values_container_tests.hpp tests/tests_macros.hpp memory/memory.hpp memory/memory_alloc.hpp memory/memory_metadata.hpp utils/empty_type.hpp utils/predicate.hpp tests/tests_tuple.hpp tests/test_memory_metadata.hpp tests/types_check.hpp)
+        assembler/label_extract.hpp
+
+        memory/memory.hpp
+        memory/memory_alloc.hpp
+        memory/memory_metadata.hpp
+
+        utils/empty_type.hpp
+        utils/predicate.hpp
+
+        tests/tests_values_container.hpp
+        tests/tests_macros.hpp
+        tests/tests_tuple.hpp
+        tests/tests_memory_metadata.hpp)
 
 
 set(SOURCE_FILES
