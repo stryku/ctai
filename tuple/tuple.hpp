@@ -1,6 +1,7 @@
 #pragma once
 
 #include "utils/empty_type.hpp"
+#include "utils/bad_value.hpp"
 #include "utils/predicate.hpp"
 
 namespace ctai
@@ -117,5 +118,37 @@ namespace ctai
 
         template <typename tuple_t, typename predicate>
         using find_if = typename details::find_if_impl<tuple_t, predicate>::result;
+
+        //
+        //find_if_it
+        //
+        namespace details
+        {
+            template <typename tuple_t, typename predicate, size_t iterator = 0>
+            struct find_if_it_impl;
+
+            template <typename predicate, size_t iterator>
+            struct find_if_it_impl<tuple<>, predicate, iterator>
+            {
+                static constexpr auto result = utils::bad_value;
+            };
+
+            template <typename current_type,
+                      typename ...rest_of_types,
+                      typename predicate,
+                      size_t iterator>
+            struct find_if_it_impl<tuple<current_type, rest_of_types...>,
+                                   predicate,
+                                   iterator>
+            {
+                static constexpr auto result = utils::predicate_v<predicate, current_type> ? iterator
+                                                                                           : find_if_it_impl<tuple<rest_of_types...>,
+                                                                                                             predicate,
+                                                                                                             iterator + 1>::result;
+            };
+        }
+
+        template <typename tuple_t, typename predicate>
+        constexpr auto find_if_it = details::find_if_it_impl<tuple_t, predicate>::result;
     }
 }

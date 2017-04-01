@@ -79,6 +79,57 @@ namespace ctai::tests::tuple
         }
     }
 
+    namespace test_find_if_it
+    {
+        template <size_t desired>
+        struct predicate
+        {
+            template <typename pair>
+            static constexpr auto value = ( pair::second == desired);
+        };
+
+        template <size_t first_v, size_t second_v>
+        struct pair
+        {
+            static constexpr auto first = first_v;
+            static constexpr auto second = second_v;
+        };
+
+        using test_tuple_pairs = ctai::tuple_n::tuple<pair<1,2>,
+                                                      pair<2,3>,
+                                                      pair<5,6>>;
+
+        namespace find_if_it_empty_tuple
+        {
+            constexpr auto expected = ctai::utils::bad_value;
+            using test_predicate = predicate<2>;
+            constexpr auto result = ctai::tuple_n::find_if_it<ctai::tuple_n::tuple<>,
+                                                              test_predicate>;
+
+            ASSERT_EQ(expected, result);
+        }
+
+        namespace find_if_it_not_empty_not_found
+        {
+            constexpr auto expected = ctai::utils::bad_value;
+            using test_predicate = predicate<999>;
+            constexpr auto result = ctai::tuple_n::find_if_it<test_tuple_pairs,
+                                                              test_predicate>;
+
+            ASSERT_EQ(expected, result);
+        }
+
+        namespace find_if_it_not_empty_found
+        {
+            constexpr auto expected = 1;
+            using test_predicate = predicate<3>;
+            constexpr auto result = ctai::tuple_n::find_if_it<test_tuple_pairs,
+                                                              test_predicate>;
+
+            ASSERT_EQ(expected, result);
+        }
+    }
+
     namespace test_take
     {
         namespace take_zero
