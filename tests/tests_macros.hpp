@@ -10,4 +10,5 @@ namespace std
 
 #define ASSERT(x) static_assert(x, "");
 #define ASSERT_EQ(a, b) static_assert(a == b, "");
+#define ASSERT_NOT_EQ(a, b) static_assert(a != b, "");
 #define ASSERT_EQ_T(a, b) static_assert(std::is_same_v<a, b>, "");
