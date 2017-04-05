@@ -49,7 +49,7 @@ namespace ctai
         }
 
         template<typename tuple_t>
-        using front = details::front_impl<tuple_t>::result;
+        using front = typename details::front_impl<tuple_t>::result;
 
         //
         // merge
@@ -230,6 +230,6 @@ namespace ctai
         }
 
         template <typename tuple_t, size_t position>
-        using get = details::get_impl<tuple_t, ptr>::result;
+        using get = typename details::get_impl<tuple_t, position>::result;
     }
 }

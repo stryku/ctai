@@ -105,10 +105,10 @@ namespace ctai
                 struct free_and_erase_block
                 {
                     using block_metadata = tuple_n::get<allocated_blocks, iterator>;
-                    using new_used_bytes = values_container_n:::set_val<used_bytes,
-                                                                        block_metadata::ptr,
-                                                                        block_metadata::size,
-                                                                        false>;
+                    using new_used_bytes = values_container_n::set_val<used_bytes,
+                                                                       block_metadata::ptr,
+                                                                       block_metadata::size,
+                                                                       false>;
                     using new_allocated_blocks = tuple_n::erase<allocated_blocks, iterator>;
 
                     using result = memory_metadata<new_used_bytes, new_allocated_blocks>;
@@ -127,8 +127,8 @@ namespace ctai
                     static constexpr auto found_it = tuple_n::find_if_it<allocated_blocks, find_allocated_block_predicate>;
 
                     using result = std::conditional_t<found_it == utils::bad_value,
-                                                      memory_metadata,
-                                                      free_and_erase_block<used_bytes, allocated_blocks, found_it>::result>;
+                                                      memory_metadata<used_bytes, allocated_blocks>,
+                                                      typename free_and_erase_block<used_bytes, allocated_blocks, found_it>::result>;
                 };
             }
 
