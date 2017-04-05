@@ -114,6 +114,13 @@ namespace ctai
                     using result = memory_metadata<new_used_bytes, new_allocated_blocks>;
                 };
 
+                template <typename used_bytes, typename allocated_blocks>
+                struct free_and_erase_block<used_bytes, allocated_blocks, utils::bad_value>
+                {
+                    using result = memory_metadata<used_bytes, allocated_blocks>;
+                };
+
+
                 template <typename metadata, size_t ptr>
                 struct free_block_impl;
 
@@ -124,7 +131,7 @@ namespace ctai
                                                        allocated_blocks>,
                                        ptr>
                 {
-                    static constexpr auto found_it = tuple_n::find_if_it<allocated_blocks, find_allocated_block_predicate>;
+                    static constexpr auto found_it = tuple_n::find_if_it<allocated_blocks, find_allocated_block_predicate<ptr>>;
 
                     using result = std::conditional_t<found_it == utils::bad_value,
                                                       memory_metadata<used_bytes, allocated_blocks>,
