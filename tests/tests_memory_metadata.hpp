@@ -194,4 +194,112 @@ namespace ctai::tests::memory_metadata
             }
         }
     }
+
+    namespace tests_find_unused_block_of_size
+    {
+        namespace find_unused_block_of_size_one_size
+        {
+            namespace t1
+            {
+                using start_metadata = ctai::memory::metadata::memory_metadata<ctai::values_container_n::values_container<false, false, false, false, false>,
+                                                                               ctai::tuple_n::tuple<>>;
+
+                constexpr auto expected = static_cast<size_t>(1);
+                constexpr auto result = ctai::memory::metadata::find_unused_block_of_size<start_metadata, 1>;
+
+                ASSERT_EQ(result, expected);
+            }
+
+            namespace t2
+            {
+                using start_metadata = ctai::memory::metadata::memory_metadata<ctai::values_container_n::values_container<false, true, false, false, false>,
+                                                                               ctai::tuple_n::tuple<>>;
+
+                constexpr auto expected = static_cast<size_t>(2);
+                constexpr auto result = ctai::memory::metadata::find_unused_block_of_size<start_metadata, 1>;
+
+                ASSERT_EQ(result, expected);
+            }
+
+            namespace t3
+            {
+                using start_metadata = ctai::memory::metadata::memory_metadata<ctai::values_container_n::values_container<false, true, true, false, true>,
+                                                                               ctai::tuple_n::tuple<>>;
+
+                constexpr auto expected = static_cast<size_t>(3);
+                constexpr auto result = ctai::memory::metadata::find_unused_block_of_size<start_metadata, 1>;
+
+                ASSERT_EQ(result, expected);
+            }
+
+            namespace t4
+            {
+                using start_metadata = ctai::memory::metadata::memory_metadata<ctai::values_container_n::values_container<false, true, true, true, false>,
+                                                                               ctai::tuple_n::tuple<>>;
+
+                constexpr auto expected = static_cast<size_t>(4);
+                constexpr auto result = ctai::memory::metadata::find_unused_block_of_size<start_metadata, 1>;
+
+                ASSERT_EQ(result, expected);
+            }
+
+            namespace t5
+            {
+                using start_metadata = ctai::memory::metadata::memory_metadata<ctai::values_container_n::values_container<false, true, true, true, true>,
+                                                                               ctai::tuple_n::tuple<>>;
+
+                constexpr auto expected = utils::bad_value;
+                constexpr auto result = ctai::memory::metadata::find_unused_block_of_size<start_metadata, 1>;
+
+                ASSERT_EQ(result, expected);
+            }
+        }
+
+        namespace find_unused_block_of_size_some_size
+        {
+            namespace t1
+            {
+                using start_metadata = ctai::memory::metadata::memory_metadata<ctai::values_container_n::values_container<false, false, false, false, false>,
+                                                                               ctai::tuple_n::tuple<>>;
+
+                constexpr auto expected = static_cast<size_t>(1);
+                constexpr auto result = ctai::memory::metadata::find_unused_block_of_size<start_metadata, 2>;
+
+                ASSERT_EQ(result, expected);
+            }
+
+            namespace t2
+            {
+                using start_metadata = ctai::memory::metadata::memory_metadata<ctai::values_container_n::values_container<false, false, false, false, false>,
+                                                                               ctai::tuple_n::tuple<>>;
+
+                constexpr auto expected = static_cast<size_t>(1);
+                constexpr auto result = ctai::memory::metadata::find_unused_block_of_size<start_metadata, 4>;
+
+                ASSERT_EQ(result, expected);
+            }
+
+            namespace t3
+            {
+                using start_metadata = ctai::memory::metadata::memory_metadata<ctai::values_container_n::values_container<false, true, false, false, false>,
+                                                                               ctai::tuple_n::tuple<>>;
+
+                constexpr auto expected = static_cast<size_t>(2);
+                constexpr auto result = ctai::memory::metadata::find_unused_block_of_size<start_metadata, 3>;
+
+                ASSERT_EQ(result, expected);
+            }
+
+            namespace t4
+            {
+                using start_metadata = ctai::memory::metadata::memory_metadata<ctai::values_container_n::values_container<false, false, false, false, false>,
+                                                                               ctai::tuple_n::tuple<>>;
+
+                constexpr auto expected = utils::bad_value;
+                constexpr auto result = ctai::memory::metadata::find_unused_block_of_size<start_metadata, 5>;
+
+                ASSERT_EQ(result, expected);
+            }
+        }
+    }
 }

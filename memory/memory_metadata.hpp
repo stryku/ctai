@@ -168,11 +168,11 @@ namespace ctai
                                               current_ptr,
                                               current_size>
                 {
-                    static constexpr auto next_current_size = current_used_byte ? current_size + 1
-                                                                                : 0;
+                    static constexpr auto next_current_size = (!current_used_byte && current_ptr) ? current_size + 1
+                                                                                                  : 0;
 
-                    static constexpr auto next_last_good_ptr = current_used_byte ? last_good_ptr
-                                                                                 : current_ptr;
+                    static constexpr auto next_last_good_ptr = (!current_used_byte && current_ptr) ? last_good_ptr
+                                                                                                   : current_ptr + 1;
 
                     static constexpr auto result = find_unused_block_impl<vc<rest_of_used_bytes...>,
                                                                           desired_size,
@@ -205,6 +205,18 @@ namespace ctai
                                               current_size>
                 {
                     static constexpr auto result = utils::bad_value;
+                };
+
+                template <size_t desired_size,
+                          size_t last_good_ptr,
+                          size_t current_ptr>
+                struct find_unused_block_impl<vc<>,
+                                              desired_size,
+                                              last_good_ptr,
+                                              current_ptr,
+                                              desired_size>
+                {
+                    static constexpr auto result = last_good_ptr;
                 };
 
                 template <typename metadata, size_t size>

@@ -19,7 +19,7 @@ namespace ctai
     struct memory
     {
         using mem = memory_block<size>;
-        using metadata = memory_metadata<size>;
+        using metadata_t = memory_metadata<size>;
     };
 
     template <size_t size>
