@@ -125,4 +125,73 @@ namespace ctai::tests::memory_metadata
             }
         }
     }
+
+    namespace tests_free_block
+    {
+        namespace free_block_not_allocated
+        {
+            namespace empty
+            {
+                using start_metadata = ctai::memory::metadata::memory_metadata<ctai::values_container_n::values_container<false, false, false>,
+                                                                               ctai::tuple_n::tuple<>>;
+                using expected = start_metadata;
+                using test_result = ctai::memory::metadata::free_block<start_metadata, 0>;
+
+                ASSERT_EQ_T(test_result, expected);
+            }
+
+            namespace not_empty
+            {
+                using start_metadata = ctai::memory::metadata::memory_metadata<ctai::values_container_n::values_container<false, true, true>,
+                                                                               ctai::tuple_n::tuple<ctai::memory::metadata::allocated_block<1, 2>>>;
+                using expected = start_metadata;
+                using test_result = ctai::memory::metadata::free_block<start_metadata, 0>;
+
+                ASSERT_EQ_T(test_result, expected);
+            }
+        }
+
+        namespace free_block_allocated
+        {
+            namespace one_allocated
+            {
+                namespace t1
+                {
+                    using start_metadata = ctai::memory::metadata::memory_metadata<ctai::values_container_n::values_container<true, false, false>,
+                                                                                   ctai::tuple_n::tuple<ctai::memory::metadata::allocated_block<0, 1>>>;
+                    using expected = ctai::memory::metadata::memory_metadata<ctai::values_container_n::values_container<false, false, false>,
+                                                                             ctai::tuple_n::tuple<>>;
+
+                    using test_result = ctai::memory::metadata::free_block<start_metadata, 0>;
+
+                    ASSERT_EQ_T(test_result, expected);
+                }
+
+                namespace t2
+                {
+                    using start_metadata = ctai::memory::metadata::memory_metadata<ctai::values_container_n::values_container<false, true, false>,
+                                                                                   ctai::tuple_n::tuple<ctai::memory::metadata::allocated_block<1, 1>>>;
+                    using expected = ctai::memory::metadata::memory_metadata<ctai::values_container_n::values_container<false, false, false>,
+                                                                             ctai::tuple_n::tuple<>>;
+
+                    using test_result = ctai::memory::metadata::free_block<start_metadata, 1>;
+
+                    ASSERT_EQ_T(test_result, expected);
+                }
+            }
+
+            namespace some_allocated
+            {
+                using start_metadata = ctai::memory::metadata::memory_metadata<ctai::values_container_n::values_container<true, true, false>,
+                                                                               ctai::tuple_n::tuple<ctai::memory::metadata::allocated_block<0, 1>,
+                                                                                                    ctai::memory::metadata::allocated_block<1, 1>>>;
+
+                using expected = ctai::memory::metadata::memory_metadata<ctai::values_container_n::values_container<false, true, false>,
+                                                                         ctai::tuple_n::tuple<ctai::memory::metadata::allocated_block<1, 1>>>;
+                using test_result = ctai::memory::metadata::free_block<start_metadata, 0>;
+
+                ASSERT_EQ_T(test_result, expected);
+            }
+        }
+    }
 }
