@@ -200,4 +200,31 @@ namespace ctai::tests::tuple
             ASSERT_EQ_T(expected, result);
         }
     }
+
+    namespace tests_drop_front
+    {
+        namespace drop_front_zero
+        {
+            using expected = test_tuple;
+            using result = ctai::tuple_n::drop_front<test_tuple, 0>;
+
+            ASSERT_EQ_T(result, expected);
+        }
+
+        namespace drop_front_one
+        {
+            using expected = ctai::tuple_n::tuple<char>;
+            using result = ctai::tuple_n::drop_front<test_tuple, 1>;
+
+            ASSERT_EQ_T(result, expected);
+        }
+
+        namespace drop_front_all
+        {
+            using expected = ctai::tuple_n::tuple<>;
+            using result = ctai::tuple_n::drop_front<test_tuple, 2>;
+
+            ASSERT_EQ_T(result, expected);
+        }
+    }
 }
