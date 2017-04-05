@@ -141,6 +141,88 @@ namespace ctai
 
             template <typename metadata, size_t ptr>
             using free_block = typename details::free_block_impl<metadata, ptr>::result;
+
+            //
+            //find_unused_block_of_size
+            //
+            namespace details
+            {
+                template <typename used_bytes,
+                          size_t desired_size,
+                          size_t last_good_ptr = 0,
+                          size_t current_ptr = 0,
+                          size_t current_size = 0>
+                struct find_unused_block_impl;
+
+                template <auto ...values>
+                using vc = values_container_n::values_container<values...>;
+
+                template <auto current_used_byte, auto ...rest_of_used_bytes,
+                          size_t desired_size,
+                          size_t last_good_ptr,
+                          size_t current_ptr,
+                          size_t current_size>
+                struct find_unused_block_impl<vc<current_used_byte, rest_of_used_bytes...>,
+                                              desired_size,
+                                              last_good_ptr,
+                                              current_ptr,
+                                              current_size>
+                {
+                    static constexpr auto next_current_size = current_used_byte ? current_size + 1
+                                                                                : 0;
+
+                    static constexpr auto next_last_good_ptr = current_used_byte ? last_good_ptr
+                                                                                 : current_ptr;
+
+                    static constexpr auto result = find_unused_block_impl<vc<rest_of_used_bytes...>,
+                                                                          desired_size,
+                                                                          next_last_good_ptr,
+                                                                          current_ptr + 1,
+                                                                          next_current_size>::result;
+                };
+
+                template <auto current_used_byte, auto ...rest_of_used_bytes,
+                          size_t desired_size,
+                          size_t last_good_ptr,
+                          size_t current_ptr>
+                struct find_unused_block_impl<vc<current_used_byte, rest_of_used_bytes...>,
+                                              desired_size,
+                                              last_good_ptr,
+                                              current_ptr,
+                                              desired_size>
+                {
+                    static constexpr auto result = last_good_ptr;
+                };
+
+                template <size_t desired_size,
+                          size_t last_good_ptr,
+                          size_t current_ptr,
+                          size_t current_size>
+                struct find_unused_block_impl<vc<>,
+                                              desired_size,
+                                              last_good_ptr,
+                                              current_ptr,
+                                              current_size>
+                {
+                    static constexpr auto result = utils::bad_value;
+                };
+
+                template <typename metadata, size_t size>
+                struct find_unused_block_of_size_impl;
+
+                template <typename used_bytes,
+                          typename allocated_blocks,
+                          size_t size>
+                struct find_unused_block_of_size_impl<memory_metadata<used_bytes,
+                                                                      allocated_blocks>,
+                                                      size>
+                {
+                    static constexpr auto result = find_unused_block_impl<used_bytes, size>::result;
+                };
+            }
+
+            template <typename metadata, size_t size>
+            constexpr auto find_unused_block_of_size = details::find_unused_block_of_size_impl<metadata, size>::result;
         }
     }
 }
