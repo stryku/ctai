@@ -12,6 +12,8 @@ namespace ctai
 }
 
 #include "execute/instructions/ex_push.hpp"
+#include "execute/instructions/ex_call.hpp"
+#include "execute/instructions/sys/ex_sys_exit_thread.hpp"
 
 namespace ctai
 {

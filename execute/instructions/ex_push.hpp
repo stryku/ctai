@@ -5,9 +5,9 @@
 #include "memory/memory.hpp"
 #include "values/values.hpp"
 #include "execute/eip_adjuster.hpp"
+#include "thread/thread.hpp"
 
 #include <cstddef>
-#include <thread/thread.hpp>
 
 namespace ctai
 {
@@ -52,7 +52,7 @@ namespace ctai
                                                       reg_val>;
 
             using result_thread = typename push_result::next_thread;
-            using result_memory = typename push_result::next_thread;
+            using result_memory = typename push_result::next_memory;
         };
     }
 }
