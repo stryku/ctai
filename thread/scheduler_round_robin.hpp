@@ -11,8 +11,8 @@ namespace ctai
             template <typename threads_queue>
             struct next
             {
-                using next_thread = queue::front<threads_queue>;
-                using result_threads_queue = queue::push<queue::pop<threads_queue>, next_thread>;
+                using result_thread = queue::front<threads_queue>;
+                using result_threads_queue = queue::pop<threads_queue>;
             };
         }
     }

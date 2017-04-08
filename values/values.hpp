@@ -13,8 +13,8 @@ namespace ctai
         //
         namespace details
         {
-            template <uint32_t value, size_t  value_size>
-            struct split_to_byte_values_container_impl<uint8_t, value>
+            template <uint32_t value, size_t value_size>
+            struct split_to_byte_values_container_impl
             {
                 template <auto ...values>
                 using vc = values_container_n::values_container<values...>;

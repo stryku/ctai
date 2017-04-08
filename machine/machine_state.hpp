@@ -6,7 +6,10 @@ namespace ctai
 {
     namespace machine
     {
-        template <typename memory_t, typename opcodes_t, typename threads_t, size_t time_v>
+        template <typename memory_t,
+                  typename opcodes_t,
+                  typename threads_t,
+                  size_t time_v>
         struct state
         {
             using memory = memory_t;
