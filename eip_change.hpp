@@ -29,6 +29,8 @@ namespace ctai
         template <> constexpr size_t eip_change<inst::id_t::POP_REG> = 2;
         template <> constexpr size_t eip_change<inst::id_t::JMP> = 2;
         template <> constexpr size_t eip_change<inst::id_t::JGE> = 2;
+
+        template <> constexpr size_t eip_change<inst::id_t::SYS_EXIT_THREAD> = 1;
     }
 
     template <inst::id_t instruction>
