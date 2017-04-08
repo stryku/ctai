@@ -1,5 +1,8 @@
 #pragma once
 
+#include "containers/values_container.hpp"
+#include "register.hpp"
+
 #include <cstddef>
 
 namespace ctai
@@ -19,5 +22,22 @@ namespace ctai
             using registers = registers_t;
             using flags = flags_t;
         };
+
+        //
+        //get_next_opcodes
+        //
+        namespace details
+        {
+            template <typename thread_t, typename all_opcodes>
+            struct get_next_opcodes_impl
+            {
+                static constexpr auto eip = get_reg<typename thread_t::registers, regs::id_t::EIP>;
+
+                using result = values_container_n::drop_front<all_opcodes, eip>;
+            };
+        }
+
+        template <typename thread_t, typename all_opcodes>
+        using get_next_opcodes = typename details::get_next_opcodes_impl<thread_t, all_opcodes>::result
     }
 }
