@@ -14,6 +14,7 @@ namespace ctai
         enum class id_t
         {
             SYS_EXIT_THREAD,
+            SYS_CREATE_THREAD,
 
             EXIT,
             PUSH_REG,
