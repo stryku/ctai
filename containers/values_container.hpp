@@ -173,6 +173,24 @@ namespace ctai
         using set = typename details::set_impl<position, container, values...>::result;
 
         //
+        //set_from_container
+        //
+        namespace details
+        {
+            template <size_t position, typename container, typename container_with_values>
+            struct set_from_container_impl;
+
+            template <size_t position, typename container, auto ...values>
+            struct set_from_container_impl<position, container, values_container<values...>>
+            {
+                using result = set<position, container, values...>;
+            };
+        }
+
+        template <typename container, size_t position, typename container_with_values>
+        using set_from_container = typename details::set_from_container_impl<position, container, container_with_values>::result;
+
+        //
         //set_val
         //
         namespace details
@@ -220,7 +238,7 @@ namespace ctai
             };
         }
 
-        template <size_t count, typename container>
+        template <typename container, size_t count>
         using drop_front = typename details::drop_front_impl<count, count==0, container>::result;
 
         //
@@ -231,7 +249,7 @@ namespace ctai
             template <size_t ptr, typename container>
             struct get_impl
             {
-                using after_drop = drop_front<ptr, container>;
+                using after_drop = drop_front<container, ptr>;
 
                 static constexpr auto val = front<after_drop>;
             };
