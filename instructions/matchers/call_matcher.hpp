@@ -6,6 +6,7 @@
 #include "instructions/matchers/operand_decoder.hpp"
 #include "eip_change.hpp"
 #include "string.hpp"
+#include "containers/values_container.hpp"
 
 namespace ctai
 {
@@ -20,7 +21,7 @@ namespace ctai
         {
             static constexpr auto instruction_type = inst::id_t::CALL_VAL;
 
-            using instruction = values_container<
+            using instruction = values_container_n::values_container<
                 inst::to_size<instruction_type>,
                 0>;
 
@@ -41,7 +42,7 @@ namespace ctai
         {
             static constexpr auto instruction_type = inst::id_t::CALL_VAL;
 
-            using instruction = values_container<
+            using instruction = values_container_n::values_container<
                     inst::to_size<instruction_type>,
                     operand_decoder<operand>>;
 

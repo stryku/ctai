@@ -71,12 +71,15 @@ namespace ctai
                 using tokens_after_labels_substitution = substutite_labels<tokens_without_labels, labels_metadata>;
                 using opcodes = assemble<tokens_after_labels_substitution>;
 
+                static constexpr auto main_ip = labels_get_ip<labels_metadata, string<'.', 'm', 'a', 'i', 'n'>>;
+
                 using root_thread = thread::create<100, //priority
                                                    0,   //id
-                                                   0,   //eip
-                                                   0>;  //esp
+                                                   main_ip,   //eip
+                                                   15>;  //esp
 
-                using memory_t = memory::memory_create<128>;
+                using memory_t = memory::memory_create<16>;
+
 
                 using machine_state = machine::state<memory_t,
                                                      opcodes,

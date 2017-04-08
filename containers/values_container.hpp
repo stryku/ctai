@@ -224,17 +224,17 @@ namespace ctai
             struct drop_front_impl;
 
             template <auto ...rest_of_values>
-            struct drop_front_impl<0, true, values_container<rest_of_values...>>
+            struct drop_front_impl<0, true, values_container_n::values_container<rest_of_values...>>
             {
-                using result = values_container<rest_of_values...>;
+                using result = values_container_n::values_container<rest_of_values...>;
             };
 
             template <size_t count, auto to_drop, auto ...rest_of_values>
-            struct drop_front_impl<count, false, values_container<to_drop, rest_of_values...>>
+            struct drop_front_impl<count, false, values_container_n::values_container<to_drop, rest_of_values...>>
             {
                 using result = typename drop_front_impl<count-1,
                                                         count == 1,
-                                                        values_container<rest_of_values...>>::result;
+                                                        values_container_n::values_container<rest_of_values...>>::result;
             };
         }
 

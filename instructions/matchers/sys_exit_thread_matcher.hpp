@@ -3,6 +3,7 @@
 #include "tuple.hpp"
 #include "tokenize/syscalls_tokens.hpp"
 #include "instructions/ids_vaules.hpp"
+#include "containers/values_container.hpp"
 
 namespace ctai
 {
@@ -14,7 +15,7 @@ namespace ctai
                 tokens::tok_sys_exit_thread,
                 rest_of_tokens...>>
         {
-            using instruction = values_container<inst::to_size<inst::id_t::SYS_EXIT_THREAD>>;
+            using instruction = values_container_n::values_container<inst::to_size<inst::id_t::SYS_EXIT_THREAD>>;
             using instruction_tokens = tuple<tokens::tok_sys_exit_thread>;
             static constexpr auto eip_change = get_eip_change<inst::id_t::SYS_EXIT_THREAD>;
             using rest_of_tokens_t = tuple<rest_of_tokens...>;

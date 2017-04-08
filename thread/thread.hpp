@@ -61,7 +61,7 @@ namespace ctai
 
                 using flags_t = startup_flags_state;
 
-                using result = thread<true,
+                using result = thread<false,
                                       id,
                                       priority,
                                       registers,
