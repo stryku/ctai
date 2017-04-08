@@ -122,7 +122,7 @@ namespace ctai::tests::values_container
         namespace drop_front_0
         {
             using expected = test_con;
-            using test_type = values_container_n::drop_front<0, test_con>;
+            using test_type = values_container_n::drop_front<test_con, 0>;
             ASSERT_EQ_T(test_type, expected);
         }
 
@@ -131,21 +131,21 @@ namespace ctai::tests::values_container
             namespace t1
             {
                 using expected = con<7, 8>;
-                using test_type = values_container_n::drop_front<1, test_con>;
+                using test_type = values_container_n::drop_front<test_con, 1>;
                 ASSERT_EQ_T(test_type, expected);
             }
 
             namespace t2
             {
                 using expected = con<8>;
-                using test_type = values_container_n::drop_front<2, test_con>;
+                using test_type = values_container_n::drop_front<test_con, 2>;
                 ASSERT_EQ_T(test_type, expected);
             }
 
             namespace t3
             {
                 using expected = con<>;
-                using test_type = values_container_n::drop_front<3, test_con>;
+                using test_type = values_container_n::drop_front<test_con, 3>;
                 ASSERT_EQ_T(test_type, expected);
             }
         }

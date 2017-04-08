@@ -41,8 +41,8 @@ namespace ctai
             template<typename tuple_t>
             struct front_impl;
 
-            template<typename front, typename ...chars>
-            struct front_impl<tuple<front, chars...>>
+            template<typename front, typename ...types>
+            struct front_impl<tuple_n::tuple<front, types...>>
             {
                 using result = front;
             };
