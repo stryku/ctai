@@ -67,7 +67,7 @@ set(INCLUDE_FILES
         tests/tests_values_container.hpp
         tests/tests_macros.hpp
         tests/tests_tuple.hpp
-        tests/tests_memory_metadata.hpp utils/bad_value.hpp tests/tests_memory_alloc.hpp syscalls/sys_malloc.hpp syscalls/syscall.hpp tokenize/syscalls_tokens.hpp thread/thread.hpp thread/scheduler_round_robin.hpp containers/queue.hpp machine/machine_state.hpp execute/execute_thread.hpp execute/instructions/ex_push.hpp values/values.hpp execute/instructions/execute_instruction.hpp execute/execute_code.hpp kernel/thread.hpp declare_code.hpp instructions/matchers/sys_exit_thread_matcher.hpp)
+        tests/tests_memory_metadata.hpp utils/bad_value.hpp tests/tests_memory_alloc.hpp syscalls/sys_malloc.hpp syscalls/syscall.hpp tokenize/syscalls_tokens.hpp thread/thread.hpp thread/scheduler_round_robin.hpp containers/queue.hpp machine/machine_state.hpp execute/execute_thread.hpp execute/instructions/ex_push.hpp values/values.hpp execute/instructions/execute_instruction.hpp execute/execute_code.hpp kernel/thread.hpp declare_code.hpp instructions/matchers/sys_exit_thread_matcher.hpp instructions/matchers/call_matcher.hpp)
 
 
 set(SOURCE_FILES

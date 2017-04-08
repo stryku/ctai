@@ -41,7 +41,9 @@ namespace ctai
             MOV_REG_MEM__mem_eq_reg_minus_const,
             MOV_REG_MEM__mem_eq_reg_plus_const,
 
-            MUL_REG_REG
+            MUL_REG_REG,
+
+            CALL_VAL
         };
 
         template <size_t id_v>
