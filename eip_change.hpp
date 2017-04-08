@@ -33,6 +33,7 @@ namespace ctai
         template <> constexpr size_t eip_change<inst::id_t::CALL_VAL> = 2;
 
         template <> constexpr size_t eip_change<inst::id_t::SYS_EXIT_THREAD> = 1;
+        template <> constexpr size_t eip_change<inst::id_t::SYS_CREATE_THREAD> = 1;
     }
 
     template <inst::id_t instruction>
