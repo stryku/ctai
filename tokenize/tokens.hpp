@@ -13,7 +13,9 @@ namespace ctai
         using tok_mov = decltype("mov"_s);
         using tok_add = decltype("add"_s);
         using tok_push = decltype("push"_s);
+        using tok_pusha = decltype("pusha"_s);
         using tok_pop = decltype("pop"_s);
+        using tok_popa = decltype("popa"_s);
         using tok_sub = decltype("sub"_s);
         using tok_mul = decltype("mul"_s);
         using tok_cmp = decltype("cmp"_s);
