@@ -20,7 +20,7 @@ namespace ctai
         template <size_t size>
         struct memory
         {
-            using mem = memory_block<size>;
+            using mem = values_container_n::create<uint8_t, size>;
             using metadata_t = memory_metadata<size>;
         };
 

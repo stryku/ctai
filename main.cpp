@@ -5,7 +5,10 @@
 
 #include <iostream>
 
-using main_code = decltype("push eax"_s);
+using main_code = decltype(
+":main "
+        "push eax "
+        "call .sys_exit_thread"_s);
 
 using code = ctai::declare_code<ctai::include::exit_thread,
                                 main_code>;

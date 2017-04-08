@@ -6,6 +6,7 @@
 #include "instructions/matchers/operand_decoder.hpp"
 #include "instructions/matchers/plus_minus_decoder.hpp"
 #include "instructions/matchers/mem_size_decoder.hpp"
+#include "containers/values_container.hpp"
 
 namespace ctai
 {
@@ -22,7 +23,7 @@ namespace ctai
         {
             static constexpr auto instruction_type = is_reg_token<operand> ? inst::id_t::MOV_REG_REG : inst::id_t::MOV_REG_VAL;
 
-            using instruction = values_container<
+            using instruction = values_container_n::values_container<
                     inst::to_size<instruction_type>,
                     token_to_reg_opcode<reg_token>,
                     operand_decoder<operand>>;
@@ -55,7 +56,7 @@ namespace ctai
             static constexpr auto instruction_type = is_plus<plus_minus_token> ? inst::id_t::MOV_REG_MEM__mem_eq_reg_plus_const
                                                                                : inst::id_t::MOV_REG_MEM__mem_eq_reg_minus_const;
 
-            using instruction = values_container<
+            using instruction = values_container_n::values_container<
                     inst::to_size<instruction_type>,
                     token_to_reg_opcode<reg_token>,
                     token_to_reg_opcode<mem_ptr_reg>,
@@ -105,7 +106,7 @@ namespace ctai
                                                        ? inst::id_t::MOV_MEM_REG__mem_eq_reg_minus_const
                                                        : inst::id_t::MOV_MEM_VAL__mem_eq_reg_minus_const;
 
-            using instruction = values_container<
+            using instruction = values_container_n::values_container<
                     inst::to_size<instruction_type>,
                     token_to_reg_opcode<mem_ptr_reg>,
                     string_to_int<mem_ptr_const>,
@@ -135,18 +136,15 @@ namespace ctai
     namespace tests
     {
         static_assert(std::is_same<instruction_match<tuple<tokens::tok_pop, tokens::tok_eax, string<>, string<>>>::instruction,
-                values_container<inst::to_size<inst::id_t::POP_REG>, regs::to_size<regs::id_t::EAX>>>::value, "");
+                                   values_container_n::values_container<inst::to_size<inst::id_t::POP_REG>, regs::to_size<regs::id_t::EAX>>>::value, "");
 
-        static_assert(std::is_same<instruction_match<tuple<
-                decltype("mov"_s),
-                decltype("eax"_s),
-                decltype(","_s),
-                decltype("2"_s)>>::instruction,
-                values_container<
-                        inst::to_size<inst::id_t::MOV_REG_VAL>,
-                        regs::to_size<regs::id_t::EAX>,
-                        2
-                >>::value, "");
+        static_assert(std::is_same<instruction_match<tuple<decltype("mov"_s),
+                                                           decltype("eax"_s),
+                                                           decltype(","_s),
+                                                           decltype("2"_s)>>::instruction,
+                                   values_container_n::values_container<inst::to_size<inst::id_t::MOV_REG_VAL>,
+                                                                        regs::to_size<regs::id_t::EAX>,
+                                                                        static_cast<size_t>(2)>>::value, "");
 
         static_assert(std::is_same<instruction_match<tuple<
                 decltype("mov"_s),
@@ -159,7 +157,7 @@ namespace ctai
                 decltype("-"_s),
                 decltype("2"_s),
                 decltype("]"_s)>>::instruction,
-                values_container<
+                                   values_container_n::values_container<
                         inst::to_size<inst::id_t::MOV_REG_MEM__mem_eq_reg_minus_const>,
                         regs::to_size<regs::id_t::EAX>,
                         regs::to_size<regs::id_t::EDX>,
@@ -178,7 +176,7 @@ namespace ctai
                 decltype("]"_s),
                 decltype(","_s),
                 decltype("eax"_s)>>::instruction,
-                values_container<
+                                   values_container_n::values_container<
                         inst::to_size<inst::id_t::MOV_MEM_REG__mem_eq_reg_minus_const>,
                         regs::to_size<regs::id_t::EDX>,
                         2,
@@ -197,7 +195,7 @@ namespace ctai
                 decltype("]"_s),
                 decltype(","_s),
                 decltype("eax"_s)>>::instruction,
-                values_container<
+                                   values_container_n::values_container<
                         inst::to_size<inst::id_t::MOV_MEM_REG__mem_eq_reg_plus_const>,
                         regs::to_size<regs::id_t::EDX>,
                         2,
