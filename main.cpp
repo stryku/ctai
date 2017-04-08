@@ -1,9 +1,15 @@
 #include "string.hpp"
 #include "execute/execute_code.hpp"
+#include "declare_code.hpp"
+#include "kernel/thread.hpp"
 
 #include <iostream>
 
-using code = decltype("push eax"_s);
+using main_code = decltype("push eax"_s);
+
+using code = ctai::declare_code<ctai::include::exit_thread,
+                                main_code>;
+
 
 int main()
 {
