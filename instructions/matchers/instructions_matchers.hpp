@@ -34,6 +34,7 @@ namespace ctai
 #include "jmp_matcher.hpp"
 #include "jge_matcher.hpp"
 #include "cmp_matcher.hpp"
+#include "call_matcher.hpp"
 #include "sys_exit_thread_matcher.hpp"
 
 namespace ctai
