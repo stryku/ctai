@@ -8,7 +8,7 @@ namespace ctai
     {
         using exit_thread = decltype(
         ":sys_exit_thread "
-                "exit_thread "_s);
+                "sys_exit_thread "_s);
     }
 
 }
