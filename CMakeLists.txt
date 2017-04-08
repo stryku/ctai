@@ -55,7 +55,19 @@ set(INCLUDE_FILES
 
         assembler/assembler.hpp
         assembler/label_substitute.hpp
-        assembler/label_extract.hpp tests/values_container_tests.hpp tests/tests_macros.hpp)
+        assembler/label_extract.hpp
+
+        memory/memory.hpp
+        memory/memory_alloc.hpp
+        memory/memory_metadata.hpp
+
+        utils/empty_type.hpp
+        utils/predicate.hpp
+
+        tests/tests_values_container.hpp
+        tests/tests_macros.hpp
+        tests/tests_tuple.hpp
+        tests/tests_memory_metadata.hpp utils/bad_value.hpp tests/tests_memory_alloc.hpp syscalls/sys_malloc.hpp syscalls/syscall.hpp tokenize/syscalls_tokens.hpp)
 
 
 set(SOURCE_FILES

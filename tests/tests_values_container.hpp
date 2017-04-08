@@ -156,22 +156,88 @@ namespace ctai::tests::values_container
         namespace t1
         {
             constexpr auto expected = 6;
-            constexpr auto resultt = values_container_n::get<0, test_con>;
-            ASSERT_EQ(resultt, expected);
+            constexpr auto result = values_container_n::get<0, test_con>;
+            ASSERT_EQ(result, expected);
         }
 
         namespace t2
         {
             constexpr auto expected = 7;
-            constexpr auto resultt = values_container_n::get<1, test_con>;
-            ASSERT_EQ(resultt, expected);
+            constexpr auto result = values_container_n::get<1, test_con>;
+            ASSERT_EQ(result, expected);
         }
 
         namespace t3
         {
             constexpr auto expected = 8;
-            constexpr auto resultt = values_container_n::get<2, test_con>;
-            ASSERT_EQ(resultt, expected);
+            constexpr auto result = values_container_n::get<2, test_con>;
+            ASSERT_EQ(result, expected);
+        }
+    }
+
+    namespace test_create
+    {
+        namespace t1
+        {
+            constexpr auto expected = 0;
+            using result = values_container_n::create<uint8_t, 0>;
+            ASSERT_EQ(result::size, expected);
+        }
+
+        namespace t2
+        {
+            constexpr auto expected = 22;
+            using result = values_container_n::create<uint8_t, 22>;
+            ASSERT_EQ(result::size, expected);
+        }
+    }
+
+    namespace test_create_with_val
+    {
+        namespace create_with_val_zero_size
+        {
+            using expected = con<>;
+            using test_type = values_container_n::create_with_val<0, 11>;
+            ASSERT_EQ_T(test_type, expected);
+        }
+
+        namespace create_with_val_one_size
+        {
+            using expected = con<3>;
+            using test_type = values_container_n::create_with_val<1, 3>;
+            ASSERT_EQ_T(test_type, expected);
+        }
+
+        namespace create_with_val_some_size
+        {
+            using expected = con<11, 11, 11>;
+            using test_type = values_container_n::create_with_val<3, 11>;
+            ASSERT_EQ_T(test_type, expected);
+        }
+
+        namespace create_with_val_bool
+        {
+            using expected = con<true, true, true>;
+            using test_type = values_container_n::create_with_val<3, true>;
+            ASSERT_EQ_T(test_type, expected);
+        }
+    }
+
+    namespace test_set_val
+    {
+
+        namespace set_val_zero_count
+        {
+            using expected = test_con;
+            using test_result = values_container_n::set_val<test_con, 0, 0, 0>;
+            ASSERT_EQ_T(test_result, expected);
+        }
+
+        namespace set_val_one_count
+        {
+            using expected = con<3, 7,8>;
+            using test_result = values_container_n::set_val<test_con, 0, 1, 3>;
+            ASSERT_EQ_T(test_result, expected);
         }
     }
 }
