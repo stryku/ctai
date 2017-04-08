@@ -4,3 +4,5 @@
 #include "tests/tests_tuple.hpp"
 #include "tests/tests_memory_metadata.hpp"
 #include "tests/tests_memory_alloc.hpp"
+
+#include "instructions/tests_instructions.hpp"

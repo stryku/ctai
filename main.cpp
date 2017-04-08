@@ -5,17 +5,16 @@
 #include <iostream>
 
 using main_code = decltype(
-":main " // deklarujemy poczatek programu
-        "push eax " //jakis syf
-        "call .sys_exit_thread"_s); //wywolanie syscalla do wyjscia z watku (na razie jest tylko jeden, glowny
+":main "
+        "call .sys_exit_thread"_s);
 
-using code = ctai::declare_code<ctai::include::exit_thread, //includujemy kod funkcji exit_thread
-                                main_code>;// no i naszego maina
+using code = ctai::declare_code<ctai::include::exit_thread,
+                                main_code>;
 
 
 int main()
 {
-    std::cout << ctai::execute2::execute_code<code>; //wykonujemy to gowno!!!!!!!! execute code zwraca jak na razie ilosc wykonanych instrukcji
+    std::cout << ctai::execute2::execute_code<code>;
     return 0;
 }
 
