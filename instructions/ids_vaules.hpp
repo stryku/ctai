@@ -18,7 +18,9 @@ namespace ctai
 
             EXIT,
             PUSH_REG,
+            PUSHA,
             POP_REG,
+            POPA,
 
             JMP,
             JGE,
