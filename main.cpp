@@ -6,6 +6,7 @@
 
 using main_code = decltype(
 ":main "
+        "pusha "
         "call .sys_exit_thread"_s);
 
 using code = ctai::declare_code<ctai::include::exit_thread,

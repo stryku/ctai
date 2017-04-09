@@ -76,9 +76,9 @@ namespace ctai
                 using root_thread = thread::create<100, //priority
                                                    0,   //id
                                                    main_ip,   //eip
-                                                   15>;  //esp
+                                                   127>;  //esp
 
-                using memory_t = memory::memory_create<16>;
+                using memory_t = memory::memory_create<128>;
 
 
                 using machine_state = machine::state<memory_t,
