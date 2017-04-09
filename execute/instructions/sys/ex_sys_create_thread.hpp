@@ -5,19 +5,24 @@
 #include "memory/memory.hpp"
 #include "values/values.hpp"
 #include "execute/eip_adjuster.hpp"
+#include "thread/thread.hpp"
 
 #include <cstddef>
-#include <thread/thread.hpp>
 
 namespace ctai
 {
     namespace execute2
     {
-        //exit_thread
+        namespace details
+        {
+            template <typename thread_t, typename memory_t,
+        }
+
+        //create_thread
         template <typename thread_t, typename memory_t, size_t ...rest_of_opcodes>
         struct ex_instruction<thread_t,
                               memory_t,
-                              inst::to_size<inst::id_t::SYS_EXIT_THREAD>,
+                              inst::to_size<inst::id_t::SYS_CREATE_THREAD>,
                               rest_of_opcodes...>
         {
             using result_thread = thread::thread<true,
