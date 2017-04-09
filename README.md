@@ -8,7 +8,10 @@ Hello World example:
 
 #include <iostream>
 
-using code = decltype("push ebx pop eax exit"_s);
+using code = decltype(
+    "push ebx "
+    "pop eax "
+    "exit"_s);
 constexpr auto ret_val = cai::execute_code<code>;
 
 int main()
