@@ -25,7 +25,7 @@ Above program will push ebx to stack and pop from stack to eax. So eax will even
 
 Fibonacci example:
 
-ctai is still able to interpret very (vary very) simplified x86 assembly, but it's able to work with such code, which computes 15th element of the Fibonacci
+ctai can interpret very (vary very) simplified x86 assembly, but it's able to work with such code, which computes 15th element of the Fibonacci
 ```
 #include "string.hpp"
 #include "execute.hpp"
