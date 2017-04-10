@@ -116,7 +116,7 @@ namespace ctai
                   typename memory_t,
                   typename opcodes_t>
         using execute_thread = typename details::execute_thread_impl<thread_t,
-                                                                     typename memory_t::mem,
+                                                                     typename memory_t::memory_block_t,
                                                                      opcodes_t>::execution_result;
     }
 }

@@ -375,5 +375,23 @@ namespace ctai
 
         template <typename value_type, size_t size>
         using create = typename details::create_impl<value_type, std::make_index_sequence<size>>::result;
+
+        //
+        //cast_values_to
+        //
+        namespace details
+        {
+            template <typename container, typename type>
+            struct cast_values_to_impl;
+
+            template <auto ...values, typename type>
+            struct cast_values_to_impl<values_container<values...>, type>
+            {
+                using result = values_container<static_cast<type>(values)...>;
+            };
+        }
+
+        template <typename container, typename type>
+        using cast_values_to = typename details::cast_values_to_impl<container, type>::result;
     }
 }
