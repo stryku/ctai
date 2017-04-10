@@ -255,7 +255,7 @@ namespace ctai
             };
         }
 
-        template <size_t ptr, typename container>
+        template <typename container, size_t ptr>
         constexpr auto get_1 = details::get_1_impl<ptr, container>::val;
 
         //
@@ -275,7 +275,7 @@ namespace ctai
             };
         }
 
-        template <size_t ptr, typename container>
+        template <typename container, size_t ptr>
         using get_2 = typename details::get_2_impl<ptr, container>::result;
 
         //
@@ -297,7 +297,7 @@ namespace ctai
             };
         }
 
-        template <size_t ptr, typename container>
+        template <typename container, size_t ptr>
         using get_4 = typename details::get_4_impl<ptr, container>::result;
 
         //
