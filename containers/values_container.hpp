@@ -242,12 +242,12 @@ namespace ctai
         using drop_front = typename details::drop_front_impl<count, count==0, container>::result;
 
         //
-        //get
+        //get_1
         //
         namespace details
         {
             template <size_t ptr, typename container>
-            struct get_impl
+            struct get_1_impl
             {
                 using after_drop = drop_front<container, ptr>;
 
@@ -256,7 +256,106 @@ namespace ctai
         }
 
         template <size_t ptr, typename container>
-        constexpr auto get = details::get_impl<ptr, container>::val;
+        constexpr auto get_1 = details::get_1_impl<ptr, container>::val;
+
+        //
+        //get_2
+        //
+        namespace details
+        {
+            template <size_t ptr, typename container>
+            struct get_2_impl
+            {
+                using after_drop = drop_front<container, ptr>;
+
+                static constexpr auto val0 = front<after_drop>;
+                static constexpr auto val1 = get_1<after_drop, 1>;
+
+                using result = values_container<val0, val1>;
+            };
+        }
+
+        template <size_t ptr, typename container>
+        using get_2 = typename details::get_2_impl<ptr, container>::result;
+
+        //
+        //get_4
+        //
+        namespace details
+        {
+            template <size_t ptr, typename container>
+            struct get_4_impl
+            {
+                using after_drop = drop_front<container, ptr>;
+
+                static constexpr auto val0 = front<after_drop>;
+                static constexpr auto val1 = get_1<after_drop, 1>;
+                static constexpr auto val2 = get_1<after_drop, 2>;
+                static constexpr auto val3 = get_1<after_drop, 3>;
+
+                using result = values_container<val0, val1, val2, val3>;
+            };
+        }
+
+        template <size_t ptr, typename container>
+        using get_4 = typename details::get_4_impl<ptr, container>::result;
+
+        //
+        //bytes_to_value_1
+        //
+        namespace details
+        {
+            template <typename container>
+            struct bytes_to_value_1_impl;
+
+            template <auto val, auto ...rest_of_values>
+            struct bytes_to_value_1_impl<values_container<val, rest_of_values...>>
+            {
+                static constexpr uint8_t result = static_cast<uint8_t>(val && 0xff);
+            };
+        }
+
+        template <typename container>
+        constexpr auto bytes_to_value_1 = details::bytes_to_value_1_impl<container>::result;
+
+        //
+        //bytes_to_value_2
+        //
+        namespace details
+        {
+            template <typename container>
+            struct bytes_to_value_2_impl;
+
+            template <auto val0, auto val1, auto ...rest_of_values>
+            struct bytes_to_value_2_impl<values_container<val0, val1, rest_of_values...>>
+            {
+                static constexpr uint16_t result = (static_cast<uint16_t>(val0 && 0xff) << 8) | static_cast<uint16_t>(val1 && 0xff);
+            };
+        }
+
+        template <typename container>
+        constexpr auto bytes_to_value_2 = details::bytes_to_value_2_impl<container>::result;
+
+        //
+        //bytes_to_value_4
+        //
+        namespace details
+        {
+            template <typename container>
+            struct bytes_to_value_4_impl;
+
+            template <auto val0, auto val1, auto val2, auto val3, auto ...rest_of_values>
+            struct bytes_to_value_4_impl<values_container<val0, val1, val2, val3, rest_of_values...>>
+            {
+                static constexpr uint32_t result = (static_cast<uint32_t>(val0 && 0xff) << 24) |
+                                                   (static_cast<uint32_t>(val1 && 0xff) << 16) |
+                                                   (static_cast<uint32_t>(val2 && 0xff) << 8) |
+                                                    static_cast<uint32_t>(val3 && 0xff);
+            };
+        }
+
+        template <typename container>
+        constexpr auto bytes_to_value_4 = details::bytes_to_value_4_impl<container>::result;
 
         //
         //create
