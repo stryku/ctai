@@ -89,14 +89,14 @@ namespace ctai
         template <uint16_t val> using set_bp = registers_state<eax_val, ebx_val, ecx_val, edx_val, esp_val, set_simple_reg_low<ebp_val, val>, esi_val, edi_val, eip_val>;
         template <uint32_t val> using set_ebp = registers_state<eax_val, ebx_val, ecx_val, edx_val, esp_val, set_simple_reg<ebp_val, val>, esi_val, edi_val, eip_val>;
 
-        template <uint16_t val> using set_si = registers_state<eax_val, ebx_val, ecx_val, edx_val, esp_val, ebp_val, set_simple_reg_low<esp_val, val>, edi_val, eip_val>;
-        template <uint32_t val> using set_esi = registers_state<eax_val, ebx_val, ecx_val, edx_val, esp_val, ebp_val, set_simple_reg<esp_val, val>, edi_val, eip_val>;
+        template <uint16_t val> using set_si = registers_state<eax_val, ebx_val, ecx_val, edx_val, esp_val, ebp_val, set_simple_reg_low<esi_val, val>, edi_val, eip_val>;
+        template <uint32_t val> using set_esi = registers_state<eax_val, ebx_val, ecx_val, edx_val, esp_val, ebp_val, set_simple_reg<esi_val, val>, edi_val, eip_val>;
 
-        template <uint16_t val> using set_di = registers_state<eax_val, ebx_val, ecx_val, edx_val, esp_val, ebp_val, esp_val, set_simple_reg_low<edi_val, val>, eip_val>;
-        template <uint32_t val> using set_edi = registers_state<eax_val, ebx_val, ecx_val, edx_val, esp_val, ebp_val, esp_val, set_simple_reg<edi_val, val>, eip_val>;
+        template <uint16_t val> using set_di = registers_state<eax_val, ebx_val, ecx_val, edx_val, esp_val, ebp_val, esi_val, set_simple_reg_low<edi_val, val>, eip_val>;
+        template <uint32_t val> using set_edi = registers_state<eax_val, ebx_val, ecx_val, edx_val, esp_val, ebp_val, esi_val, set_simple_reg<edi_val, val>, eip_val>;
 
-        template <uint16_t val> using set_ip = registers_state<eax_val, ebx_val, ecx_val, edx_val, esp_val, ebp_val, esp_val, edi_val, set_simple_reg_low<eip_val, val>>;
-        template <uint32_t val> using set_eip = registers_state<eax_val, ebx_val, ecx_val, edx_val, esp_val, ebp_val, esp_val, edi_val, set_simple_reg<eip_val, val>>;
+        template <uint16_t val> using set_ip = registers_state<eax_val, ebx_val, ecx_val, edx_val, esp_val, ebp_val, esi_val, edi_val, set_simple_reg_low<eip_val, val>>;
+        template <uint32_t val> using set_eip = registers_state<eax_val, ebx_val, ecx_val, edx_val, esp_val, ebp_val, esi_val, edi_val, set_simple_reg<eip_val, val>>;
     };
 
     using startup_registers_state = registers_state<
@@ -356,5 +356,6 @@ namespace ctai
         static_assert(get_reg<startup_registers_state, regs::id_t::AL> == 0xdd, "");
         static_assert(get_reg<set_reg<startup_registers_state, regs::id_t::AL, 0xab>, regs::id_t::AL> == 0xab, "");
         static_assert(get_reg<set_reg<startup_registers_state, regs::id_t::EAX, 0xddccbbaa>, regs::id_t::AL> == 0xaa, "");
+        static_assert(get_reg<set_reg<startup_registers_state, regs::id_t::ESI, 0xddccbbaa>, regs::id_t::SI> == 0xbbaa, "");
     }
 }
