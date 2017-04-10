@@ -21,8 +21,7 @@ namespace ctai
             struct push_reg
             {
                 static constexpr auto next_esp = esp - sizeof(value);
-                using splitted_value = values::split_to_byte_values_container<value>;
-                using next_memory = values_container_n::set_from_container<memory_t, next_esp, splitted_value>;
+                using next_memory = memory::set_32<memory_t, next_esp, value>;
             };
 
             template <typename thread_t,
@@ -66,7 +65,7 @@ namespace ctai
                                                    typename thread_t::flags>;
 
 
-                using next_memory = typename push_esi_result::next_memory;
+                using next_memory = typename push_edi_result::next_memory;
             };
         }
 
