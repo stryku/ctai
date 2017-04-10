@@ -329,7 +329,7 @@ namespace ctai
             template <auto val0, auto val1, auto ...rest_of_values>
             struct bytes_to_value_2_impl<values_container<val0, val1, rest_of_values...>>
             {
-                static constexpr uint16_t result = (static_cast<uint16_t>(val0 && 0xff) << 8) | static_cast<uint16_t>(val1 && 0xff);
+                static constexpr uint16_t result = (static_cast<uint16_t>(val0 & 0xff) << 8) | static_cast<uint16_t>(val1 & 0xff);
             };
         }
 
@@ -347,10 +347,10 @@ namespace ctai
             template <auto val0, auto val1, auto val2, auto val3, auto ...rest_of_values>
             struct bytes_to_value_4_impl<values_container<val0, val1, val2, val3, rest_of_values...>>
             {
-                static constexpr uint32_t result = (static_cast<uint32_t>(val0 && 0xff) << 24) |
-                                                   (static_cast<uint32_t>(val1 && 0xff) << 16) |
-                                                   (static_cast<uint32_t>(val2 && 0xff) << 8) |
-                                                    static_cast<uint32_t>(val3 && 0xff);
+                static constexpr uint32_t result = (static_cast<uint32_t>(val0 & 0xff) << 24) |
+                                                   (static_cast<uint32_t>(val1 & 0xff) << 16) |
+                                                   (static_cast<uint32_t>(val2 & 0xff) << 8) |
+                                                    static_cast<uint32_t>(val3 & 0xff);
             };
         }
 
