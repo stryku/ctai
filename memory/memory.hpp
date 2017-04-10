@@ -53,7 +53,7 @@ namespace ctai
         }
 
         template <typename memory_t, size_t ptr>
-        constexpr auto get_16_impl = details::get_16_impl<memory_t, ptr>::result;
+        constexpr auto get_16 = details::get_16_impl<memory_t, ptr>::result;
 
         //
         //get_32
