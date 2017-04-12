@@ -71,5 +71,12 @@ namespace ctai
 
         template <size_t priority, size_t id, uint32_t eip, uint32_t esp>
         using create = typename details::create_impl<priority, id, eip, esp>::result;
+
+        template <typename thread_t, typename registers>
+        using set_registers = thread<thread_t::finished,
+                                     thread_t:: id,
+                                     thread_t:: priority,
+                                     registers,
+                                     typename thread_t::flags_t>;
     }
 }
