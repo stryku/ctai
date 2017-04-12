@@ -1,0 +1,1 @@
+int sys_create_thread(void* start_point, uint priority, void* arg = NULL);
