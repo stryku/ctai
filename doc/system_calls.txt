@@ -1,1 +1,2 @@
 int sys_create_thread(void* start_point, uint priority, void* arg = NULL);
+void sys_exit_thread();
