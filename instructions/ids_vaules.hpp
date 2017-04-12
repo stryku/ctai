@@ -46,7 +46,8 @@ namespace ctai
 
             MUL_REG_REG,
 
-            CALL_VAL
+            CALL_VAL,
+            RET
         };
 
         template <size_t id_v>

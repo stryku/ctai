@@ -22,6 +22,7 @@ namespace ctai
         using tok_jmp= decltype("jmp"_s);
         using tok_jge = decltype("jge"_s);
         using tok_call = decltype("call"_s);
+        using tok_ret = decltype("ret"_s);
 
         using tok_eax = decltype("eax"_s);
         using tok_ebx = decltype("ebx"_s);
@@ -65,6 +66,27 @@ namespace ctai
             tokens::tok_edi,
             tokens::tok_esi,
             tokens::tok_eip>;
+
+    //
+    //is_label_token
+    //
+    namespace details
+    {
+        template <typename token>
+        struct is_label_token_impl
+        {
+            static constexpr auto result = false;
+        };
+
+        template <char ...chars>
+        struct is_label_token_impl<ctai::string<'.', chars...>>
+        {
+            static constexpr auto result = false;
+        };
+    }
+
+    template <typename token>
+    constexpr auto is_label_token = details::is_label_token_impl<token>::result;
 
     namespace details
     {

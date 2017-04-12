@@ -1,2 +1,5 @@
 int sys_create_thread(void* start_point, uint priority, void* arg = NULL);
+    returns:
+    0 - ok
+    1 - no enough memory
 void sys_exit_thread();

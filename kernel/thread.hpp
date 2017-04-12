@@ -20,13 +20,17 @@ namespace ctai
                 "mov ecx , DWORD PTR [ esp + 8 ] "//priority
                 "mov edx , DWORD PTR [ esp + 8 ] "//arg
 
-                "sys_create_thread"
+                "sys_create_thread "
 
                 "pop edx "
                 "pop ecx "
                 "pop ebx "
 
-                "ret"_s);
+                "ret "_s);
+
+        using thread = ctai::declare_code<sys_exit_thread,
+                                          sys_create_thread>;
+
     }
 
 }

@@ -12,31 +12,36 @@ namespace ctai
     {
         namespace details
         {
-            template <typename metadata_t, size_t ptr, size_t size>
+            template <typename memory_t, size_t ptr, size_t size>
             struct reserve_block
             {
-                using result = metadata::reserve_block<metadata_t, ptr, size>;
+                using result_metadata = metadata::reserve_block<typename memory_t::metadata_t, ptr, size>;
+                using result_memory = ctai::memory::memory<memory_t::size,
+                                                           typename memory_t::memory_block_t,
+                                                           result_metadata>;
             };
 
-            template <typename metadata_t, size_t size>
-            struct reserve_block<metadata_t, utils::bad_value, size>
+            template <typename memory_t, size_t size>
+            struct reserve_block<memory_t, utils::bad_value, size>
             {
-                using result = metadata_t;
+                using result_memory = memory_t;
             };
 
-            template<typename metadata_t, size_t size>
+            template<typename memory_t, size_t size>
             struct alloc_impl
             {
-                static constexpr auto found_block_ptr = metadata::find_unused_block_of_size<metadata_t, size>;
+                static constexpr auto found_block_ptr = metadata::find_unused_block_of_size<typename memory_t::metadata_t, size>;
 
-                using result_metadata = typename reserve_block<metadata_t, found_block_ptr, size>::result;
+                using result_memory = typename reserve_block<memory_t,
+                                                             found_block_ptr,
+                                                             size>::result_memory;
 
                 static constexpr auto result_ptr = found_block_ptr != utils::bad_value ? found_block_ptr
                                                                                        : 0;
             };
         }
 
-        template <typename metadata_t, size_t size>
-        using alloc = details::alloc_impl<metadata_t, size>;
+        template <typename memory_t, size_t size>
+        using alloc = typename details::alloc_impl<memory_t, size>;
     }
 }
