@@ -76,6 +76,36 @@ namespace ctai
         constexpr auto get_32 = details::get_32_impl<memory_t, ptr>::result;
 
 
+        //
+        //get
+        //
+        namespace details
+        {
+            template <typename memory_t, typename get_type_size, size_t ptr>
+            struct get_impl;
+
+            template <typename memory_t, size_t ptr>
+            struct get_impl<memory_t, uint8_t, ptr>
+            {
+                static constexpr auto result = get_8<memory_t, ptr>;
+            };
+
+            template <typename memory_t, size_t ptr>
+            struct get_impl<memory_t, uint16_t, ptr>
+            {
+                static constexpr auto result = get_8<memory_t, ptr>;
+            };
+
+            template <typename memory_t, size_t ptr>
+            struct get_impl<memory_t, uint32_t, ptr>
+            {
+                static constexpr auto result = get_8<memory_t, ptr>;
+            };
+        }
+
+        template <typename memory_t, typename get_type_size, size_t ptr>
+        constexpr auto get = details::get_impl<memory_t, get_type_size, ptr>::result;
+
 
         namespace details
         {
