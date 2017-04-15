@@ -26,7 +26,7 @@ namespace ctai
             JGE,
 
             ADD_REG_REG,
-            ADD_REG_VAL,
+            ADD_REG_VAL = 10,
 
             SUB_REG_REG,
             CMP_REG_REG,
@@ -42,7 +42,7 @@ namespace ctai
             MOV_MEM_REG__mem_eq_reg_plus_const,
 
             MOV_REG_MEM__mem_eq_reg_minus_const,
-            MOV_REG_MEM__mem_eq_reg_plus_const,
+            MOV_REG_MEM__mem_eq_reg_plus_const = 20,
 
             MUL_REG_REG,
 
