@@ -30,10 +30,15 @@ namespace ctai
         struct operand_decoder_impl
         {
             static constexpr size_t value =
-                    std::conditional_t<
-                            is_reg_token<str>,
+                    std::conditional_t<is_reg_token<str>,
                                 reg_token_decoder<str>,
                                 const_val_token_decoder<str>>::value;
+        };
+
+        template <char ...rest_of_chars>
+        struct operand_decoder_impl<ctai::string<'.', rest_of_chars...>>
+        {
+            static constexpr size_t value = 0;
         };
     }
 
