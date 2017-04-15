@@ -1,6 +1,7 @@
 #pragma once
 
 #include "containers/values_container.hpp"
+#include "memory/memory_metadata.hpp"
 #include "values/values.hpp"
 
 #include <cstdint>
@@ -13,15 +14,15 @@ namespace ctai
         template <uint8_t ...values>
         using memory_block = values_container_n::values_container<values...>;
 
-        template <size_t size>
-        struct memory_metadata
-        {
-            using bytes_metadata = values_container_n::create<bool, size>;
-        };
+        //template <size_t size>
+      //  struct memory_metadata
+      //  {
+      //      using bytes_metadata = values_container_n::create<bool, size>;
+      //  };
 
         template <size_t size_v,
                   typename memory_block_type = values_container_n::create<uint8_t, size_v>,
-                  typename metadata_type = memory_metadata<size_v>>
+                  typename metadata_type = metadata::create<size_v>>
         struct memory
         {
             static constexpr auto size = size_v;
