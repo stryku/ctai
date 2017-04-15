@@ -3,6 +3,7 @@
 #include "utils/empty_type.hpp"
 #include "utils/bad_value.hpp"
 #include "utils/predicate.hpp"
+#include "utils/empty_type.hpp"
 
 namespace ctai
 {
@@ -40,6 +41,12 @@ namespace ctai
         {
             template<typename tuple_t>
             struct front_impl;
+
+            template <>
+            struct front_impl<tuple<>>
+            {
+                using result = utils::empty_type;
+            };
 
             template<typename front, typename ...types>
             struct front_impl<tuple_n::tuple<front, types...>>
@@ -197,6 +204,12 @@ namespace ctai
         {
             template <typename rest, size_t count, bool end>
             struct drop_front_impl;
+
+            template <size_t count>
+            struct drop_front_impl<tuple<>, count, false>
+            {
+                using result = tuple<>;
+            };
 
             template <typename ...rest_of_types>
             struct drop_front_impl<tuple<rest_of_types...>, 0, true>

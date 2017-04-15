@@ -74,9 +74,9 @@ namespace ctai
 
         template <typename thread_t, typename registers>
         using set_registers = thread<thread_t::finished,
-                                     thread_t:: id,
-                                     thread_t:: priority,
+                                     thread_t::id,
+                                     thread_t::priority,
                                      registers,
-                                     typename thread_t::flags_t>;
+                                     typename thread_t::flags>;
     }
 }

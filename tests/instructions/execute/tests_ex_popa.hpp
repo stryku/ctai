@@ -6,7 +6,7 @@
 #include "tokenize/tokens.hpp"
 #include "tuple.hpp"
 #include "tests/tests_macros.hpp"
-
+#include "machine/machine_state.hpp"
 
 namespace ctai::tests::ex_popa
 {
@@ -40,6 +40,11 @@ namespace ctai::tests::ex_popa
                                              test_registers,
                                              ctai::startup_flags_state>;
 
+    using test_machine_state = machine::state<test_memory,
+            vc<>,
+            ctai::tuple_n::tuple<>,
+            0>;
+
     namespace test_ex_pusha
     {
         using expected_registers = ctai::registers_state<0x01010101, //eax
@@ -53,7 +58,7 @@ namespace ctai::tests::ex_popa
                                                          1>;//eip
 
         using execute_result = ctai::execute2::ex_instruction<test_thread,
-                                                              test_memory,
+                test_machine_state,
                                                               ctai::inst::to_size<ctai::inst::id_t::POPA>>;
 
         using result_registers = typename execute_result::result_thread::registers;

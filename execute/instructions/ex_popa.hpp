@@ -63,17 +63,17 @@ namespace ctai
         }
 
 
-        template <typename thread_t, typename memory_t, size_t ...rest_of_opcodes>
+        template <typename thread_t, typename machine_state_t, size_t ...rest_of_opcodes>
         struct ex_instruction<thread_t,
-                              memory_t,
+                machine_state_t,
                               inst::to_size<inst::id_t::POPA>,
                               rest_of_opcodes...>
         {
             using popa_result = details::ex_popa_impl<thread_t,
-                                                      memory_t>;
+                                                      typename machine_state_t::memory>;
 
             using result_thread = typename popa_result::next_thread;
-            using result_memory = typename popa_result::next_memory;
+            using result_machine_state = machine::set_memory<machine_state_t, typename popa_result::next_memory>;
         };
     }
 }

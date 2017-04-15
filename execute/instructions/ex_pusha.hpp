@@ -70,17 +70,18 @@ namespace ctai
         }
 
 
-        template <typename thread_t, typename memory_t, size_t ...rest_of_opcodes>
+        template <typename thread_t, typename mechine_state_t, size_t ...rest_of_opcodes>
         struct ex_instruction<thread_t,
-                              memory_t,
+                mechine_state_t,
                               inst::to_size<inst::id_t::PUSHA>,
                               rest_of_opcodes...>
         {
             using pusha_result = details::ex_pusha_impl<thread_t,
-                                                        memory_t>;
+                    typename mechine_state_t::memory>;
+
+            using result_machine_state = machine::set_memory<mechine_state_t, typename pusha_result::next_memory>;
 
             using result_thread = typename pusha_result::next_thread;
-            using result_memory = typename pusha_result::next_memory;
         };
     }
 }

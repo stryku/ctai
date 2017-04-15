@@ -32,6 +32,10 @@ namespace ctai
         template <size_t size>
         using memory_create = memory<size>;
 
+        template <typename memory_t, typename memory_block>
+        using set_memory_block = memory<memory_t::size,
+                                        memory_block,
+                                        typename memory_t::metadata_t>;
 
         //
         //get_8

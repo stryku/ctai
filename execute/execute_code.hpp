@@ -15,7 +15,9 @@
 #include "thread/scheduler_round_robin.hpp"
 #include "execute/execute_thread.hpp"
 #include "machine/machine_state.hpp"
+#include "utils/empty_type.hpp"
 
+class empty_type;
 namespace ctai
 {
     namespace execute2
@@ -42,7 +44,7 @@ namespace ctai
                 using scheduler_result = thread::schedule::next<typename machine_state::threads>;
                 using thread_to_execute = typename scheduler_result::result_thread;
                 using thread_execution_result = execute2::execute_thread<thread_to_execute,
-                                                                         typename machine_state::memory,
+                                                                         machine_state,
                                                                          typename machine_state::opcodes>;
 
                 using next_threads_queue = std::conditional_t<thread_execution_result::result_thread::finished,
@@ -50,11 +52,15 @@ namespace ctai
                                                               queue::push<typename scheduler_result::result_threads_queue,
                                                                           typename thread_execution_result::result_thread>>;
 
+                using next_machine_state = machine::set_threads_and_time<typename thread_execution_result::result_machine_state,
+                        next_threads_queue,
+                        machine_state::time + thread_execution_result::executed_instructions_count>;
+                /*
                 using next_machine_state = machine::state<typename thread_execution_result::result_memory,
                                                           typename machine_state::opcodes,
                                                           next_threads_queue,
                                                           machine_state::time + thread_execution_result::executed_instructions_count>;
-
+*/
                 static constexpr auto ret_val = execute_impl<next_machine_state>::ret_val;
             };
         }
@@ -73,12 +79,14 @@ namespace ctai
 
                 static constexpr auto main_ip = labels_get_ip<labels_metadata, string<'.', 'm', 'a', 'i', 'n'>>;
 
+                static constexpr auto memory_size = static_cast<size_t>(22);
+
                 using root_thread = thread::create<100, //priority
                                                    0,   //id
                                                    main_ip,   //eip
-                                                   127>;  //esp
+                        memory_size - 1>;  //esp
 
-                using memory_t = memory::memory_create<128>;
+                using memory_t = memory::memory_create<memory_size>;
 
 
                 using machine_state = machine::state<memory_t,
