@@ -14,9 +14,9 @@ namespace ctai
     namespace execute2
     {
         //exit_thread
-        template <typename thread_t, typename memory_t, size_t ...rest_of_opcodes>
+        template <typename thread_t, typename machine_state_t, size_t ...rest_of_opcodes>
         struct ex_instruction<thread_t,
-                              memory_t,
+                machine_state_t,
                               inst::to_size<inst::id_t::SYS_EXIT_THREAD>,
                               rest_of_opcodes...>
         {
@@ -25,7 +25,7 @@ namespace ctai
                                                  thread_t::id,
                                                  typename thread_t::registers,
                                                  typename thread_t::flags>;
-            using result_memory = memory_t;
+            using result_machine_state = machine_state_t;
         };
     }
 }

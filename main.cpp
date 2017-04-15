@@ -7,14 +7,14 @@
 using main_code = decltype(
 ":main "
         //push parameters
-        "mov eax , 0 "
-        "push eax "
-        "mov eax , 20 "
-        "push eax "
-        "mov eax , .thread_code "
-        "push eax "
+        //"mov eax , 0 "
+        //"push eax "
+        //"mov eax , 20 "
+        //"push eax "
+        //"mov eax , .thread_code "
+        //"push eax "
 
-        "call .sys_create_thread "
+        //"call .sys_create_thread "
 
         "call .sys_exit_thread"_s);
 
@@ -22,8 +22,8 @@ using thread_code = decltype(
 ":thread_code "
         "call .sys_exit_thread "_s);
 
-using code = ctai::declare_code<ctai::include::thread,
-                                thread_code,
+using code = ctai::declare_code<ctai::include::sys_exit_thread ,
+                                //thread_code,
                                 main_code>;
 
 

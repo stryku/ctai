@@ -15,11 +15,11 @@ namespace ctai
     namespace execute2
     {
         template <typename thread_t,
-                  typename memory_t,
+                  typename machine_state_t,
                   size_t ip,
                   size_t ...rest_of_opcodes>
         struct ex_instruction<thread_t,
-                              memory_t,
+                machine_state_t,
                               inst::to_size<inst::id_t::CALL_VAL>,
                               ip,
                               rest_of_opcodes...>
@@ -39,7 +39,11 @@ namespace ctai
                                                  typename thread_t::flags>;
 
             using splitted_value = values::split_to_byte_values_container<current_eip>;
-            using result_memory = values_container_n::set_from_container<memory_t, next_esp, splitted_value>;
+            using result_memory = values_container_n::set_from_container<typename machine_state_t::memory::memory_block_t,
+                                                                         next_esp,
+                                                                         splitted_value>;
+
+            using result_machine_state = machine::set_memory_block<machine_state_t, result_memory>;
         };
     }
 }
