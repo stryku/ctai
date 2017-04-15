@@ -14,7 +14,8 @@ namespace ctai
             template <typename thread_t,
                       typename machine_state_t,
                       typename opcodes_t,
-                      size_t executed_instructions_count = 0>
+                      size_t executed_instructions_count = 0,
+                      bool reached_max_instruction_count = false>
             struct execute_thread_impl;
 
             template <size_t executed_instructions_count_v,
@@ -31,7 +32,8 @@ namespace ctai
                                                       flags_t>,
                     machine_state_t,
                                        opcodes_t,
-                                       executed_instructions_count_v>
+                                       executed_instructions_count_v,
+                                       true>
             {
                 using result_thread = thread::thread<finished,
                                                      id,
@@ -61,7 +63,8 @@ namespace ctai
                                                       flags_t>,
                     machine_state_t,
                                        opcodes_t,
-                                       executed_instructions_count_v>
+                                       executed_instructions_count_v,
+                                               false>
             {
                 using result_thread = thread::thread<true,
                                                      id,
@@ -91,7 +94,8 @@ namespace ctai
                                                       flags_t>,
                     machine_state_t,
                                        opcodes_t,
-                                       executed_instructions_count>
+                                       executed_instructions_count,
+                                               false>
             {
                 using current_thread_type = thread::thread<false,
                                                            id,
@@ -108,7 +112,8 @@ namespace ctai
                 using execution_result = typename execute_thread_impl<typename ex_instruction_result::result_thread,
                                                                       typename ex_instruction_result::result_machine_state,
                                                                       opcodes_t,
-                                                                      executed_instructions_count + 1>::execution_result;
+                                                                      executed_instructions_count + 1,
+                (priority - 1== executed_instructions_count)>::execution_result;
             };
         }
 

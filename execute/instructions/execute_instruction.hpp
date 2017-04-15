@@ -13,10 +13,13 @@ namespace ctai
 
 #include "execute/instructions/ex_push.hpp"
 #include "execute/instructions/ex_pusha.hpp"
+#include "execute/instructions/ex_pop.hpp"
+#include "execute/instructions/ex_ret.hpp"
 #include "execute/instructions/ex_call.hpp"
 #include "execute/instructions/ex_popa.hpp"
 #include "execute/instructions/ex_mov.hpp"
 #include "execute/instructions/sys/ex_sys_exit_thread.hpp"
+#include "execute/instructions/sys/ex_sys_create_thread.hpp"
 
 namespace ctai
 {

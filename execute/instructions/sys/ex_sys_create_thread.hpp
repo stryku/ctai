@@ -10,6 +10,7 @@
 #include "containers/queue.hpp"
 
 #include <cstddef>
+#include "machine/machine_state.hpp"
 
 namespace ctai
 {
@@ -58,10 +59,9 @@ namespace ctai
             template <typename thread_t, typename memory_t, typename threads_queue>
             struct ex_sys_create_thread_impl
             {
+                using alloc_result = memory::alloc<memory_t, new_stack_size>; //todo stack size
 
-                using alloc_result = memory::alloc<typename memory_t::metadata_t, new_stack_size>; //todo stack size
-
-                using result = std::conditional_t<alloc_result::result_ptr == 0,
+                using result = typename std::conditional_t<alloc_result::result_ptr == 0,
                                                   ex_sys_create_thread_impl_no_enough_memory<memory_t, threads_queue>,
                                                   ex_sys_create_thread_after_alloc<thread_t,
                                                                                    typename alloc_result::result_memory,
@@ -71,16 +71,15 @@ namespace ctai
         }
 
         //create_thread
-        template <typename thread_t, typename memory_t, typename threads_queue, size_t ...rest_of_opcodes>
+        template <typename thread_t, typename machine_state_t, size_t ...rest_of_opcodes>
         struct ex_instruction<thread_t,
-                              memory_t,
-                              threads_queue,
+                              machine_state_t,
                               inst::to_size<inst::id_t::SYS_CREATE_THREAD>,
                               rest_of_opcodes...>
         {
-            using create_result = details::ex_sys_create_thread_impl<thread_t,
-                                                                     memory_t,
-                                                                     threads_queue>::result;
+            using create_result = typename details::ex_sys_create_thread_impl<thread_t,
+                    typename machine_state_t::memory,
+                    typename machine_state_t::threads>::result;
 
             using registers_after_ret_val_set = set_reg<typename thread_t::registers,
                                                         regs::id_t::EAX,
@@ -89,8 +88,10 @@ namespace ctai
             using final_registers = adjust_eip<registers_after_ret_val_set, inst::id_t::SYS_CREATE_THREAD>;
 
             using result_thread = thread::set_registers<thread_t, final_registers>;
-            using result_threads_queue = create_result::result_threads_queue;
-            using result_memory = create_result::result_memory;
+            using result_machine_state = machine::state<typename create_result::result_memory,
+                                                        typename machine_state_t::opcodes,
+                    typename create_result::result_threads_queue,
+                                                        machine_state_t::time>;
         };
     }
 }
