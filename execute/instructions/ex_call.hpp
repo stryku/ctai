@@ -24,9 +24,11 @@ namespace ctai
                               ip,
                               rest_of_opcodes...>
         {
-            static constexpr auto current_eip = get_reg<typename thread_t::registers, regs::id_t::EIP>;
             static constexpr auto current_esp = get_reg<typename thread_t::registers, regs::id_t::ESP>;
-            static constexpr auto next_esp = current_esp - sizeof(current_eip);
+            static constexpr auto next_esp = current_esp - 4;
+
+            using registers_after_eip = adjust_eip<typename thread_t::registers, inst::id_t::CALL_VAL>;
+            static constexpr auto eip_after_ret = get_reg<registers_after_eip, regs::id_t::EIP>;
 
             using next_registers = set_reg<typename thread_t::registers, regs::id_t::ESP, next_esp>;
 
@@ -38,10 +40,13 @@ namespace ctai
                                                  final_registers,
                                                  typename thread_t::flags>;
 
-            using splitted_value = values::split_to_byte_values_container<current_eip>;
+            using splitted_value = values::split_to_byte_values_container<eip_after_ret>;
             using result_memory = values_container_n::set_from_container<typename machine_state_t::memory::memory_block_t,
                                                                          next_esp,
                                                                          splitted_value>;
+
+        //using noelelw = typename machine_state_t::memory::memory_block_t::ddd;
+        //using noelel = typename result_memory::asd;
 
             using result_machine_state = machine::set_memory_block<machine_state_t, result_memory>;
         };
