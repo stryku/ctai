@@ -12,21 +12,24 @@ namespace ctai
 
         using sys_create_thread = decltype(
         ":sys_create_thread "
+                "push ebp "
+                "mov ebp , esp "
                 "push ebx "
                 "push ecx "
                 "push edx "
                 "mov eax , 'C' "
                 "call .sys_write "
 
-                "mov ebx , DWORD PTR [ esp + 12 ] "//void* start_point\n
-                "mov ecx , DWORD PTR [ esp + 8 ] "//priority
-                "mov edx , DWORD PTR [ esp + 4 ] "//arg
+                "mov ebx , DWORD PTR [ ebp + 16 ] "//void* start_point\n
+                "mov ecx , DWORD PTR [ ebp + 12 ] "//priority
+                "mov edx , DWORD PTR [ ebp + 8 ] "//arg
 
                 "sys_create_thread "
 
                 "pop edx "
                 "pop ecx "
                 "pop ebx "
+                "pop ebp "
 
                 "ret "_s);
 
@@ -43,6 +46,8 @@ namespace ctai
                 "push eax "
 
                 ":_jt_check_loop " //wait while thread is running
+                    "mov eax , 'J' "
+                    "call .sys_write "
                     "call .sys_is_thread_running "
                     "cmp eax , 0 "
                     "jne ._jt_check_loop "

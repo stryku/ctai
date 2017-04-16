@@ -22,6 +22,12 @@ using main_code = decltype(
         "push eax "
 
         "call .sys_create_thread "
+        "add esp , 12 "
+
+        "push eax "
+        "call .join_thread "
+        "add esp , 4 "
+
 
         "mov eax , 'A' "
         "call .sys_write "
@@ -62,7 +68,7 @@ using code2 = ctai::declare_code<ctai::include::thread ,
 
 
 
-using execution_result = ctai::execute2::execute_code<code2>;
+using execution_result = ctai::execute2::execute_code<code>;
 
 int main()
 {

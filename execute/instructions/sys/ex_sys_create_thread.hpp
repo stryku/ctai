@@ -29,10 +29,7 @@ namespace ctai
             };
 
             template <typename memory_t, typename threads_queue>
-            using ex_sys_create_thread_result_ok = ex_sys_create_thread_result<memory_t, threads_queue, 0>;
-
-            template <typename memory_t, typename threads_queue>
-            using ex_sys_create_thread_impl_no_enough_memory = ex_sys_create_thread_result<memory_t, threads_queue, 1>;
+            using ex_sys_create_thread_impl_no_enough_memory = ex_sys_create_thread_result<memory_t, threads_queue, 0>;
 
             template <typename thread_t, typename memory_t, typename threads_queue, size_t allocated_stack_ptr,  size_t id>
             struct ex_sys_create_thread_after_alloc
@@ -53,7 +50,7 @@ namespace ctai
                 using new_threads_queue = queue::push<threads_queue, new_thread>;
                 using memory_after_args_set = memory::set_32<memory_t, new_thread_stack_start, args>;
 
-                using result = ex_sys_create_thread_result_ok<memory_after_args_set, threads_queue>;
+                using result = ex_sys_create_thread_result<memory_after_args_set, threads_queue, id>;
             };
 
             template <typename thread_t, typename memory_t, typename threads_queue, size_t id>
@@ -78,6 +75,9 @@ namespace ctai
                               inst::to_size<inst::id_t::SYS_CREATE_THREAD>,
                               rest_of_opcodes...>
         {
+            using asd = typename thread_t::Asd;
+
+
             using create_result = typename details::ex_sys_create_thread_impl<thread_t,
                     typename machine_state_t::memory,
                     typename machine_state_t::threads,

@@ -1,7 +1,7 @@
 int sys_create_thread(void* start_point, uint priority, void* arg = NULL);
     returns:
-    0 - ok
-    1 - no enough memory
+    0 - no enough memory
+    non 0 - ok, returned value is new thread id
 
 NO_RETURN sys_exit_thread();
 
