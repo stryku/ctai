@@ -51,7 +51,7 @@ using test_proc = decltype(
 using main2 = decltype(
 ":main "
         //push parameters
-        "mov eax , 97 "
+        "mov eax , 'A' "
         "call .sys_write "
         "call .sys_exit_thread"_s);
 
@@ -61,7 +61,7 @@ using code2 = ctai::declare_code<ctai::include::thread ,
 
 
 
-using execution_result = ctai::execute2::execute_code<code>;
+using execution_result = ctai::execute2::execute_code<code2>;
 
 int main()
 {
