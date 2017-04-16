@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <iterator>
+#include "kernel/io.hpp"
 
 using main_code = decltype(
 ":main "
@@ -43,21 +44,19 @@ using code = ctai::declare_code<ctai::include::thread ,
                                 thread_code,
                                 main_code>;
 
+using test_proc = decltype(
+":test_proc "
+        "ret "_s);
+
 using main2 = decltype(
 ":main "
         //push parameters
-        "mov eax , 0 "
-        "mov eax , 0 "
-        "mov eax , 0 "
-        "mov eax , 0 "
-        "mov eax , 0 "
-        "mov eax , 0 "
-        "mov eax , 0 "
-        "mov eax , 0 "
-        "mov eax , 0 "
+        "mov eax , 97 "
+        "call .sys_write "
         "call .sys_exit_thread"_s);
 
 using code2 = ctai::declare_code<ctai::include::thread ,
+        ctai::include::sys_write,
         main2>;
 
 
