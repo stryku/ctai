@@ -30,6 +30,13 @@ namespace ctai
             using rest_of_string = string<str_chars...>;
         };
 
+        template <char ...str_chars, typename current_token>
+        struct get_token_impl<string<'\'', ' ', '\'', ' ', str_chars...>, current_token>
+        {
+            using result_token = string<'\'', ' ', '\''>;
+            using rest_of_string = string<str_chars...>;
+        };
+
         template <char curr_char, char ...str_chars, typename current_token>
         struct get_token_impl<string<curr_char, str_chars...>, current_token>
         {
