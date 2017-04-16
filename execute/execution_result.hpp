@@ -10,7 +10,7 @@ namespace ctai
         struct execution_result
         {
             using output = output_t;
-            size_t ret_val = ret_val_v;
+            static constexpr auto ret_val = ret_val_v;
         };
     }
 }

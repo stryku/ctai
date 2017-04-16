@@ -17,6 +17,7 @@
 #include "machine/machine_state.hpp"
 #include "utils/empty_type.hpp"
 #include "io/output.hpp"
+#include "execute/execution_result.hpp"
 
 class empty_type;
 namespace ctai
@@ -38,7 +39,10 @@ namespace ctai
                     output_t,
                                                time_v>>
             {
+                using output = output_t;
                 static constexpr auto ret_val = time_v;
+
+                using result = execute_impl;
             };
 
             template <typename machine_state>
@@ -64,7 +68,8 @@ namespace ctai
                                                           next_threads_queue,
                                                           machine_state::time + thread_execution_result::executed_instructions_count>;
 */
-                static constexpr auto ret_val = execute_impl<next_machine_state>::ret_val;
+                //static constexpr auto ret_val = execute_impl<next_machine_state>::ret_val;
+                using result = typename execute_impl<next_machine_state>::result;
             };
         }
 
@@ -84,7 +89,7 @@ namespace ctai
 
                 static constexpr auto memory_size = static_cast<size_t>(222);
 
-                using root_thread = thread::create<3, //priority
+                using root_thread = thread::create<5, //priority
                                                    0,   //id
                                                    main_ip,   //eip
                         memory_size - 1>;  //esp
@@ -98,11 +103,14 @@ namespace ctai
                         io::output::buffer<>,
                                                      0>; //time
 
-                static constexpr auto ret_val = execute_impl<machine_state>::ret_val;
+                using execute_result = typename execute_impl<machine_state>::result;
+
+                using result = execution_result<typename execute_result::output,
+                        execute_result::ret_val>;
             };
         }
 
         template <typename code>
-        constexpr auto execute_code = details::prepare_and_execute<code>::ret_val;
+        using execute_code = typename details::prepare_and_execute<code>::result;
     }
 }

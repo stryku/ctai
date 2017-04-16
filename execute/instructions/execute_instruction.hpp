@@ -20,6 +20,7 @@ namespace ctai
 #include "execute/instructions/ex_mov.hpp"
 #include "execute/instructions/sys/ex_sys_exit_thread.hpp"
 #include "execute/instructions/sys/ex_sys_create_thread.hpp"
+#include "execute/instructions/sys/ex_sys_write.hpp"
 
 namespace ctai
 {
