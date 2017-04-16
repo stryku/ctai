@@ -89,9 +89,10 @@ namespace ctai
 
             using result_thread = thread::set_registers<thread_t, final_registers>;
             using result_machine_state = machine::state<typename create_result::result_memory,
-                                                        typename machine_state_t::opcodes,
+                    typename machine_state_t::opcodes,
                     typename create_result::result_threads_queue,
-                                                        machine_state_t::time>;
+                    typename machine_state_t::output,
+                    machine_state_t::time>;
         };
     }
 }
