@@ -48,7 +48,6 @@ namespace ctai
             static constexpr auto mem_val = memory::get<typename machine_state_t::memory,
                                                         memory::to_mem_type<memory::to_id<mem_size>>,
                                                         mem_ptr>;
-            //static constexpr auto mem_val = stack_get<memory::to_mem_type<memory::to_id<mem_size>>, mem_ptr, typename state::stack_t>;
 
 
     using registers_after_mov = set_reg<typename thread_t::registers,
@@ -59,10 +58,6 @@ namespace ctai
 
             using result_thread = thread::set_registers<thread_t, final_registers>;
             using result_machine_state = machine_state_t;
-
-
-    //using asd = typename thread_t::it;
-    //using asds = typename result_thread::rt;
         };
     }
 }

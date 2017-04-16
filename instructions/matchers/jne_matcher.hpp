@@ -38,13 +38,4 @@ namespace ctai
 
     template <typename tokens>
     using instruction_match = typename details::matcher_impl<tokens>;
-
-    namespace tests
-    {
-        static_assert(std::is_same<instruction_match<tuple<tokens::tok_jge, decltype("22"_s), string<>, string<>>>::instruction,
-                values_container_n::values_container<
-                        inst::to_size<inst::id_t::JGE>,
-                        static_cast<size_t>(22)
-                >>::value, "");
-    }
 }
