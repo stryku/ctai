@@ -45,7 +45,6 @@ using test_proc = decltype(
 
 using main2 = decltype(
 ":main "
-        //push parameters
         "mov eax , 'H' "
         "call .sys_write "
         "call .sys_exit_thread"_s);
