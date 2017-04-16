@@ -1,0 +1,2 @@
+thread
+    void join_thread(int thread_id)
