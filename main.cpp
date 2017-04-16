@@ -53,6 +53,12 @@ using main2 = decltype(
         //push parameters
         "mov eax , 'A' "
         "call .sys_write "
+        "call .sys_write "
+        "mov eax , ' ' "
+        "call .sys_write "
+        "mov eax , 'c' "
+        "call .sys_write "
+        "call .sys_write "
         "call .sys_exit_thread"_s);
 
 using code2 = ctai::declare_code<ctai::include::thread ,
