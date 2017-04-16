@@ -55,7 +55,8 @@ namespace ctai
                       typename registers_t,
                       typename flags_t,
                       typename machine_state_t,
-                      typename opcodes_t>
+                      typename opcodes_t,
+            bool reached_end>
             struct execute_thread_impl<thread::thread<true, // thread already finished
                                                       id,
                                                       priority,
@@ -64,7 +65,7 @@ namespace ctai
                     machine_state_t,
                                        opcodes_t,
                                        executed_instructions_count_v,
-                                               false>
+                    reached_end>
             {
                 using result_thread = thread::thread<true,
                                                      id,

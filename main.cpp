@@ -18,6 +18,20 @@ using main_code = decltype(
         "push eax "
 
         "call .sys_create_thread "
+        "mov eax , 0 "
+        "mov eax , 0 "
+        "mov eax , 0 "
+        "mov eax , 0 "
+        "mov eax , 0 "
+        "mov eax , 0 "
+        "mov eax , 0 "
+        "mov eax , 0 "
+        "mov eax , 0 "
+        "mov eax , 0 "
+        "mov eax , 0 "
+        "mov eax , 0 "
+        "mov eax , 0 "
+        "mov eax , 0 "
 
         "call .sys_exit_thread"_s);
 
@@ -29,10 +43,34 @@ using code = ctai::declare_code<ctai::include::thread ,
                                 thread_code,
                                 main_code>;
 
+using main2 = decltype(
+":main "
+        //push parameters
+        "mov eax , 0 "
+        "mov eax , 0 "
+        "mov eax , 0 "
+        "mov eax , 0 "
+        "mov eax , 0 "
+        "mov eax , 0 "
+        "mov eax , 0 "
+        "mov eax , 0 "
+        "mov eax , 0 "
+        "call .sys_exit_thread"_s);
+
+using code2 = ctai::declare_code<ctai::include::thread ,
+        main2>;
+
+
+
+using execution_result = ctai::execute2::execute_code<code>;
 
 int main()
 {
-    const auto output = ctai::runtime::io::make_runtime_output<ctai::io::output::buffer<'a', 'b', 'c'>>();
+    const auto output = ctai::runtime::io::make_runtime_output<execution_result::output>();
+
+    std::cout << "Return value: " << execution_result::ret_val << "\n";
+
+    std::cout << "execution output: \n";
 
     for(auto c : output)
         std::cout<<c;

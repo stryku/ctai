@@ -41,6 +41,7 @@ namespace ctai
 #include "ret_matcher.hpp"
 #include "sys_exit_thread_matcher.hpp"
 #include "sys_create_thread_matcher.hpp"
+#include "sys_write_matcher.hpp"
 
 namespace ctai
 {
