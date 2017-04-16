@@ -52,25 +52,22 @@ namespace ctai
             {
                 using scheduler_result = thread::schedule::next<typename machine_state::threads>;
                 using thread_to_execute = typename scheduler_result::result_thread;
+                using machine_state_to_execute = machine::set_threads<machine_state, typename scheduler_result::result_threads_queue>;
                 using thread_execution_result = execute2::execute_thread<thread_to_execute,
-                                                                         machine_state,
+                                                                         machine_state_to_execute,
                                                                          typename machine_state::opcodes>;
 
+                using threads_queue_after_execution = typename thread_execution_result::result_machine_state::threads;
+
                 using next_threads_queue = std::conditional_t<thread_execution_result::result_thread::finished,
-                                                              typename scheduler_result::result_threads_queue,
-                                                              queue::push<typename scheduler_result::result_threads_queue,
+                                                              threads_queue_after_execution,
+                                                              queue::push<threads_queue_after_execution,
                                                                           typename thread_execution_result::result_thread>>;
 
                 using next_machine_state = machine::set_threads_and_time<typename thread_execution_result::result_machine_state,
                         next_threads_queue,
                         machine_state::time + thread_execution_result::executed_instructions_count>;
-                /*
-                using next_machine_state = machine::state<typename thread_execution_result::result_memory,
-                                                          typename machine_state::opcodes,
-                                                          next_threads_queue,
-                                                          machine_state::time + thread_execution_result::executed_instructions_count>;
-*/
-                //static constexpr auto ret_val = execute_impl<next_machine_state>::ret_val;
+
                 using result = typename execute_impl<next_machine_state>::result;
             };
         }
@@ -91,7 +88,7 @@ namespace ctai
 
                 static constexpr auto memory_size = static_cast<size_t>(100);
 
-                using root_thread = thread::create<2, //priority
+                using root_thread = thread::create<20, //priority
                                                    0,   //id
                                                    main_ip,   //eip
                         memory_size>;  //esp

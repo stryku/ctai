@@ -94,13 +94,13 @@ namespace ctai
             template <typename memory_t, size_t ptr>
             struct get_impl<memory_t, uint16_t, ptr>
             {
-                static constexpr auto result = get_8<memory_t, ptr>;
+                static constexpr auto result = get_16<memory_t, ptr>;
             };
 
             template <typename memory_t, size_t ptr>
             struct get_impl<memory_t, uint32_t, ptr>
             {
-                static constexpr auto result = get_8<memory_t, ptr>;
+                static constexpr auto result = get_32<memory_t, ptr>;
             };
         }
 

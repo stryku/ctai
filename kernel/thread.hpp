@@ -17,12 +17,13 @@ namespace ctai
                 "push ebx "
                 "push ecx "
                 "push edx "
+
                 "mov eax , 'C' "
                 "call .sys_write "
 
-                "mov ebx , DWORD PTR [ ebp + 16 ] "//void* start_point\n
+                "mov ebx , DWORD PTR [ ebp + 8 ] "//void* start_point\n
                 "mov ecx , DWORD PTR [ ebp + 12 ] "//priority
-                "mov edx , DWORD PTR [ ebp + 8 ] "//arg
+                "mov edx , DWORD PTR [ ebp + 16 ] "//arg
 
                 "sys_create_thread "
 
@@ -46,10 +47,12 @@ namespace ctai
                 "push eax "
 
                 ":_jt_check_loop " //wait while thread is running
-                    "mov eax , 'J' "
+                    //"mov eax , 'J' "
+                    "add eax , 48 "
                     "call .sys_write "
+
                     "call .sys_is_thread_running "
-                    "cmp eax , 0 "
+                    "cmp eax , 1 "
                     "jne ._jt_check_loop "
 
                 "add esp , 4 " //cleanup stack

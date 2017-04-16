@@ -42,7 +42,6 @@ namespace ctai
                                                 static_cast<uint32_t>(is_running)>;
 
             using final_registers = adjust_eip<retisters_after_eax, inst::id_t::SYS_IS_THREAD_RUNNING>;
-        using a = typename machine_state_t::threads::As;
 
             using result_thread = thread::set_registers<thread_t, final_registers>;
             using result_machine_state = machine_state_t;

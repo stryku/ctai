@@ -59,5 +59,13 @@ namespace ctai
                 output_t,
                 state_t::time,
                 state_t::last_thread_id>;
+
+        template <typename state_t, typename threads>
+        using set_threads = state<typename state_t::memory,
+                typename state_t::opcodes,
+                threads,
+                typename state_t::output,
+                state_t::time,
+                state_t::last_thread_id>;
     }
 }
