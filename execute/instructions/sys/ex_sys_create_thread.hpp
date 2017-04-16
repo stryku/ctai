@@ -34,7 +34,7 @@ namespace ctai
             template <typename memory_t, typename threads_queue>
             using ex_sys_create_thread_impl_no_enough_memory = ex_sys_create_thread_result<memory_t, threads_queue, 1>;
 
-            template <typename thread_t, typename memory_t, typename threads_queue, size_t allocated_stack_ptr>
+            template <typename thread_t, typename memory_t, typename threads_queue, size_t allocated_stack_ptr,  size_t id>
             struct ex_sys_create_thread_after_alloc
             {
                 using registers = typename thread_t::registers;
@@ -46,7 +46,7 @@ namespace ctai
                 static constexpr auto new_thread_stack_start = allocated_stack_ptr + new_stack_size - 4; //-4 because there will be pointer to args
 
                 using new_thread = thread::create<priority,
-                                                  22,
+                                                  id,
                                                   starting_point, //eip
                                                   new_thread_stack_start>; //esp
 
@@ -56,7 +56,7 @@ namespace ctai
                 using result = ex_sys_create_thread_result_ok<memory_after_args_set, threads_queue>;
             };
 
-            template <typename thread_t, typename memory_t, typename threads_queue>
+            template <typename thread_t, typename memory_t, typename threads_queue, size_t id>
             struct ex_sys_create_thread_impl
             {
                 using alloc_result = memory::alloc<memory_t, new_stack_size>; //todo stack size
@@ -66,7 +66,8 @@ namespace ctai
                                                   ex_sys_create_thread_after_alloc<thread_t,
                                                                                    typename alloc_result::result_memory,
                                                                                    threads_queue,
-                                                                                   alloc_result::result_ptr>>::result;
+                                                                                   alloc_result::result_ptr,
+                                                                                   id>>::result;
             };
         }
 
@@ -79,7 +80,10 @@ namespace ctai
         {
             using create_result = typename details::ex_sys_create_thread_impl<thread_t,
                     typename machine_state_t::memory,
-                    typename machine_state_t::threads>::result;
+                    typename machine_state_t::threads,
+                    machine_state_t::last_thread_id + 1>::result;
+
+
 
             using registers_after_ret_val_set = set_reg<typename thread_t::registers,
                                                         regs::id_t::EAX,
@@ -92,7 +96,8 @@ namespace ctai
                     typename machine_state_t::opcodes,
                     typename create_result::result_threads_queue,
                     typename machine_state_t::output,
-                    machine_state_t::time>;
+                    machine_state_t::time,
+                    machine_state_t::last_thread_id + 1>;
 
 //  //          using asd = typename thread_t::it;
  //           using asdw = typename result_thread::rt;

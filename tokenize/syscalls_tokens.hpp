@@ -11,5 +11,6 @@ namespace ctai
         using tok_sys_exit_thread = decltype("sys_exit_thread"_s);
         using tok_sys_create_thread = decltype("sys_create_thread"_s);
         using tok_sys_write = decltype("sys_write"_s);
+        using tok_sys_is_thread_running = decltype("sys_is_thread_running"_s);
     }
 }
