@@ -32,12 +32,14 @@ namespace ctai
             template <typename memory_t,
                     typename opcodes_t,
                     typename output_t,
-                      size_t time_v>
+                      size_t time_v,
+                              size_t last_thread_id>
             struct execute_impl<machine::state<memory_t,
                                                opcodes_t,
                                                tuple_n::tuple<>,
                     output_t,
-                                               time_v>>
+                                               time_v,
+                    last_thread_id>>
             {
                 using output = output_t;
                 static constexpr auto ret_val = time_v;
@@ -101,7 +103,8 @@ namespace ctai
                                                      opcodes,
                                                      tuple_n::tuple<root_thread>,
                         io::output::buffer<>,
-                                                     0>; //time
+                                                     0,
+                                                             0>; //time
 
                 using execute_result = typename execute_impl<machine_state>::result;
 
