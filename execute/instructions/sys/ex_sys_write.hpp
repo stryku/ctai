@@ -30,6 +30,11 @@ namespace ctai
                     character>;
 
             using result_machine_state = machine::set_output<machine_state_t, next_output>;
+
+            //using aaa = typename machine_state_t::aaa;
+            //using aada = typename result_machine_state::bbb;
+            //using asd = typename thread_t::it;
+            //using asds = typename result_thread::rt;
         };
     }
 }

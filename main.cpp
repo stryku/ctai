@@ -11,6 +11,9 @@
 using main_code = decltype(
 ":main "
         //push parameters
+        "mov eax , 'M' "
+        "call .sys_write "
+
         "mov eax , 0 "
         "push eax "
         "mov eax , 19 "
@@ -19,28 +22,20 @@ using main_code = decltype(
         "push eax "
 
         "call .sys_create_thread "
-        "mov eax , 0 "
-        "mov eax , 0 "
-        "mov eax , 0 "
-        "mov eax , 0 "
-        "mov eax , 0 "
-        "mov eax , 0 "
-        "mov eax , 0 "
-        "mov eax , 0 "
-        "mov eax , 0 "
-        "mov eax , 0 "
-        "mov eax , 0 "
-        "mov eax , 0 "
-        "mov eax , 0 "
-        "mov eax , 0 "
+
+        "mov eax , 'A' "
+        "call .sys_write "
 
         "call .sys_exit_thread"_s);
 
 using thread_code = decltype(
 ":thread_code "
+        "mov eax , 'T' "
+        "call .sys_write "
         "call .sys_exit_thread "_s);
 
 using code = ctai::declare_code<ctai::include::thread ,
+        ctai::include::sys_write,
                                 thread_code,
                                 main_code>;
 
@@ -51,13 +46,7 @@ using test_proc = decltype(
 using main2 = decltype(
 ":main "
         //push parameters
-        "mov eax , 'A' "
-        "call .sys_write "
-        "call .sys_write "
-        "mov eax , ' ' "
-        "call .sys_write "
-        "mov eax , 'c' "
-        "call .sys_write "
+        "mov eax , 'H' "
         "call .sys_write "
         "call .sys_exit_thread"_s);
 
@@ -67,7 +56,7 @@ using code2 = ctai::declare_code<ctai::include::thread ,
 
 
 
-using execution_result = ctai::execute2::execute_code<code2>;
+using execution_result = ctai::execute2::execute_code<code>;
 
 int main()
 {

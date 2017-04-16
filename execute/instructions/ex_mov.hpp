@@ -59,6 +59,10 @@ namespace ctai
 
             using result_thread = thread::set_registers<thread_t, final_registers>;
             using result_machine_state = machine_state_t;
+
+
+    //using asd = typename thread_t::it;
+    //using asds = typename result_thread::rt;
         };
     }
 }
