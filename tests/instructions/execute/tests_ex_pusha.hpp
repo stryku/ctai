@@ -36,6 +36,7 @@ namespace ctai::tests::ex_pusha
     using test_machine_state = machine::state<test_memory,
             vc<>,
             ctai::tuple_n::tuple<>,
+            ctai::io::output::buffer<>,
             0>;
 
 

@@ -16,6 +16,7 @@
 #include "execute/execute_thread.hpp"
 #include "machine/machine_state.hpp"
 #include "utils/empty_type.hpp"
+#include "io/output.hpp"
 
 class empty_type;
 namespace ctai
@@ -28,11 +29,13 @@ namespace ctai
             struct execute_impl;
 
             template <typename memory_t,
-                      typename opcodes_t,
+                    typename opcodes_t,
+                    typename output_t,
                       size_t time_v>
             struct execute_impl<machine::state<memory_t,
                                                opcodes_t,
                                                tuple_n::tuple<>,
+                    output_t,
                                                time_v>>
             {
                 static constexpr auto ret_val = time_v;
@@ -92,6 +95,7 @@ namespace ctai
                 using machine_state = machine::state<memory_t,
                                                      opcodes,
                                                      tuple_n::tuple<root_thread>,
+                        io::output::buffer<>,
                                                      0>; //time
 
                 static constexpr auto ret_val = execute_impl<machine_state>::ret_val;
