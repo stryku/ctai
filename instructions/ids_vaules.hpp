@@ -49,7 +49,8 @@ namespace ctai
             CALL_VAL,
             RET,
             SYS_WRITE,
-            SYS_IS_THREAD_RUNNING
+            SYS_IS_THREAD_RUNNING,
+            JNE
 
         };
 

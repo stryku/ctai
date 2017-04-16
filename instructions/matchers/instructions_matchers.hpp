@@ -36,6 +36,7 @@ namespace ctai
 #include "add_matcher.hpp"
 #include "jmp_matcher.hpp"
 #include "jge_matcher.hpp"
+#include "jne_matcher.hpp"
 #include "cmp_matcher.hpp"
 #include "call_matcher.hpp"
 #include "ret_matcher.hpp"

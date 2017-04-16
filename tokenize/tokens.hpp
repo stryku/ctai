@@ -21,6 +21,7 @@ namespace ctai
         using tok_cmp = decltype("cmp"_s);
         using tok_jmp= decltype("jmp"_s);
         using tok_jge = decltype("jge"_s);
+        using tok_jne = decltype("jne"_s);
         using tok_call = decltype("call"_s);
         using tok_ret = decltype("ret"_s);
 
