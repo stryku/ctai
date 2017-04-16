@@ -50,7 +50,7 @@ namespace ctai
                 using new_threads_queue = queue::push<threads_queue, new_thread>;
                 using memory_after_args_set = memory::set_32<memory_t, new_thread_stack_start, args>;
 
-                using result = ex_sys_create_thread_result<memory_after_args_set, threads_queue, id>;
+                using result = ex_sys_create_thread_result<memory_after_args_set, new_threads_queue, id>;
             };
 
             template <typename thread_t, typename memory_t, typename threads_queue, size_t id>
@@ -75,9 +75,6 @@ namespace ctai
                               inst::to_size<inst::id_t::SYS_CREATE_THREAD>,
                               rest_of_opcodes...>
         {
-            using asd = typename thread_t::Asd;
-
-
             using create_result = typename details::ex_sys_create_thread_impl<thread_t,
                     typename machine_state_t::memory,
                     typename machine_state_t::threads,
@@ -98,6 +95,7 @@ namespace ctai
                     typename machine_state_t::output,
                     machine_state_t::time,
                     machine_state_t::last_thread_id + 1>;
+
 
 //  //          using asd = typename thread_t::it;
  //           using asdw = typename result_thread::rt;

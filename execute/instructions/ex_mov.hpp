@@ -59,5 +59,25 @@ namespace ctai
             using result_thread = thread::set_registers<thread_t, final_registers>;
             using result_machine_state = machine_state_t;
         };
+
+        //mov reg, reg
+        template <typename thread_t, typename machine_state_t, size_t reg1, size_t reg2, size_t ...rest_of_opcodes>
+        struct ex_instruction<thread_t,
+                machine_state_t,
+                inst::to_size<inst::id_t::MOV_REG_REG>,
+                reg1,
+                reg2,
+                rest_of_opcodes...>
+        {
+            static constexpr auto reg2_val = get_reg<typename thread_t::registers, regs::to_id<reg2>>;
+            using registers_after_mov = set_reg<typename thread_t::registers,
+                    regs::to_id<reg1>,
+                    reg2_val>;
+
+            using final_registers = adjust_eip<registers_after_mov, inst::id_t::MOV_REG_REG>;
+
+            using result_thread = thread::set_registers<thread_t, final_registers>;
+            using result_machine_state = machine_state_t;
+        };
     }
 }
