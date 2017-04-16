@@ -1,8 +1,11 @@
 #include "execute/execute_code.hpp"
 #include "declare_code.hpp"
 #include "kernel/thread.hpp"
+#include "runtime/io.hpp"
+
 
 #include <iostream>
+#include <iterator>
 
 using main_code = decltype(
 ":main "
@@ -29,7 +32,11 @@ using code = ctai::declare_code<ctai::include::thread ,
 
 int main()
 {
-    std::cout << ctai::execute2::execute_code<code>;
+    const auto output = ctai::runtime::io::make_runtime_output<ctai::io::output::buffer<'a', 'b', 'c'>>();
+
+    for(auto c : output)
+        std::cout<<c;
+
     return 0;
 }
 
