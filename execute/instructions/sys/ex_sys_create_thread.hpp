@@ -93,6 +93,9 @@ namespace ctai
                     typename create_result::result_threads_queue,
                     typename machine_state_t::output,
                     machine_state_t::time>;
+
+//  //          using asd = typename thread_t::it;
+ //           using asdw = typename result_thread::rt;
         };
     }
 }

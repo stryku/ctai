@@ -87,12 +87,12 @@ namespace ctai
 
                 static constexpr auto main_ip = labels_get_ip<labels_metadata, string<'.', 'm', 'a', 'i', 'n'>>;
 
-                static constexpr auto memory_size = static_cast<size_t>(32);
+                static constexpr auto memory_size = static_cast<size_t>(100);
 
-                using root_thread = thread::create<5, //priority
+                using root_thread = thread::create<2, //priority
                                                    0,   //id
                                                    main_ip,   //eip
-                        memory_size - 1>;  //esp
+                        memory_size>;  //esp
 
                 using memory_t = memory::memory_create<memory_size>;
 

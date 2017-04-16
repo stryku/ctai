@@ -15,10 +15,12 @@ namespace ctai
                 "push ebx "
                 "push ecx "
                 "push edx "
+                "mov eax , 'C' "
+                "call .sys_write "
 
                 "mov ebx , DWORD PTR [ esp + 12 ] "//void* start_point\n
                 "mov ecx , DWORD PTR [ esp + 8 ] "//priority
-                "mov edx , DWORD PTR [ esp + 8 ] "//arg
+                "mov edx , DWORD PTR [ esp + 4 ] "//arg
 
                 "sys_create_thread "
 

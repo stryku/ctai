@@ -18,7 +18,7 @@ namespace ctai
                 static constexpr auto next_esp = esp + 4;
                 static constexpr auto value = memory::get_32<memory_t, esp>;
                 using registers_after_esp = set_reg<registers, regs::id_t::ESP, next_esp>;
-                using result_registers = set_reg<registers, reg, value>;
+                using result_registers = set_reg<registers_after_esp, reg, value>;
             };
         }
 
