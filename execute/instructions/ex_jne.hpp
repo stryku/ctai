@@ -16,7 +16,7 @@ namespace ctai
         template<typename thread_t, typename machine_state_t, size_t ip, size_t ...rest_of_opcodes>
         struct ex_instruction<thread_t, machine_state_t, inst::to_size<inst::id_t::JNE>, ip, rest_of_opcodes...>
         {
-            static constexpr auto flags_v = typename thread_t::flags_t{};
+            static constexpr auto flags_v = typename thread_t::flags{};
 
             static constexpr bool should_jmp = (static_cast<int>(flags_v.ZF) != 0);
             using final_regs_state = std::conditional_t<
