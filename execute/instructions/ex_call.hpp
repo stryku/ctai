@@ -45,9 +45,6 @@ namespace ctai
                                                                          next_esp,
                                                                          splitted_value>;
 
-        //using noelelw = typename machine_state_t::memory::memory_block_t::ddd;
-        //using noelel = typename result_memory::asd;
-
             using result_machine_state = machine::set_memory_block<machine_state_t, result_memory>;
         };
     }

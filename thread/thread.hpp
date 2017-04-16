@@ -78,5 +78,12 @@ namespace ctai
                                      thread_t::priority,
                                      registers,
                                      typename thread_t::flags>;
+
+        template <typename thread_t, typename flags_t>
+        using set_flags = thread<thread_t::finished,
+                thread_t::id,
+                thread_t::priority,
+                typename thread_t::registers,
+                flags_t>;
     }
 }

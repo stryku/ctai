@@ -19,7 +19,8 @@ namespace ctai
                 operand,
                 rest_of_tokens...>>
         {
-            static constexpr auto instruction_type = inst::id_t::CMP_REG_REG;
+            static constexpr auto instruction_type = is_reg_token<operand> ? inst::id_t::CMP_REG_REG
+                                                                           : inst::id_t::CMP_REG_VAL;
 
             using instruction = values_container_n::values_container<
                     inst::to_size<instruction_type>,
