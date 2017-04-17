@@ -11,9 +11,6 @@
 using main_code = decltype(
 ":main "
         //push parameters
-        "mov eax , 'M' "
-        "call .sys_write "
-
         "mov eax , 0 "
         "push eax "
         "mov eax , 19 "
@@ -23,21 +20,82 @@ using main_code = decltype(
 
         "call .sys_create_thread "
         "add esp , 12 "
+        "mov esi , eax " //store thread id
 
-        "push eax "
+
+        "mov eax , 'H' "
+        "call .sys_write "
+        "mov eax , 'e' "
+        "call .sys_write "
+        "mov eax , 'l' "
+        "call .sys_write "
+        "mov eax , 'l' "
+        "call .sys_write "
+        "mov eax , 'o' "
+        "call .sys_write "
+
+        "mov eax , 'f' "
+        "call .sys_write "
+        "mov eax , 'r' "
+        "call .sys_write "
+        "mov eax , 'o' "
+        "call .sys_write "
+        "mov eax , 'm' "
+        "call .sys_write "
+
+        "mov eax , 'm' "
+        "call .sys_write "
+        "mov eax , 'a' "
+        "call .sys_write "
+        "mov eax , 'i' "
+        "call .sys_write "
+        "mov eax , 'n' "
+        "call .sys_write "
+
+
+        "push esi "
         "call .join_thread "
         "add esp , 4 "
 
-
-        "mov eax , 'A' "
-        "call .sys_write "
 
         "call .sys_exit_thread"_s);
 
 using thread_code = decltype(
 ":thread_code "
-        "mov eax , 'T' "
+
+        "mov eax , 'H' "
         "call .sys_write "
+        "mov eax , 'e' "
+        "call .sys_write "
+        "mov eax , 'l' "
+        "call .sys_write "
+        "mov eax , 'l' "
+        "call .sys_write "
+        "mov eax , 'o' "
+        "call .sys_write "
+
+        "mov eax , 'f' "
+        "call .sys_write "
+        "mov eax , 'r' "
+        "call .sys_write "
+        "mov eax , 'o' "
+        "call .sys_write "
+        "mov eax , 'm' "
+        "call .sys_write "
+
+        "mov eax , 't' "
+        "call .sys_write "
+        "mov eax , 'h' "
+        "call .sys_write "
+        "mov eax , 'r' "
+        "call .sys_write "
+        "mov eax , 'e' "
+        "call .sys_write "
+        "mov eax , 'a' "
+        "call .sys_write "
+        "mov eax , 'd' "
+        "call .sys_write "
+
         "call .sys_exit_thread "_s);
 
 using code = ctai::declare_code<ctai::include::thread ,
