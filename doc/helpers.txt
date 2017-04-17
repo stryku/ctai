@@ -7,5 +7,5 @@ utils
         al - character to check
     returns
         al
-            0 - isn't digit
-            1 - is digit
+            0 - isn't a digit
+            1 - is a digit

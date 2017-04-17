@@ -24,6 +24,9 @@ namespace ctai
             using instruction = values_container_n::values_container<
                     inst::to_size<instruction_type>,
                     decoded>;
+            using instruction_tokens = tuple<
+                    tokens::tok_jl,
+                    operand>;
 
             static constexpr auto eip_change = get_eip_change<instruction_type>;
 
