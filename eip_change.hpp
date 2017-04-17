@@ -39,6 +39,7 @@ namespace ctai
         template <> constexpr size_t eip_change<inst::id_t::SYS_EXIT_THREAD> = 1;
         template <> constexpr size_t eip_change<inst::id_t::SYS_CREATE_THREAD> = 1;
         template <> constexpr size_t eip_change<inst::id_t::SYS_WRITE> = 1;
+        template <> constexpr size_t eip_change<inst::id_t::SYS_READ> = 1;
         template <> constexpr size_t eip_change<inst::id_t::SYS_IS_THREAD_RUNNING> = 1;
     }
 
