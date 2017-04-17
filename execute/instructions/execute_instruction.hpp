@@ -22,6 +22,7 @@ namespace ctai
 #include "execute/instructions/ex_jg.hpp"
 #include "execute/instructions/ex_jl.hpp"
 #include "execute/instructions/ex_jmp.hpp"
+#include "execute/instructions/ex_inc.hpp"
 #include "execute/instructions/ex_cmp.hpp"
 #include "execute/instructions/ex_add.hpp"
 #include "execute/instructions/sys/ex_sys_exit_thread.hpp"
