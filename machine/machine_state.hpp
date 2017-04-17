@@ -66,6 +66,15 @@ namespace ctai
                 state_t::time,
                 state_t::last_thread_id>;
 
+        template <typename state_t, typename input_t>
+        using set_input = state<typename state_t::memory,
+                typename state_t::opcodes,
+                typename state_t::threads,
+                typename state_t::output,
+                input_t,
+                state_t::time,
+                state_t::last_thread_id>;
+
         template <typename state_t, typename threads>
         using set_threads = state<typename state_t::memory,
                 typename state_t::opcodes,
