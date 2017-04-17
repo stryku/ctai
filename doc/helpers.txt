@@ -1,6 +1,19 @@
 thread
     void join_thread(int thread_id)
 
+io
+    uint getline()
+    params
+        al - delimeter
+        ebx - pointer where to store word
+    returns
+        eax - number of read characters
+    invalidates
+        eax
+        ebx
+    hints
+        getline will add null at the end of read word thus buffer in fact need to be one more byte bigger than max expected word
+
 utils
     bool is_digit()
     params
@@ -9,3 +22,5 @@ utils
         al
             0 - isn't a digit
             1 - is a digit
+    invalidates
+        al
