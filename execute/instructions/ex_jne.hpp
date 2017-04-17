@@ -18,7 +18,7 @@ namespace ctai
         {
             static constexpr auto flags_v = typename thread_t::flags{};
 
-            static constexpr bool should_jmp = (static_cast<int>(flags_v.ZF) != 0);
+            static constexpr bool should_jmp = (static_cast<int>(flags_v.ZF) == 0);
             using final_regs_state = std::conditional_t<
                     should_jmp,
                     set_reg<typename thread_t::registers, regs::id_t::EIP, static_cast<uint32_t>(ip)>,

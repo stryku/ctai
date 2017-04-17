@@ -88,7 +88,7 @@ namespace ctai
 
                 static constexpr auto memory_size = static_cast<size_t>(100);
 
-                using root_thread = thread::create<20, //priority
+                using root_thread = thread::create<18, //priority
                                                    0,   //id
                                                    main_ip,   //eip
                         memory_size>;  //esp

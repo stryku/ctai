@@ -97,6 +97,8 @@ namespace ctai
                     machine_state_t::last_thread_id + 1>;
 
 
+            //using ad = typename result_thread::asdwa;
+            //using asd = typename result_machine_state::threads::qqqqqq;
 //  //          using asd = typename thread_t::it;
  //           using asdw = typename result_thread::rt;
         };
