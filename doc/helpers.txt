@@ -1,2 +1,11 @@
 thread
     void join_thread(int thread_id)
+
+utils
+    bool is_digit()
+    params
+        al - character to check
+    returns
+        al
+            0 - isn't digit
+            1 - is digit
