@@ -37,6 +37,7 @@ namespace ctai::tests::ex_pusha
             vc<>,
             ctai::tuple_n::tuple<>,
             ctai::io::output::buffer<>,
+            ctai::io::input::buffer<>,
             0,
                     0>;
 

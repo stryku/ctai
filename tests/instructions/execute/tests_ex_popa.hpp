@@ -44,6 +44,7 @@ namespace ctai::tests::ex_popa
             vc<>,
             ctai::tuple_n::tuple<>,
             ctai::io::output::buffer<>,
+            ctai::io::input::buffer<>,
             0, 0>;
 
     namespace test_ex_pusha
