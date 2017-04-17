@@ -6,10 +6,10 @@ int sys_create_thread(void* start_point, uint priority, void* arg = NULL);
 NO_RETURN sys_exit_thread();
 
 void sys_write();
-    write a character stored in an al register to stdout
+    write a character stored in the al register to stdout
 
 void sys_read();
-    read a character from stdin and store it in al
+    read a character from stdin and store it in the al register
 
 int sys_is_thread_running(int thread_id)
     returns:

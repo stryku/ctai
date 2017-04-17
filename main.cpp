@@ -109,24 +109,19 @@ using test_proc = decltype(
 
 using main2 = decltype(
 ":main "
-        "cmp ebx , 0 "
-        "jne .not "
-        "mov eax , 'Y' "
-        "call .sys_write "
-
-        ":not "
-        "mov eax , 'N' "
+        "call .sys_read "
         "call .sys_write "
 
         "call .sys_exit_thread"_s);
 
-using code2 = ctai::declare_code<ctai::include::thread ,
+using code2 = ctai::declare_code<ctai::include::thread,
         ctai::include::sys_write,
+        ctai::include::sys_read,
         main2>;
 
 
 
-using execution_result = ctai::execute2::execute_code<code>;
+using execution_result = ctai::execute2::execute_code<code2>;
 
 int main()
 {

@@ -10,5 +10,10 @@ namespace ctai
         ":sys_write "
                 "sys_write "
                 "ret "_s);
+
+        using sys_read = decltype(
+        ":sys_read "
+                "sys_read "
+                "ret "_s);
     }
 }
