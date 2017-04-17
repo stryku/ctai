@@ -24,6 +24,7 @@ namespace ctai
 #include "execute/instructions/sys/ex_sys_exit_thread.hpp"
 #include "execute/instructions/sys/ex_sys_create_thread.hpp"
 #include "execute/instructions/sys/ex_sys_write.hpp"
+#include "execute/instructions/sys/ex_sys_read.hpp"
 #include "execute/instructions/sys/ex_sys_is_thread_running.hpp"
 
 namespace ctai
