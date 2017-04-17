@@ -51,7 +51,8 @@ namespace ctai
             SYS_WRITE,
             SYS_IS_THREAD_RUNNING,
             JNE,
-            CMP_REG_VAL
+            CMP_REG_VAL,
+            SYS_READ
 
         };
 
