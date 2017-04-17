@@ -93,6 +93,7 @@ namespace ctai
                     typename machine_state_t::opcodes,
                     typename create_result::result_threads_queue,
                     typename machine_state_t::output,
+                    typename machine_state_t::input,
                     machine_state_t::time,
                     machine_state_t::last_thread_id + 1>;
 

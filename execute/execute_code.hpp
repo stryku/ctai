@@ -18,6 +18,7 @@
 #include "utils/empty_type.hpp"
 #include "io/output.hpp"
 #include "execute/execution_result.hpp"
+#include "io/input.hpp"
 
 class empty_type;
 namespace ctai
@@ -32,12 +33,14 @@ namespace ctai
             template <typename memory_t,
                     typename opcodes_t,
                     typename output_t,
+                    typename input_t,
                       size_t time_v,
                               size_t last_thread_id>
             struct execute_impl<machine::state<memory_t,
                                                opcodes_t,
                                                tuple_n::tuple<>,
                     output_t,
+                    input_t,
                                                time_v,
                     last_thread_id>>
             {
@@ -100,6 +103,7 @@ namespace ctai
                                                      opcodes,
                                                      tuple_n::tuple<root_thread>,
                         io::output::buffer<>,
+                        io::input::buffer<>,
                                                      0,
                                                              0>; //time
 

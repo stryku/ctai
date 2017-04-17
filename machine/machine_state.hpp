@@ -12,6 +12,7 @@ namespace ctai
                   typename opcodes_t,
                   typename threads_t,
                   typename output_t,
+                  typename input_t,
                   size_t time_v,
                   size_t last_thread_id_v>
         struct state
@@ -20,6 +21,7 @@ namespace ctai
             using opcodes = opcodes_t;
             using threads = threads_t;
             using output = output_t;
+            using input = input_t;
             static constexpr auto time = time_v;
             static constexpr auto last_thread_id = last_thread_id_v;
         };
@@ -29,6 +31,7 @@ namespace ctai
                 typename state_t::opcodes,
                 typename state_t::threads,
                 typename state_t::output_t,
+                typename state_t::input,
                                   state_t::time + time_delta,
                 state_t::last_thread_id>;
 
@@ -37,6 +40,7 @@ namespace ctai
                                  typename state_t::opcodes,
                 typename state_t::threads,
                 typename state_t::output,
+                typename state_t::input,
                                  state_t::time,
                 state_t::last_thread_id>;
 
@@ -49,6 +53,7 @@ namespace ctai
                                            typename state_t::opcodes,
                                            threads,
                 typename state_t::output,
+                typename state_t::input,
                 time,
                 state_t::last_thread_id>;
 
@@ -57,6 +62,7 @@ namespace ctai
                 typename state_t::opcodes,
                 typename state_t::threads,
                 output_t,
+                typename state_t::input,
                 state_t::time,
                 state_t::last_thread_id>;
 
@@ -65,6 +71,7 @@ namespace ctai
                 typename state_t::opcodes,
                 threads,
                 typename state_t::output,
+                typename state_t::input,
                 state_t::time,
                 state_t::last_thread_id>;
     }
