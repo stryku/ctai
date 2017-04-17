@@ -7,6 +7,7 @@
 #include <iostream>
 #include <iterator>
 #include "kernel/io.hpp"
+#include "kernel/utils.hpp"
 
 using main_code = decltype(
 ":main "
@@ -109,7 +110,19 @@ using test_proc = decltype(
 
 using main2 = decltype(
 ":main "
-        "call .sys_read "
+        "call .sys_read " //char is in al
+        "call .is_digit "
+
+        "cmp al , 1 "
+        "jne .is_not "
+
+        "mov eax , 'Y' "
+        "jmp .write "
+
+    ":is_not "
+        "mov eax , 'N' "
+
+    ":write "
         "call .sys_write "
 
         "call .sys_exit_thread"_s);
@@ -117,6 +130,7 @@ using main2 = decltype(
 using code2 = ctai::declare_code<ctai::include::thread,
         ctai::include::sys_write,
         ctai::include::sys_read,
+        ctai::include::is_digit,
         main2>;
 
 

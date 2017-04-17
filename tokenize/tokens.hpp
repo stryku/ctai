@@ -27,6 +27,7 @@ namespace ctai
         using tok_call = decltype("call"_s);
         using tok_ret = decltype("ret"_s);
 
+        using tok_al = decltype("al"_s);
         using tok_eax = decltype("eax"_s);
         using tok_ebx = decltype("ebx"_s);
         using tok_ecx = decltype("ecx"_s);
@@ -96,6 +97,8 @@ namespace ctai
         template <typename>
         struct token_to_reg_opcode_impl;
 
+        //TODO add rest of registers
+        template <> struct token_to_reg_opcode_impl<tokens::tok_al> { static constexpr auto value = regs::to_size<regs::id_t::AL>; };
         template <> struct token_to_reg_opcode_impl<tokens::tok_eax> { static constexpr auto value = regs::to_size<regs::id_t::EAX>; };
         template <> struct token_to_reg_opcode_impl<tokens::tok_ebx> { static constexpr auto value = regs::to_size<regs::id_t::EBX>; };
         template <> struct token_to_reg_opcode_impl<tokens::tok_ecx> { static constexpr auto value = regs::to_size<regs::id_t::ECX>; };
