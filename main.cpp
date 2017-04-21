@@ -111,6 +111,7 @@ using test_proc = decltype(
 using main2 = decltype(
 ":main "
         "call .read_uint "
+        "call .sys_write "
 
         "call .sys_exit_thread"_s);
 
