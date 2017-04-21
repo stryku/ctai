@@ -29,7 +29,7 @@ namespace ctai
                 "je .__iog_finish "
                 "mov BYTE PTR [ ebx + ecx ] , al "
                 "inc ecx "
-                "jmp __iog_read_loop "
+                "jmp .__iog_read_loop "
 
             ":__iog_finish "
                 "mov eax , ecx "
@@ -57,5 +57,10 @@ namespace ctai
                 "pop ebx "
                 "ret "_s
         );
+
+        using io = declare_code<sys_write,
+                                sys_read,
+                                getline,
+                                read_uint>;
     }
 }

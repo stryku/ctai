@@ -32,6 +32,7 @@ namespace ctai
             ADD_REG_VAL,
 
             SUB_REG_REG,
+            SUB_REG_VAL,
             CMP_REG_REG,
 
             MOV_REG_REG,

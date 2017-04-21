@@ -115,11 +115,9 @@ using main2 = decltype(
         "call .sys_exit_thread"_s);
 
 using code2 = ctai::declare_code<ctai::include::thread,
-                                 ctai::include::sys_write,
-                                 ctai::include::sys_read,
+                                 ctai::include::io,
                                  ctai::include::is_digit,
                                  ctai::include::atoui,
-                                 ctai::include::read_uint,
                                  main2>;
 
 
