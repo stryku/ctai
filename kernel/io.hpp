@@ -32,7 +32,7 @@ namespace ctai
                 "jmp .__iog_read_loop "
 
             ":__iog_finish "
-                "mov BYTE PTR [ ecx ] , 0 "
+                "mov BYTE PTR [ ecx - 1 ] , 0 "
                 "sub ecx , ebx " //calculate digits count
                 "mov eax , ecx "
 

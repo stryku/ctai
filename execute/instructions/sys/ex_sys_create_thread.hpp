@@ -75,12 +75,12 @@ namespace ctai
                               inst::to_size<inst::id_t::SYS_CREATE_THREAD>,
                               rest_of_opcodes...>
         {
+            using siema = typename machine_state_t::asd;
+
             using create_result = typename details::ex_sys_create_thread_impl<thread_t,
-                    typename machine_state_t::memory,
-                    typename machine_state_t::threads,
-                    machine_state_t::last_thread_id + 1>::result;
-
-
+                                                                              typename machine_state_t::memory,
+                                                                              typename machine_state_t::threads,
+                                                                              machine_state_t::last_thread_id + 1>::result;
 
             using registers_after_ret_val_set = set_reg<typename thread_t::registers,
                                                         regs::id_t::EAX,
@@ -90,18 +90,12 @@ namespace ctai
 
             using result_thread = thread::set_registers<thread_t, final_registers>;
             using result_machine_state = machine::state<typename create_result::result_memory,
-                    typename machine_state_t::opcodes,
-                    typename create_result::result_threads_queue,
-                    typename machine_state_t::output,
-                    typename machine_state_t::input,
-                    machine_state_t::time,
-                    machine_state_t::last_thread_id + 1>;
-
-
-            //using ad = typename result_thread::asdwa;
-            //using asd = typename result_machine_state::threads::qqqqqq;
-//  //          using asd = typename thread_t::it;
- //           using asdw = typename result_thread::rt;
+                                                        typename machine_state_t::opcodes,
+                                                        typename create_result::result_threads_queue,
+                                                        typename machine_state_t::output,
+                                                        typename machine_state_t::input,
+                                                        machine_state_t::time,
+                                                        machine_state_t::last_thread_id + 1>;
         };
     }
 }
