@@ -30,3 +30,11 @@ utils
                 1 - is a digit
         invalidates
             al
+
+    int atoui()
+        params
+            eax - pointer to ascii uint representation
+        returns
+            eax - converted int
+        invalidates
+            eax

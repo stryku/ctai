@@ -43,27 +43,19 @@ namespace ctai
         ":read_uint "
                 "push ebx "
                 "push ecx "
-
                 "sub esp , 11 " //space for read digits
 
                 "mov ebx , esp " //pointer to store input
-                "mov al , ' ' " //delimiter
-                "call .getline "
+                "mov al , ' ' " //getline delimiter
+                "call .getline " //getline returns digits count in eax
 
-                "mov ecx , eax " //move digits count
-                "dec ecx " //omit NULL
-                "mov eax , 0 "
-
-            ":__io_rui_convert_loop "
-                "cmp" //here. implement atoi
-
-            ":__io_rui_finish "
+                "mov eax , ebx " //pointer to ascii number
+                "call .atoui " //value is in eax
 
                 "add esp , 11 "
-
                 "pop ecx "
                 "pop ebx "
                 "ret "_s
-        )
+        );
     }
 }
