@@ -45,6 +45,7 @@ namespace ctai
 
             MOV_REG_MEM__mem_eq_reg_minus_const,
             MOV_REG_MEM__mem_eq_reg_plus_const,
+            MOV_REG_MEM__mem_eq_reg,
 
             MUL_REG_REG,
 

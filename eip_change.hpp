@@ -25,6 +25,7 @@ namespace ctai
         template <> constexpr size_t eip_change<inst::id_t::MOV_REG_MEM__mem_eq_reg_plus_const> = 5;
         template <> constexpr size_t eip_change<inst::id_t::MOV_MEM_VAL__mem_eq_reg_minus_const> = 5;
         template <> constexpr size_t eip_change<inst::id_t::MOV_MEM_VAL__mem_eq_reg_plus_const> = 5;
+        template <> constexpr size_t eip_change<inst::id_t::MOV_REG_MEM__mem_eq_reg> = 4;
         template <> constexpr size_t eip_change<inst::id_t::MOV_REG_VAL> = 3;
         template <> constexpr size_t eip_change<inst::id_t::MOV_REG_REG> = 3;
         template <> constexpr size_t eip_change<inst::id_t::PUSH_REG> = 2;
