@@ -12,17 +12,16 @@ namespace ctai
     namespace details
     {
         // mul reg/val
-        template <typename reg_token, typename operand, typename ...rest_of_tokens>
+        template <typename operand, typename ...rest_of_tokens>
         struct matcher_impl<tuple<
                 tokens::tok_mul,
                 operand,
                 rest_of_tokens...>>
         {
-            static constexpr auto instruction_type = is_reg_token<operand> ? inst::id_t::MUL_REG : inst::id_t::MUL_VAL;
+            static constexpr auto instruction_type = inst::id_t::MUL_REG;
 
             using instruction = values_container_n::values_container<
                     inst::to_size<instruction_type>,
-                    token_to_reg_opcode<reg_token>,
                     operand_decoder<operand>>;
 
             static constexpr auto eip_change = get_eip_change<instruction_type>;

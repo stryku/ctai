@@ -34,6 +34,7 @@ namespace ctai
 #include "popa_matcher.hpp"
 #include "mov_matcher.hpp"
 #include "add_matcher.hpp"
+#include "mul_matcher.hpp"
 #include "sub_matcher.hpp"
 #include "jmp_matcher.hpp"
 #include "jge_matcher.hpp"
