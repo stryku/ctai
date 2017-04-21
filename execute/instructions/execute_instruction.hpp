@@ -19,6 +19,7 @@ namespace ctai
 #include "execute/instructions/ex_popa.hpp"
 #include "execute/instructions/ex_mov.hpp"
 #include "execute/instructions/ex_jne.hpp"
+#include "execute/instructions/ex_je.hpp"
 #include "execute/instructions/ex_jg.hpp"
 #include "execute/instructions/ex_jl.hpp"
 #include "execute/instructions/ex_jmp.hpp"
