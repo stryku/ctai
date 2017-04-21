@@ -21,7 +21,7 @@ namespace ctai
                 "push ecx "
 
                 "mov ecx , 0 " //chars counter
-                "mov ah , al " // move delimeter to ah
+                "mov ah , al " // move delimiter to ah
 
             ":__iog_read_loop "
                 "sys_read "
@@ -38,5 +38,32 @@ namespace ctai
 
                 "ret "_s
         );
+
+        using read_uint = decltype(
+        ":read_uint "
+                "push ebx "
+                "push ecx "
+
+                "sub esp , 11 " //space for read digits
+
+                "mov ebx , esp " //pointer to store input
+                "mov al , ' ' " //delimiter
+                "call .getline "
+
+                "mov ecx , eax " //move digits count
+                "dec ecx " //omit NULL
+                "mov eax , 0 "
+
+            ":__io_rui_convert_loop "
+                "cmp" //here. implement atoi
+
+            ":__io_rui_finish "
+
+                "add esp , 11 "
+
+                "pop ecx "
+                "pop ebx "
+                "ret "_s
+        )
     }
 }
