@@ -61,7 +61,8 @@ namespace ctai
             JNE,
             CMP_REG_VAL,
             SYS_READ,
-            INC
+            INC,
+            SYS_MALLOC
 
         };
 
