@@ -23,6 +23,7 @@ namespace ctai
         using tok_jmp= decltype("jmp"_s);
         using tok_jge = decltype("jge"_s);
         using tok_jg = decltype("jg"_s);
+        using tok_je = decltype("je"_s);
         using tok_jl = decltype("jl"_s);
         using tok_jne = decltype("jne"_s);
         using tok_call = decltype("call"_s);

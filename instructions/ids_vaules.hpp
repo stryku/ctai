@@ -26,6 +26,7 @@ namespace ctai
             JGE,
             JG,
             JL,
+            JE,
 
             ADD_REG_REG,
             ADD_REG_VAL,

@@ -40,6 +40,7 @@ namespace ctai
 #include "jne_matcher.hpp"
 #include "jg_matcher.hpp"
 #include "jl_matcher.hpp"
+#include "je_matcher.hpp"
 #include "cmp_matcher.hpp"
 #include "call_matcher.hpp"
 #include "ret_matcher.hpp"
