@@ -34,6 +34,38 @@ namespace ctai
 
                 using result_registers = set_reg<registers, regs::id_t::AX, result>;
             };
+
+            template <typename thread_t,
+                    regs::id_t reg>
+            struct ex_mul_impl<thread_t,
+                               reg,
+                               utils::operand_size::SIZE_16>
+            {
+                using registers = typename thread_t::registers;
+
+                static constexpr auto ax_value = get_reg<registers, regs::id_t::AX>;
+                static constexpr auto reg_value = get_reg<registers, reg>;
+                static constexpr auto result = static_cast<uint32_t>(ax_value) * static_cast<uint32_t>(reg_value);
+
+                using regs_state_after_ax = set_reg<registers, regs::id_t::AX, result & 0xffff>;
+                using result_registers = set_reg<regs_state_after_ax, regs::id_t::DX, ((result & 0xffff0000) >> 16)>;
+            };
+
+            template <typename thread_t,
+                    regs::id_t reg>
+            struct ex_mul_impl<thread_t,
+                               reg,
+                               utils::operand_size::SIZE_32>
+            {
+                using registers = typename thread_t::registers;
+
+                static constexpr auto eax_value = get_reg<registers, regs::id_t::EAX>;
+                static constexpr auto reg_value = get_reg<registers, reg>;
+                static constexpr auto result = static_cast<uint32_t>(eax_value) * static_cast<uint32_t>(reg_value);
+
+                using regs_state_after_eax = set_reg<registers, regs::id_t::EAX, result & 0xffffffff>;
+                using result_registers = set_reg<regs_state_after_eax, regs::id_t::EDX, ((result & 0xffffffff00000000) >> 32)>;
+            };
         }
 
         template <typename thread_t,

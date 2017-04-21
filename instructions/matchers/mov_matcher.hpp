@@ -127,7 +127,8 @@ namespace ctai
                 reg_or_val,
                 rest_of_tokens...>>
         {
-            static constexpr auto instruction_type = inst::id_t::MOV_MEM_REG__mem_eq_reg;
+            static constexpr auto instruction_type = is_reg_token<reg_or_val> ? inst::id_t::MOV_MEM_REG__mem_eq_reg
+                                                                              : inst::id_t::MOV_MEM_VAL__mem_eq_reg;
 
             using instruction = values_container_n::values_container<
                     inst::to_size<instruction_type>,
