@@ -123,6 +123,7 @@ using main2 = decltype(
         "mov eax , 'N' "
 
     ":write "
+        "inc eax "
         "call .sys_write "
 
         "call .sys_exit_thread"_s);
