@@ -114,6 +114,41 @@ namespace ctai
             using rest_of_tokens_t = tuple<rest_of_tokens...>;
         };
 
+        //mov BYTE/WORD/DWORD PTR [ reg ], reg/val
+        template <typename reg_or_val, typename mem_size_token, typename mem_ptr_reg, typename ...rest_of_tokens>
+        struct matcher_impl<tuple<
+                tokens::tok_mov,
+                mem_size_token,
+                tokens::tok_ptr,
+                tokens::tok_square_bracket_open,
+                mem_ptr_reg,
+                tokens::tok_square_bracket_close,
+                tokens::tok_comma,
+                reg_or_val,
+                rest_of_tokens...>>
+        {
+            static constexpr auto instruction_type = inst::id_t::MOV_MEM_REG__mem_eq_reg;
+
+            using instruction = values_container_n::values_container<
+                    inst::to_size<instruction_type>,
+                    token_to_reg_opcode<mem_ptr_reg>,
+                    memory::to_size<mem_size_decoder<mem_size_token>>,
+                    operand_decoder<reg_or_val>>;
+
+            static constexpr auto eip_change = get_eip_change<instruction_type>;
+            using instruction_tokens = tuple<
+                    tokens::tok_mov,
+                    mem_size_token,
+                    tokens::tok_ptr,
+                    tokens::tok_square_bracket_open,
+                    mem_ptr_reg,
+                    tokens::tok_square_bracket_close,
+                    tokens::tok_comma,
+                    reg_or_val>;
+
+            using rest_of_tokens_t = tuple<rest_of_tokens...>;
+        };
+
         //mov BYTE/WORD/DWORD PTR [ reg +/- val ], reg/val
         template <typename reg_or_val, typename mem_size_token, typename mem_ptr_reg, typename mem_ptr_const, typename plus_minus_token, typename ...rest_of_tokens>
         struct matcher_impl<tuple<

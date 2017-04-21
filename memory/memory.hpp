@@ -130,5 +130,8 @@ namespace ctai
 
         template <typename memory_t, size_t ptr, uint32_t value>
         using set_32 = typename details::set_impl<memory_t, ptr, value, uint32_t>::result;
+
+        template <typename memory_t, typename get_type_size, size_t ptr, auto value>
+        using set = typename details::set_impl<memory_t, ptr, value, get_type_size>::result;
     }
 }

@@ -66,15 +66,18 @@ namespace ctai
 
     template <typename type>
     constexpr auto is_reg_token = is_type_in_v<type,
-            tokens::tok_eax,
-            tokens::tok_ebx,
-            tokens::tok_ecx,
-            tokens::tok_edx,
-            tokens::tok_esp,
-            tokens::tok_ebp,
-            tokens::tok_edi,
-            tokens::tok_esi,
-            tokens::tok_eip>;
+                                               tokens::tok_al,
+                                               tokens::tok_ah,
+                                               tokens::tok_bl,
+                                               tokens::tok_eax,
+                                               tokens::tok_ebx,
+                                               tokens::tok_ecx,
+                                               tokens::tok_edx,
+                                               tokens::tok_esp,
+                                               tokens::tok_ebp,
+                                               tokens::tok_edi,
+                                               tokens::tok_esi,
+                                               tokens::tok_eip>;
 
     //
     //is_label_token
