@@ -351,6 +351,8 @@ namespace ctai
     template <typename state, regs::id_t id, uint32_t val>
     using set_reg = typename details::set_reg_impl<state, id, val>::type;
 
+
+
     namespace tests
     {
         static_assert(get_reg<startup_registers_state, regs::id_t::AL> == 0xdd, "");

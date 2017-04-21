@@ -3,7 +3,7 @@
 #include <type_traits>
 #include <cstddef>
 
-template <size_t val, size_t ...values>
+template <auto val, auto ...values>
 constexpr auto is_value_in_v = ((val == values) || ...);
 
 template <typename type, typename ...types>
