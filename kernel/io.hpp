@@ -18,6 +18,9 @@ namespace ctai
 
         using getline = decltype(
         ":getline "
+                "push ecx "
+                "mov ecx , ebx " // move pointer to eax
+
                 "mov ah , al " // move delimiter to ah
 
             ":__iog_read_loop "
@@ -29,8 +32,11 @@ namespace ctai
                 "jmp .__iog_read_loop "
 
             ":__iog_finish "
+                "mov BYTE PTR [ ecx ] , 0 "
+                "sub ecx , ebx " //calculate digits count
                 "mov eax , ecx "
 
+                "pop ecx "
                 "ret "_s
         );
 

@@ -103,7 +103,7 @@ namespace ctai
                                                      opcodes,
                                                      tuple_n::tuple<root_thread>,
                         io::output::buffer<>,
-                        io::input::buffer<'1'>,
+                        io::input::buffer<'9', '7', ' '>,
                                                      0,
                                                              0>; //time
 
