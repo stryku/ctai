@@ -16,9 +16,8 @@ namespace ctai
             struct reserve_block
             {
                 using result_metadata = metadata::reserve_block<typename memory_t::metadata_t, ptr, size>;
-                using result_memory = ctai::memory::memory<memory_t::size,
-                                                           typename memory_t::memory_block_t,
-                                                           result_metadata>;
+                using result_memory = ctai::memory::set_metadata<memory_t,
+                                                                 result_metadata>;
             };
 
             template <typename memory_t, size_t size>
