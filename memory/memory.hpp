@@ -38,6 +38,11 @@ namespace ctai
                                         memory_block,
                                         typename memory_t::metadata_t>;
 
+        template <typename memory_t, typename metadata_t>
+        using set_metadata = memory<memory_t::size,
+                                        typename memory_t::memory_block_t,
+                                        metadata_t>;
+
         //
         //get_8
         //
