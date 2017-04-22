@@ -52,6 +52,7 @@ namespace ctai
         template <> constexpr size_t eip_change<inst::id_t::SYS_WRITE> = 1;
         template <> constexpr size_t eip_change<inst::id_t::SYS_READ> = 1;
         template <> constexpr size_t eip_change<inst::id_t::SYS_IS_THREAD_RUNNING> = 1;
+        template <> constexpr size_t eip_change<inst::id_t::SYS_MALLOC> = 1;
     }
 
     template <inst::id_t instruction>

@@ -15,3 +15,14 @@ int sys_is_thread_running(int thread_id)
     returns:
     0 - not running
     1 - running
+
+
+void* sys_malloc()
+    params
+        eax - size of memory to allocate
+    returns:
+        eax:
+            NULL - malloc failed
+            not NULL - pointer to allocated memory
+    invalidates
+        eax
