@@ -8,6 +8,7 @@
 #include <iterator>
 #include "kernel/io.hpp"
 #include "kernel/utils.hpp"
+#include "kernel/memory.hpp"
 
 using main_code = decltype(
 ":main "
@@ -111,15 +112,13 @@ using test_proc = decltype(
 using main2 = decltype(
 ":main "
         "mov eax , 2 "
-        "sys_malloc "
+        "call .sys_malloc "
         "sys_create_thread "
 
         "call .sys_exit_thread"_s);
 
 using code2 = ctai::declare_code<ctai::include::thread,
-                                 ctai::include::io,
-                                 ctai::include::is_digit,
-                                 ctai::include::atoui,
+                                 ctai::include::memory,
                                  main2>;
 
 
