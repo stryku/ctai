@@ -111,19 +111,22 @@ using test_proc = decltype(
 
 using main2 = decltype(
 ":main "
-        "mov eax , 9798 "
-        "mov bx , 100 "
-        "div bx "
+        "mov eax , 15 "
+        "call .sys_malloc "
         "mov ebx , eax "
-        "mov eax , bx "
-        "sys_write "
-        "mov eax , dx "
-        "sys_write "
+
+        "mov eax , 9798 "
+        "call .uitoa "
+
+        "mov eax , ebx "
+        "call .write_string "
 
         "call .sys_exit_thread"_s);
 
 using code2 = ctai::declare_code<ctai::include::thread,
                                  ctai::include::memory,
+                                 ctai::include::io,
+                                 ctai::include::utils,
                                  main2>;
 
 
@@ -132,7 +135,7 @@ using execution_result = ctai::execute2::execute_code<code2>;
 
 int main()
 {
-    const auto output = ctai::runtime::io::make_runtime_output<execution_result::output>();
+    constexpr auto output = ctai::runtime::io::make_runtime_output<execution_result::output>();
 
     std::cout << "Return value: " << execution_result::ret_val << "\n";
 

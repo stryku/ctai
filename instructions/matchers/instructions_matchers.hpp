@@ -39,6 +39,7 @@ namespace ctai
 #include "jmp_matcher.hpp"
 #include "jge_matcher.hpp"
 #include "inc_matcher.hpp"
+#include "dec_matcher.hpp"
 #include "jne_matcher.hpp"
 #include "jg_matcher.hpp"
 #include "jl_matcher.hpp"
