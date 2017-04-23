@@ -53,6 +53,7 @@ namespace ctai
             MOV_REG_MEM__mem_eq_reg,
 
             MUL_REG,
+            DIV_REG,
 
             CALL_VAL,
             RET,
