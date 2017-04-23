@@ -21,11 +21,11 @@ namespace ctai
                               inst::to_size<inst::id_t::SYS_TRY_LOCK_MUTEX>,
                               rest_of_opcodes...>
         {
-            static constexpr auto eax_value = get_reg<typename thread_t::registers, regs::id_t::EAX>;
-            static constexpr auto mutex_value = memory::get_8<typename machine_state_t::memory_t, eax_value>;
+            static constexpr auto ebx_value = get_reg<typename thread_t::registers, regs::id_t::EBX>;
+            static constexpr auto mutex_value = memory::get_8<typename machine_state_t::memory_t, ebx_value>;
             static constexpr auto set_to_eax = mutex_value ? 0 : 1; //if mutex already has value 1, it's already locked - return 0
 
-            using result_memory = memory::set_8<typename machine_state_t::memory_t, eax_value, 1>;
+            using result_memory = memory::set_8<typename machine_state_t::memory_t, ebx_value, 1>;
 
             using registers_after_eax = set_reg<typename thread_t::registers, regs::id_t::EAX, set_to_eax>;
             using final_registers = adjust_eip<registers_after_eax, inst::id_t::SYS_TRY_LOCK_MUTEX>;
