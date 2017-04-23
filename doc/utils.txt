@@ -5,6 +5,7 @@ mutex
     void lock_mutex()
         params
             eax - pointer to mutex
+
     void unlock_mutex()
         params
             eax - pointer to mutex

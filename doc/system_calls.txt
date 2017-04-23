@@ -29,7 +29,7 @@ void* sys_malloc()
 
 int sys_try_lock_mutex()
     params
-        eax - mutex pointer
+        ebx - mutex pointer
     returns:
         eax:
             0 - lock fail
