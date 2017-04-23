@@ -37,6 +37,7 @@ namespace ctai
 #include "execute/instructions/sys/ex_sys_is_thread_running.hpp"
 #include "execute/instructions/sys/ex_sys_malloc.hpp"
 #include "execute/instructions/sys/ex_sys_free.hpp"
+#include "execute/instructions/sys/ex_sys_try_lock_mutex.hpp"
 
 namespace ctai
 {

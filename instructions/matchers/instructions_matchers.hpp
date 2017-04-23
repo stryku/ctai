@@ -55,6 +55,7 @@ namespace ctai
 #include "sys_is_thread_running_matcher.hpp"
 #include "sys_malloc_matcher.hpp"
 #include "sys_free_matcher.hpp"
+#include "sys_try_lock_mutex_matcher.hpp"
 
 namespace ctai
 {
