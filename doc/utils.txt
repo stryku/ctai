@@ -1,5 +1,7 @@
 thread
-    void join_thread(int thread_id)
+    void join_thread()
+        params
+            eax - thread id to join
 
 mutex
     void lock_mutex()

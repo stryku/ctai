@@ -1,7 +1,12 @@
-int sys_create_thread(void* start_point, uint priority, void* arg = NULL);
+int sys_create_thread();
+    params
+        ebx - start point
+        ecx - priority
+        edx - pointer to args
     returns:
-    0 - no enough memory
-    non 0 - ok, returned value is new thread id
+        eax:
+            0 - no enough memory
+            non 0 - ok, returned value is new thread id
 
 NO_RETURN sys_exit_thread();
 
@@ -12,9 +17,12 @@ void sys_read();
     read a character from stdin and store it in the al register
 
 int sys_is_thread_running(int thread_id)
+    params
+        ebx - thread id
     returns:
-    0 - not running
-    1 - running
+        eax:
+            0 - not running
+            1 - running
 
 
 void* sys_malloc()
