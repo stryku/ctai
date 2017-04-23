@@ -26,3 +26,13 @@ void* sys_malloc()
             not NULL - pointer to allocated memory
     invalidates
         eax
+
+int sys_try_lock_mutex()
+    params
+        eax - mutex pointer
+    returns:
+        eax:
+            0 - lock fail
+            1 - lock success
+    invalidates
+        eax

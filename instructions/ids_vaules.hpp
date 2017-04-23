@@ -58,6 +58,7 @@ namespace ctai
             CALL_VAL,
             RET,
             SYS_WRITE,
+            SYS_TRY_LOCK_MUTEX,
             SYS_IS_THREAD_RUNNING,
             JNE,
             CMP_REG_VAL,

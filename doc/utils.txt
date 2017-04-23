@@ -1,6 +1,14 @@
 thread
     void join_thread(int thread_id)
 
+mutex
+    void lock_mutex()
+        params
+            eax - pointer to mutex
+    void unlock_mutex()
+        params
+            eax - pointer to mutex
+
 io
     uint getline()
         params
