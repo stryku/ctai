@@ -59,9 +59,36 @@ namespace ctai
                 "ret "_s
         );
 
+        using write_string = decltype(
+        ":write_string "
+                "push eax "
+                "push ebx "
+
+                "mov ebx , eax "//move pointer to ebx
+                "mov eax , 0 "
+
+            ":__io_write_string_loop "
+                "mov al , BYTE PTR [ ebx ] "//get char from buffer
+                "inc ebx "
+
+                //jump to end when we reached the NULL
+                "cmp al , 0 "
+                "je .__io_write_string_end "
+
+                "sys_write "//write to stdout if not NULL
+                "jmp .__io_write_string_loop "//and loop
+
+
+            ":__io_write_string_end "
+                "pop ebx "
+                "pop eax "
+                "ret "_s
+        );
+
         using io = declare_code<sys_write,
                                 sys_read,
                                 getline,
-                                read_uint>;
+                                read_uint,
+                                write_string>;
     }
 }

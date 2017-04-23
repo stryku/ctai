@@ -20,6 +20,10 @@ io
         invalidates
             eax
 
+    void write_string()
+        returns
+            eax - pointer to the c-style string
+
 utils
     bool is_digit()
         params
@@ -50,3 +54,8 @@ utils
             ebx
         hints
             uitoa will add NULL at the end of ascii chars thus buffer in fact need to be one more byte bigger than max expected chars count
+
+    void mem_reverse()
+        params
+            eax - pointer to memory
+            ebx - size to reverse

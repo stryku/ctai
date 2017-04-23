@@ -63,6 +63,7 @@ namespace ctai
             CMP_REG_VAL,
             SYS_READ,
             INC,
+            DEC,
             SYS_MALLOC,
             SYS_FREE
 

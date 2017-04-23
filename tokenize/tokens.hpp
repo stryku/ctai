@@ -22,6 +22,7 @@ namespace ctai
         using tok_div = decltype("div"_s);
         using tok_cmp = decltype("cmp"_s);
         using tok_inc= decltype("inc"_s);
+        using tok_dec= decltype("dec"_s);
         using tok_jmp= decltype("jmp"_s);
         using tok_jge = decltype("jge"_s);
         using tok_jg = decltype("jg"_s);

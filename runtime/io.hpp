@@ -13,14 +13,14 @@ namespace ctai
             namespace details
             {
                 template <char ...chars>
-                auto make_runtime_output_impl(ctai::io::output::buffer<chars...>)
+                constexpr auto make_runtime_output_impl(ctai::io::output::buffer<chars...>)
                 {
                     return std::array<char, sizeof...(chars)>{chars...};
                 }
             }
 
             template <typename buffer>
-            auto make_runtime_output()
+            constexpr auto make_runtime_output()
             {
                 return details::make_runtime_output_impl(buffer{});
             }
