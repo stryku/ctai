@@ -43,6 +43,7 @@ namespace ctai
         template <> constexpr size_t eip_change<inst::id_t::JL> = 2;
         template <> constexpr size_t eip_change<inst::id_t::JE> = 2;
         template <> constexpr size_t eip_change<inst::id_t::MUL_REG> = 2;
+        template <> constexpr size_t eip_change<inst::id_t::DIV_REG> = 2;
 
         template <> constexpr size_t eip_change<inst::id_t::CALL_VAL> = 2;
         template <> constexpr size_t eip_change<inst::id_t::RET> = 1;

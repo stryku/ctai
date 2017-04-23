@@ -111,9 +111,14 @@ using test_proc = decltype(
 
 using main2 = decltype(
 ":main "
-        "mov eax , 2 "
-        "call .sys_malloc "
-        "sys_free "
+        "mov eax , 9798 "
+        "mov bx , 100 "
+        "div bx "
+        "mov ebx , eax "
+        "mov eax , bx "
+        "sys_write "
+        "mov eax , dx "
+        "sys_write "
 
         "call .sys_exit_thread"_s);
 
