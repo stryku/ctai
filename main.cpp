@@ -9,6 +9,7 @@
 #include "kernel/io.hpp"
 #include "kernel/utils.hpp"
 #include "kernel/memory.hpp"
+#include "kernel/mutex.hpp"
 
 using main_code = decltype(
 ":main "
@@ -65,6 +66,9 @@ using main_code = decltype(
 using thread_code = decltype(
 ":thread_code "
 
+        "mov eax , DWORD PTR [ esp ] "
+        "call .lock_mutex "
+
         "mov eax , 'H' "
         "call .sys_write "
         "mov eax , 'e' "
@@ -97,6 +101,11 @@ using thread_code = decltype(
         "call .sys_write "
         "mov eax , 'd' "
         "call .sys_write "
+        "mov eax , 10 "
+        "call .sys_write "
+
+        "mov eax , DWORD PTR [ esp ] "
+        "call .unlock_mutex "
 
         "call .sys_exit_thread "_s);
 
@@ -105,21 +114,26 @@ using code = ctai::declare_code<ctai::include::thread ,
                                 thread_code,
                                 main_code>;
 
-using test_proc = decltype(
-":test_proc "
-        "ret "_s);
-
 using main2 = decltype(
 ":main "
-        "mov eax , 15 "
-        "call .sys_malloc "
-        "mov ebx , eax "
+        "mov eax , 0 "
+        "push eax "
 
-        "mov eax , 9798 "
-        "call .uitoa "
+        //parameters
+        "mov ebx , .thread_code " //start point
+        "mov ecx , 10 "//priority
+        "mov edx , esp "//pointer to args
 
-        "mov eax , ebx "
-        "call .write_string "
+        "call .sys_create_thread "
+        "mov esi , eax " //store thread id
+
+        "call .sys_create_thread "
+        "mov edi , eax " //store thread id
+
+        "mov eax , esi "
+        "call .join_thread "
+        "mov eax , edi "
+        "call .join_thread "
 
         "call .sys_exit_thread"_s);
 
@@ -127,6 +141,8 @@ using code2 = ctai::declare_code<ctai::include::thread,
                                  ctai::include::memory,
                                  ctai::include::io,
                                  ctai::include::utils,
+                                 ctai::include::mutex,
+                                 thread_code,
                                  main2>;
 
 

@@ -37,7 +37,7 @@ namespace ctai
 //        using asd = typename thread_t::qqqqqq;
 
 
-        static constexpr auto id = get_reg<typename thread_t::registers, regs::id_t::EAX>;
+        static constexpr auto id = get_reg<typename thread_t::registers, regs::id_t::EBX>;
             using find_result = tuple_n::find_if<typename machine_state_t::threads,
                                                  details::find_thread_predicate<id>>;
             static constexpr auto is_running = !(std::is_same<find_result, ctai::utils::empty_type>::value);
