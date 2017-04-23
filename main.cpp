@@ -11,58 +11,6 @@
 #include "kernel/memory.hpp"
 #include "kernel/mutex.hpp"
 
-using main_code = decltype(
-":main "
-        //push parameters
-        "mov eax , 0 "
-        "push eax "
-        "mov eax , 19 "
-        "push eax "
-        "mov eax , .thread_code "
-        "push eax "
-
-        "call .sys_create_thread "
-        "add esp , 12 "
-        "mov esi , eax " //store thread id
-
-
-        "mov eax , 'H' "
-        "call .sys_write "
-        "mov eax , 'e' "
-        "call .sys_write "
-        "mov eax , 'l' "
-        "call .sys_write "
-        "mov eax , 'l' "
-        "call .sys_write "
-        "mov eax , 'o' "
-        "call .sys_write "
-
-        "mov eax , 'f' "
-        "call .sys_write "
-        "mov eax , 'r' "
-        "call .sys_write "
-        "mov eax , 'o' "
-        "call .sys_write "
-        "mov eax , 'm' "
-        "call .sys_write "
-
-        "mov eax , 'm' "
-        "call .sys_write "
-        "mov eax , 'a' "
-        "call .sys_write "
-        "mov eax , 'i' "
-        "call .sys_write "
-        "mov eax , 'n' "
-        "call .sys_write "
-
-
-        "push esi "
-        "call .join_thread "
-        "add esp , 4 "
-
-
-        "call .sys_exit_thread"_s);
-
 using thread_code = decltype(
 ":thread_code "
 
@@ -109,13 +57,52 @@ using thread_code = decltype(
 
         "call .sys_exit_thread "_s);
 
-using code = ctai::declare_code<ctai::include::thread ,
-        ctai::include::sys_write,
-                                thread_code,
-                                main_code>;
+using fibonacci = decltype(
+":fibonacci "
+        "push esi "
+        "push ecx "
+        "push edx "
+
+        "mov ecx , eax "
+        "cmp eax , 0 "
+        "je .fib_ret_0 "
+        "mov edx , 0 "
+        "mov esi , 1 "
+    ":fib_loop "
+        "mov eax , esi "
+        "add edx , eax "
+        "mov esi , edx "
+        "mov edx , eax "
+        "dec ecx "
+        "cmp ecx , 0 "
+        "jne .fib_loop "
+        "jmp .fib_end "
+
+    ":fib_ret_0 "
+        "mov eax , 0 "
+
+    ":fib_end "
+        "pop edx "
+        "pop ecx "
+        "pop esi "
+        "ret "_s
+);
 
 using main2 = decltype(
 ":main "
+        "mov eax , 15 " // element to calculate
+        "call .fibonacci "
+
+        "sub esp , 15 " // buffer for ascii number
+
+        "mov ebx , esp "
+        "call .uitoa "
+
+        "mov eax , ebx "
+        "call .write_string "
+        "add esp , 15 "
+
+        /*
         "mov eax , 0 "
         "push eax "
 
@@ -134,7 +121,7 @@ using main2 = decltype(
         "call .join_thread "
         "mov eax , edi "
         "call .join_thread "
-
+*/
         "call .sys_exit_thread"_s);
 
 using code2 = ctai::declare_code<ctai::include::thread,
@@ -143,6 +130,7 @@ using code2 = ctai::declare_code<ctai::include::thread,
                                  ctai::include::utils,
                                  ctai::include::mutex,
                                  thread_code,
+                                 fibonacci,
                                  main2>;
 
 
