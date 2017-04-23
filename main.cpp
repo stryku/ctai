@@ -114,7 +114,6 @@ using main2 = decltype(
         "mov eax , 2 "
         "call .sys_malloc "
         "sys_free "
-        "sys_create_thread "
 
         "call .sys_exit_thread"_s);
 
@@ -124,7 +123,7 @@ using code2 = ctai::declare_code<ctai::include::thread,
 
 
 
-using execution_result = ctai::execute2::execute_code<code2>;
+using execution_result = ctai::execute2::execute_code<code>;
 
 int main()
 {

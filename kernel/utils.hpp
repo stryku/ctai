@@ -48,6 +48,12 @@ namespace ctai
                     "ret "_s
         );
 
+        using uitoa = decltype(
+        ":uitoa "
+                ""
+                "ret "_s
+        );
+
         using is_digit = decltype(
         ":is_digit "
                 "cmp al , '0' "
