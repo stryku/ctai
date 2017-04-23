@@ -19,6 +19,7 @@ namespace ctai
         using tok_popa = decltype("popa"_s);
         using tok_sub = decltype("sub"_s);
         using tok_mul = decltype("mul"_s);
+        using tok_div = decltype("div"_s);
         using tok_cmp = decltype("cmp"_s);
         using tok_inc= decltype("inc"_s);
         using tok_jmp= decltype("jmp"_s);

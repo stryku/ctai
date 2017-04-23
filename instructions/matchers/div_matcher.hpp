@@ -11,23 +11,22 @@ namespace ctai
 {
     namespace details
     {
-        // mul reg
+        // div reg
         template <typename operand, typename ...rest_of_tokens>
         struct matcher_impl<tuple<
-                tokens::tok_mul,
+                tokens::tok_div,
                 operand,
                 rest_of_tokens...>>
         {
-            static constexpr auto instruction_type = inst::id_t::MUL_REG;
+            static constexpr auto instruction_type = inst::id_t::DIV_REG;
 
-            using instruction = values_container_n::values_container<
-                    inst::to_size<instruction_type>,
-                    operand_decoder<operand>>;
+            using instruction = values_container_n::values_container<inst::to_size<instruction_type>,
+                                                                     operand_decoder<operand>>;
 
             static constexpr auto eip_change = get_eip_change<instruction_type>;
-            using instruction_tokens = tuple<
-                    tokens::tok_mul,
-                    operand>;
+
+            using instruction_tokens = tuple<tokens::tok_div,
+                                             operand>;
 
             using rest_of_tokens_t = tuple<rest_of_tokens...>;
         };

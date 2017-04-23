@@ -123,7 +123,7 @@ using code2 = ctai::declare_code<ctai::include::thread,
 
 
 
-using execution_result = ctai::execute2::execute_code<code>;
+using execution_result = ctai::execute2::execute_code<code2>;
 
 int main()
 {
