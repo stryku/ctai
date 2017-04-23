@@ -23,11 +23,12 @@ namespace ctai
         {
             static constexpr auto ptr_to_free = get_reg<typename thread_t::registers, regs::id_t::EAX>;
             using free_result = memory::free<typename machine_state_t::memory, ptr_to_free>;
+            using memory_result = memory::set_metadata<typename machine_state_t::memory, free_result>;
 
             using final_registers = adjust_eip<typename thread_t::registers, inst::id_t::SYS_FREE>;
             using result_thread = thread::set_registers<thread_t, final_registers>;
 
-            using result_machine_state = machine::set_memory<machine_state_t, free_result>;
+            using result_machine_state = machine::set_memory<machine_state_t, memory_result>;
         };
     }
 }

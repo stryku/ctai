@@ -11,6 +11,6 @@ namespace ctai
     namespace memory
     {
         template <typename memory_t, size_t ptr>
-        using free = metadata::free_block<typename memory_t::asd, ptr>;
+        using free = metadata::free_block<typename memory_t::metadata_t, ptr>;
     }
 }

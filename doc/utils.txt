@@ -38,3 +38,15 @@ utils
             eax - converted int
         invalidates
             eax
+
+    void uitoa()
+        params
+            eax - uint to convert
+            ebx - pointer where store ascii uint
+        returns
+            -
+        invalidates
+            eax
+            ebx
+        hints
+            uitoa will add NULL at the end of ascii chars thus buffer in fact need to be one more byte bigger than max expected chars count

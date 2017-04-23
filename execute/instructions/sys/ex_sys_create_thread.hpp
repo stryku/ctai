@@ -75,8 +75,6 @@ namespace ctai
                               inst::to_size<inst::id_t::SYS_CREATE_THREAD>,
                               rest_of_opcodes...>
         {
-            using siema = typename machine_state_t::asd;
-
             using create_result = typename details::ex_sys_create_thread_impl<thread_t,
                                                                               typename machine_state_t::memory,
                                                                               typename machine_state_t::threads,
