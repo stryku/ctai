@@ -75,6 +75,9 @@ namespace ctai
             };
         }
 
+
+        using input_v = decltype("1 4 "_s);
+
         namespace details
         {
             template <typename code>
@@ -89,7 +92,7 @@ namespace ctai
 
                 static constexpr auto main_ip = labels_get_ip<labels_metadata, string<'.', 'm', 'a', 'i', 'n'>>;
 
-                static constexpr auto memory_size = static_cast<size_t>(100);
+                static constexpr auto memory_size = static_cast<size_t>(300);
 
                 using root_thread = thread::create<18, //priority
                                                    0,   //id
@@ -102,10 +105,10 @@ namespace ctai
                 using machine_state = machine::state<memory_t,
                                                      opcodes,
                                                      tuple_n::tuple<root_thread>,
-                        io::output::buffer<>,
-                        io::input::buffer<'6', '7', ' '>,
+                                                     io::output::buffer<>,
+                                                     input_v,
                                                      0,
-                                                             0>; //time
+                                                     0>; //time
 
                 using execute_result = typename execute_impl<machine_state>::result;
 

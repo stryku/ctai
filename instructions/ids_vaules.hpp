@@ -148,7 +148,7 @@ namespace ctai
             EBX,
             CL,
             CH,
-            CX,
+            CX,//10
             ECX,
             DL,
             DH,
@@ -158,7 +158,7 @@ namespace ctai
             ESI,
             DI,
             EDI,
-            BP,
+            BP,//20
             EBP,
             SP,
             ESP,

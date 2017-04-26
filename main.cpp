@@ -17,7 +17,7 @@ using slave_code = decltype(
         "mov ecx , 0 "
 
     ":slave_loop "
-        "call .get_nex_task "//ax - task, cl - task id
+        "call .get_next_task "//ax - task, cl - task id
 
         //if task == exit
         "cmp ah , 0 "
@@ -284,7 +284,7 @@ using get_current_task_ptr = decltype(
 using get_next_task = decltype(
 ":get_next_task "
         "push ecx "
-        "push dl "
+        "push edx "
         "push ebp "
 
         "call .get_current_task_ptr " //eax - current task ptr
@@ -302,7 +302,7 @@ using get_next_task = decltype(
         "mov cl , dl "//return task id
 
         "pop ebp "
-        "pop dl "
+        "pop edx "
         "pop ecx "
         "ret "_s
 );
@@ -348,33 +348,33 @@ using add_task = decltype(
 //ebx - ptr to struct
 using add_fibonacci_task = decltype(
 ":add_fibonacci_task "
-        "push cx "
+        "push ecx "
 
         "mov ch , 1 "
         "mov cl , al "
         "call .add_task "
 
-        "pop cx "
+        "pop ecx "
         "ret "_s
 );
 
 //ebx - ptr to struct
 using add_exit_task = decltype(
 ":add_exit_task "
-        "push cx "
+        "push ecx "
 
         "mov ch , 0 "
         "mov cl , al "
         "call .add_task "
 
-        "pop cx "
+        "pop ecx "
         "ret "_s
 );
 
 using create_slave_thread = decltype(
 ":create_slave_thread "
 
-        "mov ebx , .thread_code " //start point
+        "mov ebx , .slave_code " //start point
         "mov ecx , 10 "//priority
         "mov edx , esp "//pointer to args
 
@@ -495,7 +495,7 @@ using main2 = decltype(
         "call .struct_ptr_to_ids "//eax - ptr to threads ids array
         "mov ecx , eax "//ecx - ptr to threads ids array
 
-        "mov esi , 5 "//5 slaves
+        "mov esi , 1 "//5 slaves
         "mov ebx , .slave_code " //slave start point
         "mov ecx , 10 "//priority
         "mov edx , ebx "//pointer to args - struct ptr
@@ -514,11 +514,11 @@ using main2 = decltype(
 
 
         //and join the slaves
-        "mov esi , 5 "//5 slaves
+        "mov esi , 1 "//5 slaves
         "call .struct_ptr_to_ids "//eax - ptr to threads ids array
         "mov ecx , eax "//ecx - ptr to threads ids array
 
-    ":join_slaves_loop "
+/*    ":join_slaves_loop "
         "mov eax , DWORD PTR [ ecx ] " //eax - next slave id
         "add ecx , 4 "
 
@@ -558,7 +558,7 @@ using main2 = decltype(
         //free structure
         "mov eax , ebx "
         "call .sys_free "
-
+*/
 
         "call .sys_exit_thread"_s);
 
@@ -567,8 +567,23 @@ using code2 = ctai::declare_code<ctai::include::thread,
                                  ctai::include::io,
                                  ctai::include::utils,
                                  ctai::include::mutex,
-                                 slave_code,
                                  fibonacci,
+                                 calculate_structure_size,
+                                 struct_create,
+                                 struct_ptr_to_elements,
+                                 struct_ptr_to_tasks,
+                                 struct_ptr_to_results,
+                                 struct_ptr_to_ids,
+                                 struct_lock_tasks,
+                                 struct_unlock_tasks,
+                                 add_task,
+                                 add_fibonacci_task,
+                                 add_exit_task,
+                                 get_current_task_ptr,
+                                 get_next_task,
+                                 slave_code,
+                                 create_slave_thread,
+                                 write_result,
                                  main2>;
 
 
