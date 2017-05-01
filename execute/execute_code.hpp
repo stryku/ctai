@@ -76,12 +76,9 @@ namespace ctai
             };
         }
 
-
-        using input_v = decltype("1 4 "_s);
-
         namespace details
         {
-            template <typename code>
+            template <typename code, typename input_t>
             struct prepare_and_execute
             {
                 using tokens = tokenize<code>;
@@ -93,33 +90,31 @@ namespace ctai
                 using opcodes_t = opcode::create_opcodes<opcodes_values_container>;
 
                 static constexpr auto main_ip = labels_get_ip<labels_metadata, string<'.', 'm', 'a', 'i', 'n'>>;
-
-                static constexpr auto memory_size = static_cast<size_t>(300);
+                static constexpr auto memory_size = static_cast<size_t>(400);
 
                 using root_thread = thread::create<18, //priority
                                                    0,   //id
                                                    main_ip,   //eip
-                        memory_size>;  //esp
+                                                   memory_size>;  //esp
 
                 using memory_t = memory::memory_create<memory_size>;
-
 
                 using machine_state = machine::state<memory_t,
                                                      opcodes_t,
                                                      tuple_n::tuple<root_thread>,
                                                      io::output::buffer<>,
-                                                     input_v,
-                                                     0,
-                                                     0>; //time
+                                                     input_t,
+                                                     0,//time
+                                                     0>; //thread id
 
                 using execute_result = typename execute_impl<machine_state>::result;
 
                 using result = execution_result<typename execute_result::output,
-                        execute_result::ret_val>;
+                                                execute_result::ret_val>;
             };
         }
 
-        template <typename code>
-        using execute_code = typename details::prepare_and_execute<code>::result;
+        template <typename code, typename input_t>
+        using execute_code = typename details::prepare_and_execute<code, input_t>::result;
     }
 }
