@@ -4,6 +4,7 @@
 #include "execute/instructions/execute_instruction.hpp"
 
 #include <cstddef>
+#include "opcode/opcodes.hpp"
 
 namespace ctai
 {
@@ -104,7 +105,11 @@ namespace ctai
                                                            registers_t,
                                                            flags_t>;
 
-                using thread_instruction_opcodes = thread::get_next_opcodes<current_thread_type, opcodes_t>;
+                //using thread_instruction_opcodes = thread::get_next_opcodes<current_thread_type, opcodes_t>;
+
+                static constexpr auto eip = get_reg<typename current_thread_type::registers, regs::id_t::EIP>;
+
+                using thread_instruction_opcodes = opcode::get_next_opcodes<opcodes_t, eip>;
 
                 using ex_instruction_result = execute2::execute_instruction<current_thread_type,
                         machine_state_t,
@@ -122,7 +127,7 @@ namespace ctai
                   typename machine_state_t,
                   typename opcodes_t>
         using execute_thread = typename details::execute_thread_impl<thread_t,
-                machine_state_t,
+                                                                     machine_state_t,
                                                                      opcodes_t>::execution_result;
     }
 }

@@ -19,6 +19,7 @@
 #include "io/output.hpp"
 #include "execute/execution_result.hpp"
 #include "io/input.hpp"
+#include "opcode/opcodes.hpp"
 
 class empty_type;
 namespace ctai
@@ -88,7 +89,8 @@ namespace ctai
                 using tokens_without_labels = typename extract_labels_result::tokens;
                 using labels_metadata = typename extract_labels_result::labels;
                 using tokens_after_labels_substitution = substutite_labels<tokens_without_labels, labels_metadata>;
-                using opcodes = assemble<tokens_after_labels_substitution>;
+                using opcodes_values_container = assemble<tokens_after_labels_substitution>;
+                using opcodes_t = opcode::create_opcodes<opcodes_values_container>;
 
                 static constexpr auto main_ip = labels_get_ip<labels_metadata, string<'.', 'm', 'a', 'i', 'n'>>;
 
@@ -103,7 +105,7 @@ namespace ctai
 
 
                 using machine_state = machine::state<memory_t,
-                                                     opcodes,
+                                                     opcodes_t,
                                                      tuple_n::tuple<root_thread>,
                                                      io::output::buffer<>,
                                                      input_v,
