@@ -18,7 +18,7 @@ namespace ctai
     {
         namespace details
         {
-            constexpr auto new_stack_size = 20;
+            constexpr auto new_stack_size = 128;
 
             template <typename memory_t, typename threads_queue, size_t ret_val_v>
             struct ex_sys_create_thread_result

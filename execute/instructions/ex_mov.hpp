@@ -157,6 +157,30 @@ namespace ctai
             using result_machine_state = machine::set_memory<machine_state_t, memory_after_set>;
         };
 
+        //mov * PTR [ reg + val ] , value
+        template <typename thread_t, typename machine_state_t, size_t value, size_t mem_ptr_reg, size_t mem_ptr_const, size_t mem_size, size_t ...rest_of_opcodes>
+        struct ex_instruction<thread_t,
+                              machine_state_t,
+                              inst::to_size<inst::id_t::MOV_MEM_VAL__mem_eq_reg_plus_const>,
+                            mem_ptr_reg,
+                            mem_ptr_const,
+                            mem_size,
+                            value,
+                            rest_of_opcodes...>
+        {
+            static constexpr auto mem_reg_val = get_reg<typename thread_t::registers, regs::to_id<mem_ptr_reg>>;
+            static constexpr auto mem_ptr = mem_reg_val + mem_ptr_const;
+            using memory_after_set = memory::set<typename machine_state_t::memory,
+                    memory::to_mem_type<memory::to_id<mem_size>>,
+            mem_ptr,
+            value>;
+
+            using final_registers = adjust_eip<typename thread_t::registers, inst::id_t::MOV_MEM_VAL__mem_eq_reg_plus_const>;
+
+            using result_thread = thread::set_registers<thread_t, final_registers>;
+            using result_machine_state = machine::set_memory<machine_state_t, memory_after_set>;
+        };
+
         //mov reg, reg
         template <typename thread_t, typename machine_state_t, size_t reg1, size_t reg2, size_t ...rest_of_opcodes>
         struct ex_instruction<thread_t,

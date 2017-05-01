@@ -23,7 +23,7 @@ using fibonacci = decltype(
         "mov edx , 0 "
         "mov esi , 1 "
 
-    ":fib_loop "
+        ":fib_loop "
         "mov eax , esi "
         "add edx , eax "
         "mov esi , edx "
@@ -33,10 +33,10 @@ using fibonacci = decltype(
         "jne .fib_loop "
         "jmp .fib_end "
 
-    ":fib_ret_0 "
+        ":fib_ret_0 "
         "mov eax , 0 "
 
-    ":fib_end "
+        ":fib_end "
         "pop edx "
         "pop ecx "
         "pop esi "
@@ -115,28 +115,53 @@ using write_result = decltype(
         "ret "_s
 );
 
-using slave_code = decltype(
+using slave_code2 = decltype(
 ":slave_code "
+        "mov esi , BYTE PTR [ esp ] "//esi - ptr to input sync mutex
+        "mov edi , BYTE PTR [ esp + 1 ] "//edi - ptr to output sync mutex
+        "mov eax , esi " //eax - ptr to input mutex
+
+        //lock input
+        "call .lock_mutex "
+
         "call .read_uint " //eax - element to calculate
         "mov edx , eax "//edx - fib element to calculate
+
+        //unlock input
+        "mov eax , esi "//eax - ptr to input mutex
+        "call .unlock_mutex "
 
         //calculate fibonacci element
         "mov eax , edx "//eax - fibonacci element to calculate
         "call .fibonacci "//eax - calculated fibonacci element
+        "mov ecx , eax " //edx - calculated fibonacci element
 
-        "mov ecx , eax " //ecx - calculated fibonacci element
+        //lock output
+        "mov eax , edi "//eax - ptr to output sync mutex
+        "call .lock_mutex "
+
         "mov eax , edx "//eax - fibonacci element to calculate
         "call .write_result "
+
+        //unlock output
+        "mov eax , edi "//eax - ptr to output sync mutex
+        "call .unlock_mutex "
 
         "call .sys_exit_thread "_s
 );
 
-using main_code = decltype(
+using main3 = decltype(
 ":main "
+        "sub esp , 2 " //two mutexes to sync input and output in slaves threads
+
+        //clear mutexes
+        "mov BYTE PTR [ esp ] , 0 "
+        "mov BYTE PTR [ esp + 1 ] , 0 "
+
         //prepare arguments to create slaves threads
         "mov ebx , .slave_code "//slave thread entry point
         "mov ecx , 50 " //slave thread priority
-        "mov edx , 0 " //pointer to args
+        "mov edx , esp " //pointer to args - pointers to mutexes
 
         //create two slaves
         "call .sys_create_thread " //eax - slave 1 id
@@ -147,20 +172,20 @@ using main_code = decltype(
         //join the slaves
         "call .join_thread "//join thread 2
 
-        "mov eax , edi "//eax - slave 1 id
+        "mov eax , edi "
         "call .join_thread "//join thread 1
 
         "call .sys_exit_thread "_s
 );
 
-using code = ctai::declare_code<ctai::include::thread,
-                                ctai::include::io,
-                                ctai::include::utils,
-                                ctai::include::mutex,
-                                fibonacci,
-                                slave_code,
-                                write_result,
-                                main_code>;
+using code2 = ctai::declare_code<ctai::include::thread,
+                                 ctai::include::io,
+                                 ctai::include::utils,
+                                 ctai::include::mutex,
+                                 fibonacci,
+                                 slave_code2,
+                                 write_result,
+                                 main3>;
 
 
 //program input - two fibonacci elements to calculate
@@ -168,7 +193,7 @@ using input_t = decltype(
 "15 10 "_s
 );
 
-using execution_result = ctai::execute2::execute_code<code, input_t>;
+using execution_result = ctai::execute2::execute_code<code2, input_t>;
 
 int main()
 {
