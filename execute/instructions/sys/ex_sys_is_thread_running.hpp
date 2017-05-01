@@ -3,7 +3,7 @@
 #include "instructions/ids_vaules.hpp"
 #include "register.hpp"
 #include "memory/memory.hpp"
-#include "execute/eip_adjuster.hpp"
+#include "execute/eip_adjust.hpp"
 #include "thread/thread.hpp"
 #include "machine/machine_state.hpp"
 #include "io/output.hpp"

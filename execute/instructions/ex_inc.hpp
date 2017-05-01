@@ -1,7 +1,7 @@
 #pragma once
 
 #include "thread/thread.hpp"
-#include "execute/eip_adjuster.hpp"
+#include "execute/eip_adjust.hpp"
 
 namespace ctai
 {

@@ -23,39 +23,41 @@ namespace ctai
 
         //label match
         template <size_t current_ip, char ...label_chars, typename ...rest_of_tokens, typename ...result_tokens, typename ...result_labels>
-        struct extract_labels_impl<
-                tuple<string<':', label_chars...>, rest_of_tokens...>,
-                current_ip,
-                tuple<result_tokens...>,
-                tuple<result_labels...>>
+        struct extract_labels_impl<tuple<string<':', label_chars...>,
+                                         rest_of_tokens...>,
+                                   current_ip,
+                                   tuple<result_tokens...>,
+                                   tuple<result_labels...>>
         {
-            using extracted = extract_labels_impl<
-                    tuple<rest_of_tokens...>,
-                    current_ip,
-                    tuple<result_tokens...>,
-                    tuple<result_labels..., label_metadata<string<'.', label_chars...>, current_ip>>>;
+            using extracted = extract_labels_impl<tuple<rest_of_tokens...>,
+                                                  current_ip,
+                                                  tuple<result_tokens...>,
+                                                  tuple<result_labels...,
+                                                        label_metadata<string<'.', label_chars...>, current_ip>>>;
 
             using tokens = typename extracted::tokens;
             using labels = typename extracted::labels;
         };
 
         //normal instruction
-        template <size_t current_ip, typename current_token, typename ...rest_of_tokens, typename ...result_tokens, typename result_labels>
-        struct extract_labels_impl<
-                tuple<current_token, rest_of_tokens...>,
-                current_ip,
-                tuple<result_tokens...>,
-                result_labels>
+        template <size_t current_ip,
+                  typename current_token,
+                  typename ...rest_of_tokens,
+                  typename ...result_tokens,
+                  typename result_labels>
+        struct extract_labels_impl<tuple<current_token, rest_of_tokens...>,
+                                   current_ip,
+                                   tuple<result_tokens...>,
+                                   result_labels>
         {
             using instruction = instruction_match<tuple<current_token, rest_of_tokens...>>;
             using next_tokens = tuple_merge<tuple<result_tokens...>, typename instruction::instruction_tokens>;
             static constexpr auto nex_ip = current_ip + instruction::eip_change;
 
-            using extracted = extract_labels_impl<
-                    typename instruction::rest_of_tokens_t,
-                    nex_ip,
-                    next_tokens,
-                    result_labels>;
+            using extracted = extract_labels_impl<typename instruction::rest_of_tokens_t,
+                                                  nex_ip,
+                                                  next_tokens,
+                                                  result_labels>;
 
             using tokens = typename extracted::tokens;
             using labels = typename extracted::labels;

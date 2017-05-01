@@ -23,14 +23,12 @@ namespace ctai
             static constexpr auto decoded = is_label_token<operand> ? 0
                                                                     : operand_decoder<operand>;
 
-            using instruction = values_container_n::values_container<
-                    inst::to_size<instruction_type>,
-                    decoded>;
+            using instruction = values_container_n::values_container<inst::to_size<instruction_type>,
+                                                                     decoded>;
 
             static constexpr auto eip_change = get_eip_change<instruction_type>;
-            using instruction_tokens = tuple<
-                    tokens::tok_jne,
-                    operand>;
+            using instruction_tokens = tuple<tokens::tok_jne,
+                                             operand>;
 
             using rest_of_tokens_t = tuple<rest_of_tokens...>;
         };

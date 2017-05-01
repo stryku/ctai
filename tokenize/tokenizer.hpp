@@ -30,6 +30,7 @@ namespace ctai
             using rest_of_string = string<str_chars...>;
         };
 
+        //match space character: ' '
         template <char ...str_chars, typename current_token>
         struct get_token_impl<string<'\'', ' ', '\'', ' ', str_chars...>, current_token>
         {

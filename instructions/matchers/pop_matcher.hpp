@@ -14,9 +14,8 @@ namespace ctai
         template <typename operand, typename ...rest_of_tokens>
         struct matcher_impl<tuple<tokens::tok_pop, operand, rest_of_tokens...>>
         {
-            using instruction = values_container_n::values_container<
-                    inst::to_size<inst::id_t::POP_REG>,
-                    operand_decoder<operand>>;
+            using instruction = values_container_n::values_container<inst::to_size<inst::id_t::POP_REG>,
+                                                                     operand_decoder<operand>>;
 
             static constexpr auto eip_change = get_eip_change<inst::id_t::POP_REG>;
             using instruction_tokens = tuple<tokens::tok_pop, operand>;

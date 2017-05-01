@@ -1,11 +1,8 @@
 #pragma once
 
-#include "machine_state.hpp"
-#include "instructions/instruction.hpp"
-#include "execute/ex_instruction.hpp"
 #include "instructions/ids_vaules.hpp"
 #include "register.hpp"
-#include "execute/eip_adjuster.hpp"
+#include "execute/eip_adjust.hpp"
 #include "thread/thread.hpp"
 #include "utils/operand_size.hpp"
 
