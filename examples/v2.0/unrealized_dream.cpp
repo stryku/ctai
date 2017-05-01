@@ -599,7 +599,7 @@ using code = ctai::declare_code<ctai::include::thread,
                                  write_result,
                                  main_code>;
 
-//program input - two fibonacci elements to calculate
+//program input
 using input_t = decltype(
 "20 "//20 elements to calculate
 //elements
