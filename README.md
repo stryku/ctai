@@ -1,4 +1,4 @@
-compile-time (simplified) x86 assembly interpreter
+# compile-time (simplified) x86 assembly interpreter
 
 Hello World example:
 
@@ -25,53 +25,27 @@ int main()
 Startup `ebx` value is `0xbada55`.
 Above program will push ebx to stack and pop from stack to eax. So eax will eventually contain `0xbada55`.
 
+## Supported features
+1. Multithreading
+2. Dynamic memory
+3. input/output
+4. Couple of syscalls and stdlib functions
+5. Asm instructions
 
-Fibonacci example:
+Of course awesomeness comes by default.
 
-ctai can interpret very (very very) simplified x86 assembly, but it's able to work with such code, which computes 15th element of the Fibonacci
-```
-#include "string.hpp"
-#include "execute.hpp"
+## Examples
+1. [Multithread fibonacci without synchronization](https://github.com/stryku/ctai/blob/master/examples/v2.0/multithread_fib_without_sync.cpp)
 
-#include <iostream>
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
 
-using code = decltype(
-    "mov ebp , esp "
-    "push eax " // declare four variables
-    "push eax "
-    "push eax "
-    "push eax "
-    "mov DWORD PTR [ ebp + 8 ] , 0 "
-    "mov DWORD PTR [ ebp + 12 ] , 1 "
-    "mov DWORD PTR [ ebp + 16 ] , 1 "
-    "mov DWORD PTR [ ebp + 4 ] , 1 "
-":loop_label "
-    "mov eax , DWORD PTR [ ebp + 4 ] "
-    "mov ebx , 15 " //we want to get 15th fibonacci element
-    "cmp eax , ebx "
-    "jge .end_label "
-    "mov edx , DWORD PTR [ ebp + 8 ] "
-    "mov eax , DWORD PTR [ ebp + 12 ] "
-    "add eax , edx "
-    "mov DWORD PTR [ ebp + 16 ] , eax "
-    "mov eax , DWORD PTR [ ebp + 12 ] "
-    "mov DWORD PTR [ ebp + 8 ] , eax "
-    "mov eax , DWORD PTR [ ebp + 16 ] "
-    "mov DWORD PTR [ ebp + 12 ] , eax "
-    "mov eax , DWORD PTR [ ebp + 4 ] "
-    "mov ebx , 1 "
-    "add eax , ebx "
-    "mov DWORD PTR [ ebp + 4 ] , eax "
-    "jmp .loop_label "
-":end_label "
-    "mov eax , DWORD PTR [ ebp + 16 ] "
-    "exit"_s);
+2. [Multithread fibonacci with synchronization](https://github.com/stryku/ctai/blob/master/examples/v2.0/multithread_fib_with_sync.cpp)
 
-int main()
-{
-    std::cout << "15th element of fibonacci series is: " << cai::execute_code<code>;
-    return 0;
-}
-```
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
 
-output: `15th element of fibonacci series is: 610`
+3. [Unrealized dream](https://github.com/stryku/ctai/blob/master/examples/v2.0/unrealized_dream.cpp)
+
+Didn't managed to compile this beast.
+
+## Documentation
+In `doc` folder you can find syscalls and stdlib funcitons documentations. For now there is no documentation with supported asm instructions.
