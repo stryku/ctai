@@ -37,11 +37,11 @@ Of course awesomeness comes by default.
 ## Examples
 1. [Multithread fibonacci without synchronization](https://github.com/stryku/ctai/blob/master/examples/v2.0/multithread_fib_without_sync.cpp)
 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![alt text](https://github.com/stryku/ctai/blob/master/images/multithread_fib_without_sync.png "Compiled program output")
 
 2. [Multithread fibonacci with synchronization](https://github.com/stryku/ctai/blob/master/examples/v2.0/multithread_fib_with_sync.cpp)
 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![alt text](https://github.com/stryku/ctai/blob/master/images/multithread_fib_with_sync.png "Compiled program output")
 
 3. [Unrealized dream](https://github.com/stryku/ctai/blob/master/examples/v2.0/unrealized_dream.cpp)
 
