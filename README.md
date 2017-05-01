@@ -26,7 +26,7 @@ Startup `ebx` value is `0xbada55`.
 Above program will push ebx to stack and pop from stack to eax. So eax will eventually contain `0xbada55`.
 
 ## Supported features
-1. Multithreading
+1. Multithreading (including priorities)
 2. Dynamic memory
 3. input/output
 4. Couple of syscalls and stdlib functions
