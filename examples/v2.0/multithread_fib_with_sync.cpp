@@ -23,7 +23,7 @@ using fibonacci = decltype(
         "mov edx , 0 "
         "mov esi , 1 "
 
-        ":fib_loop "
+    ":fib_loop "
         "mov eax , esi "
         "add edx , eax "
         "mov esi , edx "
@@ -33,10 +33,10 @@ using fibonacci = decltype(
         "jne .fib_loop "
         "jmp .fib_end "
 
-        ":fib_ret_0 "
+    ":fib_ret_0 "
         "mov eax , 0 "
 
-        ":fib_end "
+    ":fib_end "
         "pop edx "
         "pop ecx "
         "pop esi "
@@ -115,7 +115,7 @@ using write_result = decltype(
         "ret "_s
 );
 
-using slave_code2 = decltype(
+using slave_code = decltype(
 ":slave_code "
         "mov esi , BYTE PTR [ esp ] "//esi - ptr to input sync mutex
         "mov edi , BYTE PTR [ esp + 1 ] "//edi - ptr to output sync mutex
@@ -150,7 +150,7 @@ using slave_code2 = decltype(
         "call .sys_exit_thread "_s
 );
 
-using main3 = decltype(
+using main_code = decltype(
 ":main "
         "sub esp , 2 " //two mutexes to sync input and output in slaves threads
 
@@ -178,14 +178,14 @@ using main3 = decltype(
         "call .sys_exit_thread "_s
 );
 
-using code2 = ctai::declare_code<ctai::include::thread,
-                                 ctai::include::io,
-                                 ctai::include::utils,
-                                 ctai::include::mutex,
-                                 fibonacci,
-                                 slave_code2,
-                                 write_result,
-                                 main3>;
+using code = ctai::declare_code<ctai::include::thread,
+                                ctai::include::io,
+                                ctai::include::utils,
+                                ctai::include::mutex,
+                                fibonacci,
+                                slave_code,
+                                write_result,
+                                main_code>;
 
 
 //program input - two fibonacci elements to calculate
@@ -193,7 +193,7 @@ using input_t = decltype(
 "15 10 "_s
 );
 
-using execution_result = ctai::execute2::execute_code<code2, input_t>;
+using execution_result = ctai::execute2::execute_code<code, input_t>;
 
 int main()
 {
@@ -208,3 +208,4 @@ int main()
 
     return 0;
 }
+

@@ -117,26 +117,51 @@ using write_result = decltype(
 
 using slave_code = decltype(
 ":slave_code "
+        "mov esi , BYTE PTR [ esp ] "//esi - ptr to input sync mutex
+        "mov edi , BYTE PTR [ esp + 1 ] "//edi - ptr to output sync mutex
+        "mov eax , esi " //eax - ptr to input mutex
+
+        //lock input
+        "call .lock_mutex "
+
         "call .read_uint " //eax - element to calculate
         "mov edx , eax "//edx - fib element to calculate
+
+        //unlock input
+        "mov eax , esi "//eax - ptr to input mutex
+        "call .unlock_mutex "
 
         //calculate fibonacci element
         "mov eax , edx "//eax - fibonacci element to calculate
         "call .fibonacci "//eax - calculated fibonacci element
+        "mov ecx , eax " //edx - calculated fibonacci element
 
-        "mov ecx , eax " //ecx - calculated fibonacci element
+        //lock output
+        "mov eax , edi "//eax - ptr to output sync mutex
+        "call .lock_mutex "
+
         "mov eax , edx "//eax - fibonacci element to calculate
         "call .write_result "
+
+        //unlock output
+        "mov eax , edi "//eax - ptr to output sync mutex
+        "call .unlock_mutex "
 
         "call .sys_exit_thread "_s
 );
 
 using main_code = decltype(
 ":main "
+        "sub esp , 2 " //two mutexes to sync input and output in slaves threads
+
+        //clear mutexes
+        "mov BYTE PTR [ esp ] , 0 "
+        "mov BYTE PTR [ esp + 1 ] , 0 "
+
         //prepare arguments to create slaves threads
         "mov ebx , .slave_code "//slave thread entry point
         "mov ecx , 50 " //slave thread priority
-        "mov edx , 0 " //pointer to args
+        "mov edx , esp " //pointer to args - pointers to mutexes
 
         //create two slaves
         "call .sys_create_thread " //eax - slave 1 id
@@ -147,7 +172,7 @@ using main_code = decltype(
         //join the slaves
         "call .join_thread "//join thread 2
 
-        "mov eax , edi "//eax - slave 1 id
+        "mov eax , edi "
         "call .join_thread "//join thread 1
 
         "call .sys_exit_thread "_s
