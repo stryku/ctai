@@ -1,8 +1,5 @@
 #pragma once
 
-#include "machine_state.hpp"
-#include "instructions/instruction.hpp"
-#include "execute/ex_instruction.hpp"
 #include "instructions/ids_vaules.hpp"
 #include "ex_call.hpp"
 

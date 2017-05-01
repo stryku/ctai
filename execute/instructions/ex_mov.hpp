@@ -4,7 +4,7 @@
 #include "register.hpp"
 #include "memory/memory.hpp"
 #include "values/values.hpp"
-#include "execute/eip_adjuster.hpp"
+#include "execute/eip_adjust.hpp"
 #include "thread/thread.hpp"
 
 #include <cstddef>

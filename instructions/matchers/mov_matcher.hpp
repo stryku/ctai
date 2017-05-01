@@ -14,19 +14,17 @@ namespace ctai
     {
         //mov reg , reg/val
         template <typename reg_token, typename operand, typename ...rest_of_tokens>
-        struct matcher_impl<tuple<
-                tokens::tok_mov,
-                reg_token,
-                tokens::tok_comma,
-                operand,
-                rest_of_tokens...>>
+        struct matcher_impl<tuple<tokens::tok_mov,
+                                  reg_token,
+                                  tokens::tok_comma,
+                                  operand,
+                                  rest_of_tokens...>>
         {
             static constexpr auto instruction_type = is_reg_token<operand> ? inst::id_t::MOV_REG_REG : inst::id_t::MOV_REG_VAL;
 
-            using instruction = values_container_n::values_container<
-                    inst::to_size<instruction_type>,
-                    token_to_reg_opcode<reg_token>,
-                    operand_decoder<operand>>;
+            using instruction = values_container_n::values_container<inst::to_size<instruction_type>,
+                                                                     token_to_reg_opcode<reg_token>,
+                                                                     operand_decoder<operand>>;
 
             static constexpr auto eip_change = get_eip_change<inst::id_t::MOV_REG_REG>;
             using instruction_tokens = tuple<
@@ -40,130 +38,120 @@ namespace ctai
 
         //mov reg , BYTE/WORD/DWORD PTR [ reg ]
         template <typename reg_token, typename mem_size_token, typename mem_ptr_reg, typename ...rest_of_tokens>
-        struct matcher_impl<tuple<
-                tokens::tok_mov,
-                reg_token,
-                tokens::tok_comma,
-                mem_size_token,
-                tokens::tok_ptr,
-                tokens::tok_square_bracket_open,
-                mem_ptr_reg,
-                tokens::tok_square_bracket_close,
-                rest_of_tokens...>>
+        struct matcher_impl<tuple<tokens::tok_mov,
+                                  reg_token,
+                                  tokens::tok_comma,
+                                  mem_size_token,
+                                  tokens::tok_ptr,
+                                  tokens::tok_square_bracket_open,
+                                  mem_ptr_reg,
+                                  tokens::tok_square_bracket_close,
+                                  rest_of_tokens...>>
         {
             static constexpr auto instruction_type = inst::id_t::MOV_REG_MEM__mem_eq_reg;
 
-            using instruction = values_container_n::values_container<
-                    inst::to_size<instruction_type>,
-                    token_to_reg_opcode<reg_token>,
-                    token_to_reg_opcode<mem_ptr_reg>,
-                    memory::to_size<mem_size_decoder<mem_size_token>>>;
+            using instruction = values_container_n::values_container<inst::to_size<instruction_type>,
+                                                                     token_to_reg_opcode<reg_token>,
+                                                                     token_to_reg_opcode<mem_ptr_reg>,
+                                                                     memory::to_size<mem_size_decoder<mem_size_token>>>;
 
             static constexpr auto eip_change = get_eip_change<instruction_type>;
-            using instruction_tokens = tuple<
-                    tokens::tok_mov,
-                    reg_token,
-                    tokens::tok_comma,
-                    mem_size_token,
-                    tokens::tok_ptr,
-                    tokens::tok_square_bracket_open,
-                    mem_ptr_reg,
-                    tokens::tok_square_bracket_close>;
+            using instruction_tokens = tuple<tokens::tok_mov,
+                                             reg_token,
+                                             tokens::tok_comma,
+                                             mem_size_token,
+                                             tokens::tok_ptr,
+                                             tokens::tok_square_bracket_open,
+                                             mem_ptr_reg,
+                                             tokens::tok_square_bracket_close>;
 
             using rest_of_tokens_t = tuple<rest_of_tokens...>;
         };
 
         //mov reg , BYTE/WORD/DWORD PTR [ reg +/- val ]
         template <typename reg_token, typename mem_size_token, typename mem_ptr_reg, typename mem_ptr_const, typename plus_minus_token, typename ...rest_of_tokens>
-        struct matcher_impl<tuple<
-                tokens::tok_mov,
-                reg_token,
-                tokens::tok_comma,
-                mem_size_token,
-                tokens::tok_ptr,
-                tokens::tok_square_bracket_open,
-                mem_ptr_reg,
-                plus_minus_token,
-                mem_ptr_const,
-                tokens::tok_square_bracket_close,
-                rest_of_tokens...>>
+        struct matcher_impl<tuple<tokens::tok_mov,
+                                  reg_token,
+                                  tokens::tok_comma,
+                                  mem_size_token,
+                                  tokens::tok_ptr,
+                                  tokens::tok_square_bracket_open,
+                                  mem_ptr_reg,
+                                  plus_minus_token,
+                                  mem_ptr_const,
+                                  tokens::tok_square_bracket_close,
+                                  rest_of_tokens...>>
         {
             static constexpr auto instruction_type = is_plus<plus_minus_token> ? inst::id_t::MOV_REG_MEM__mem_eq_reg_plus_const
                                                                                : inst::id_t::MOV_REG_MEM__mem_eq_reg_minus_const;
 
-            using instruction = values_container_n::values_container<
-                    inst::to_size<instruction_type>,
-                    token_to_reg_opcode<reg_token>,
-                    token_to_reg_opcode<mem_ptr_reg>,
-                    string_to_int<mem_ptr_const>,
-                    memory::to_size<mem_size_decoder<mem_size_token>>>;
+            using instruction = values_container_n::values_container<inst::to_size<instruction_type>,
+                                                                     token_to_reg_opcode<reg_token>,
+                                                                     token_to_reg_opcode<mem_ptr_reg>,
+                                                                     string_to_int<mem_ptr_const>,
+                                                                     memory::to_size<mem_size_decoder<mem_size_token>>>;
 
             static constexpr auto eip_change = get_eip_change<instruction_type>;
-            using instruction_tokens = tuple<
-                    tokens::tok_mov,
-                    reg_token,
-                    tokens::tok_comma,
-                    mem_size_token,
-                    tokens::tok_ptr,
-                    tokens::tok_square_bracket_open,
-                    mem_ptr_reg,
-                    plus_minus_token,
-                    mem_ptr_const,
-                    tokens::tok_square_bracket_close>;
+            using instruction_tokens = tuple<tokens::tok_mov,
+                                             reg_token,
+                                             tokens::tok_comma,
+                                             mem_size_token,
+                                             tokens::tok_ptr,
+                                             tokens::tok_square_bracket_open,
+                                             mem_ptr_reg,
+                                             plus_minus_token,
+                                             mem_ptr_const,
+                                             tokens::tok_square_bracket_close>;
 
             using rest_of_tokens_t = tuple<rest_of_tokens...>;
         };
 
         //mov BYTE/WORD/DWORD PTR [ reg ], reg/val
         template <typename reg_or_val, typename mem_size_token, typename mem_ptr_reg, typename ...rest_of_tokens>
-        struct matcher_impl<tuple<
-                tokens::tok_mov,
-                mem_size_token,
-                tokens::tok_ptr,
-                tokens::tok_square_bracket_open,
-                mem_ptr_reg,
-                tokens::tok_square_bracket_close,
-                tokens::tok_comma,
-                reg_or_val,
-                rest_of_tokens...>>
+        struct matcher_impl<tuple<tokens::tok_mov,
+                                  mem_size_token,
+                                  tokens::tok_ptr,
+                                  tokens::tok_square_bracket_open,
+                                  mem_ptr_reg,
+                                  tokens::tok_square_bracket_close,
+                                  tokens::tok_comma,
+                                  reg_or_val,
+                                  rest_of_tokens...>>
         {
             static constexpr auto instruction_type = is_reg_token<reg_or_val> ? inst::id_t::MOV_MEM_REG__mem_eq_reg
                                                                               : inst::id_t::MOV_MEM_VAL__mem_eq_reg;
 
-            using instruction = values_container_n::values_container<
-                    inst::to_size<instruction_type>,
-                    token_to_reg_opcode<mem_ptr_reg>,
-                    memory::to_size<mem_size_decoder<mem_size_token>>,
-                    operand_decoder<reg_or_val>>;
+            using instruction = values_container_n::values_container<inst::to_size<instruction_type>,
+                                                                     token_to_reg_opcode<mem_ptr_reg>,
+                                                                     memory::to_size<mem_size_decoder<mem_size_token>>,
+                                                                     operand_decoder<reg_or_val>>;
 
             static constexpr auto eip_change = get_eip_change<instruction_type>;
-            using instruction_tokens = tuple<
-                    tokens::tok_mov,
-                    mem_size_token,
-                    tokens::tok_ptr,
-                    tokens::tok_square_bracket_open,
-                    mem_ptr_reg,
-                    tokens::tok_square_bracket_close,
-                    tokens::tok_comma,
-                    reg_or_val>;
+            using instruction_tokens = tuple<tokens::tok_mov,
+                                             mem_size_token,
+                                             tokens::tok_ptr,
+                                             tokens::tok_square_bracket_open,
+                                             mem_ptr_reg,
+                                             tokens::tok_square_bracket_close,
+                                             tokens::tok_comma,
+                                             reg_or_val>;
 
             using rest_of_tokens_t = tuple<rest_of_tokens...>;
         };
 
         //mov BYTE/WORD/DWORD PTR [ reg +/- val ], reg/val
         template <typename reg_or_val, typename mem_size_token, typename mem_ptr_reg, typename mem_ptr_const, typename plus_minus_token, typename ...rest_of_tokens>
-        struct matcher_impl<tuple<
-                tokens::tok_mov,
-                mem_size_token,
-                tokens::tok_ptr,
-                tokens::tok_square_bracket_open,
-                mem_ptr_reg,
-                plus_minus_token,
-                mem_ptr_const,
-                tokens::tok_square_bracket_close,
-                tokens::tok_comma,
-                reg_or_val,
-                rest_of_tokens...>>
+        struct matcher_impl<tuple<tokens::tok_mov,
+                                  mem_size_token,
+                                  tokens::tok_ptr,
+                                  tokens::tok_square_bracket_open,
+                                  mem_ptr_reg,
+                                  plus_minus_token,
+                                  mem_ptr_const,
+                                  tokens::tok_square_bracket_close,
+                                  tokens::tok_comma,
+                                  reg_or_val,
+                                  rest_of_tokens...>>
         {
             static constexpr bool plus = is_plus<plus_minus_token>;
             static constexpr bool is_reg = is_reg_token<reg_or_val>;
@@ -177,25 +165,23 @@ namespace ctai
                                                        ? inst::id_t::MOV_MEM_REG__mem_eq_reg_minus_const
                                                        : inst::id_t::MOV_MEM_VAL__mem_eq_reg_minus_const;
 
-            using instruction = values_container_n::values_container<
-                    inst::to_size<instruction_type>,
-                    token_to_reg_opcode<mem_ptr_reg>,
-                    string_to_int<mem_ptr_const>,
-                    memory::to_size<mem_size_decoder<mem_size_token>>,
-                    operand_decoder<reg_or_val>>;
+            using instruction = values_container_n::values_container<inst::to_size<instruction_type>,
+                                                                     token_to_reg_opcode<mem_ptr_reg>,
+                                                                     string_to_int<mem_ptr_const>,
+                                                                     memory::to_size<mem_size_decoder<mem_size_token>>,
+                                                                     operand_decoder<reg_or_val>>;
 
             static constexpr auto eip_change = get_eip_change<instruction_type>;
-            using instruction_tokens = tuple<
-                    tokens::tok_mov,
-                    mem_size_token,
-                    tokens::tok_ptr,
-                    tokens::tok_square_bracket_open,
-                    mem_ptr_reg,
-                    plus_minus_token,
-                    mem_ptr_const,
-                    tokens::tok_square_bracket_close,
-                    tokens::tok_comma,
-                    reg_or_val>;
+            using instruction_tokens = tuple<tokens::tok_mov,
+                                             mem_size_token,
+                                             tokens::tok_ptr,
+                                             tokens::tok_square_bracket_open,
+                                             mem_ptr_reg,
+                                             plus_minus_token,
+                                             mem_ptr_const,
+                                             tokens::tok_square_bracket_close,
+                                             tokens::tok_comma,
+                                             reg_or_val>;
 
             using rest_of_tokens_t = tuple<rest_of_tokens...>;
         };

@@ -74,9 +74,6 @@ namespace ctai
         {
             using str_type = to_string<value>;
         };
-
-        //using tok_eax = reg_token<decltype("eax"_s)>;
-        //using tok_ebx = reg_token<decltype("ebx"_s)>;
     }
 
     template <typename type>
