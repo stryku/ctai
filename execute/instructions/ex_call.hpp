@@ -1,13 +1,10 @@
 #pragma once
 
-#include "machine_state.hpp"
-#include "instructions/instruction.hpp"
-#include "execute/ex_instruction.hpp"
 #include "instructions/ids_vaules.hpp"
 #include "register.hpp"
 #include "memory/memory.hpp"
 #include "values/values.hpp"
-#include "execute/eip_adjuster.hpp"
+#include "execute/eip_adjust.hpp"
 #include "thread/thread.hpp"
 
 namespace ctai

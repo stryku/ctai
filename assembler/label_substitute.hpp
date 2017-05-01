@@ -30,10 +30,9 @@ namespace ctai
             static constexpr auto ip = labels_get_ip<labels, string<'.', label_chars...>>;
             using str_ip = string_from_int<ip>;
 
-            using substitued = substitute_labels_impl<
-                    tuple<rest_of_tokens...>,
-                    labels,
-                    tuple<current_tokens..., str_ip>>;
+            using substitued = substitute_labels_impl<tuple<rest_of_tokens...>,
+                                                      labels,
+                                                      tuple<current_tokens..., str_ip>>;
 
             using tokens = typename substitued::tokens;
         };
@@ -47,10 +46,9 @@ namespace ctai
         {
             using str_char = string_from_int<character>;
 
-            using substitued = substitute_labels_impl<
-                    tuple<rest_of_tokens...>,
-                    labels,
-                    tuple<current_tokens..., str_char>>;
+            using substitued = substitute_labels_impl<tuple<rest_of_tokens...>,
+                                                      labels,
+                                                      tuple<current_tokens..., str_char>>;
 
             using tokens = typename substitued::tokens;
         };
@@ -62,10 +60,9 @@ namespace ctai
                 labels,
                 tuple<current_tokens...>>
         {
-            using substitued = substitute_labels_impl<
-                    tuple<rest_of_tokens...>,
-                    labels,
-                    tuple<current_tokens..., current_token>>;
+            using substitued = substitute_labels_impl<tuple<rest_of_tokens...>,
+                                                      labels,
+                                                      tuple<current_tokens..., current_token>>;
 
             using tokens = typename substitued::tokens;
         };

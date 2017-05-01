@@ -14,8 +14,7 @@ namespace ctai
         template <typename ...rest_of_tokens>
         struct matcher_impl<tuple<tokens::tok_pusha, rest_of_tokens...>>
         {
-            using instruction = values_container_n::values_container<
-                    inst::to_size<inst::id_t::PUSHA>>;
+            using instruction = values_container_n::values_container<inst::to_size<inst::id_t::PUSHA>>;
 
             static constexpr auto eip_change = get_eip_change<inst::id_t::PUSHA>;
             using instruction_tokens = tuple<tokens::tok_pusha>;

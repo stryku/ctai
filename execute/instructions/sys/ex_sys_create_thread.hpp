@@ -5,7 +5,7 @@
 #include "memory/memory.hpp"
 #include "memory/memory_alloc.hpp"
 #include "values/values.hpp"
-#include "execute/eip_adjuster.hpp"
+#include "execute/eip_adjust.hpp"
 #include "thread/thread.hpp"
 #include "containers/queue.hpp"
 
@@ -56,7 +56,7 @@ namespace ctai
             template <typename thread_t, typename memory_t, typename threads_queue, size_t id>
             struct ex_sys_create_thread_impl
             {
-                using alloc_result = memory::alloc<memory_t, new_stack_size>; //todo stack size
+                using alloc_result = memory::alloc<memory_t, new_stack_size>;
 
                 using result = typename std::conditional_t<alloc_result::result_ptr == 0,
                                                   ex_sys_create_thread_impl_no_enough_memory<memory_t, threads_queue>,

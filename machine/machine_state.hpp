@@ -28,12 +28,12 @@ namespace ctai
 
         template <typename state_t, size_t time_delta>
         using adjust_time = state<typename state_t::memory,
-                typename state_t::opcodes,
-                typename state_t::threads,
-                typename state_t::output_t,
-                typename state_t::input,
+                                  typename state_t::opcodes,
+                                  typename state_t::threads,
+                                  typename state_t::output_t,
+                                  typename state_t::input,
                                   state_t::time + time_delta,
-                state_t::last_thread_id>;
+                                  state_t::last_thread_id>;
 
         template <typename state_t, typename memory>
         using set_memory = state<memory,
@@ -52,36 +52,36 @@ namespace ctai
         using set_threads_and_time = state<typename state_t::memory,
                                            typename state_t::opcodes,
                                            threads,
-                typename state_t::output,
-                typename state_t::input,
-                time,
-                state_t::last_thread_id>;
+                                           typename state_t::output,
+                                           typename state_t::input,
+                                           time,
+                                           state_t::last_thread_id>;
 
         template <typename state_t, typename output_t>
         using set_output = state<typename state_t::memory,
-                typename state_t::opcodes,
-                typename state_t::threads,
-                output_t,
-                typename state_t::input,
-                state_t::time,
-                state_t::last_thread_id>;
+                                 typename state_t::opcodes,
+                                 typename state_t::threads,
+                                 output_t,
+                                 typename state_t::input,
+                                 state_t::time,
+                                 state_t::last_thread_id>;
 
         template <typename state_t, typename input_t>
         using set_input = state<typename state_t::memory,
-                typename state_t::opcodes,
-                typename state_t::threads,
-                typename state_t::output,
-                input_t,
-                state_t::time,
-                state_t::last_thread_id>;
+                                typename state_t::opcodes,
+                                typename state_t::threads,
+                                typename state_t::output,
+                                input_t,
+                                state_t::time,
+                                state_t::last_thread_id>;
 
         template <typename state_t, typename threads>
         using set_threads = state<typename state_t::memory,
-                typename state_t::opcodes,
-                threads,
-                typename state_t::output,
-                typename state_t::input,
-                state_t::time,
-                state_t::last_thread_id>;
+                                  typename state_t::opcodes,
+                                  threads,
+                                  typename state_t::output,
+                                  typename state_t::input,
+                                  state_t::time,
+                                  state_t::last_thread_id>;
     }
 }
