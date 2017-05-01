@@ -23,7 +23,7 @@ using fibonacci = decltype(
         "mov edx , 0 "
         "mov esi , 1 "
 
-    ":fib_loop "
+        ":fib_loop "
         "mov eax , esi "
         "add edx , eax "
         "mov esi , edx "
@@ -33,10 +33,10 @@ using fibonacci = decltype(
         "jne .fib_loop "
         "jmp .fib_end "
 
-    ":fib_ret_0 "
+        ":fib_ret_0 "
         "mov eax , 0 "
 
-    ":fib_end "
+        ":fib_end "
         "pop edx "
         "pop ecx "
         "pop esi "
@@ -183,3 +183,4 @@ int main()
 
     return 0;
 }
+

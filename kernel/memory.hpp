@@ -13,6 +13,13 @@ namespace ctai
                 "ret "_s
         );
 
-        using memory = ctai::declare_code<sys_malloc>;
+        using sys_free = decltype(
+        ":sys_free "
+                "sys_free "
+                "ret "_s
+        );
+
+        using memory = ctai::declare_code<sys_malloc,
+                                          sys_free>;
     }
 }

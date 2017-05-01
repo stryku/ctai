@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include <utility>
 
 namespace ctai
@@ -220,6 +221,9 @@ namespace ctai
         //
         namespace details
         {
+            //ye, this is ugly
+            #include "containers/gen/drop_front_impl_gen.hpp"
+
             template <size_t count, bool end, typename rest>
             struct drop_front_impl;
 
@@ -232,9 +236,19 @@ namespace ctai
             template <size_t count, auto to_drop, auto ...rest_of_values>
             struct drop_front_impl<count, false, values_container_n::values_container<to_drop, rest_of_values...>>
             {
-                using result = typename drop_front_impl<count-1,
-                                                        count == 1,
-                                                        values_container_n::values_container<rest_of_values...>>::result;
+                using container = std::conditional_t<(count > 100),
+                                                     typename drop_front_impl_gen_100<(count > 100), to_drop, rest_of_values...>::result,
+                                                     std::conditional_t<(count > 10),
+                                                                        typename drop_front_impl_gen_10<(count > 10), to_drop, rest_of_values...>::result,
+                                                                        values_container_n::values_container<rest_of_values...>>>;
+
+                static constexpr auto new_count = (count > 100) ? count - 100
+                                                                : (count > 10) ? count - 10
+                                                                               : count - 1;
+
+                using result = typename drop_front_impl<new_count,
+                                                        new_count == 0,
+                                                        container>::result;
             };
         }
 
