@@ -35,13 +35,13 @@ Above program will push ebx to stack and pop from stack to eax. So eax will even
 Of course awesomeness comes by default.
 
 ## Examples
-1. [Multithread fibonacci without synchronization](https://github.com/stryku/ctai/blob/master/ctai/examples/v2.0/multithread_fib_without_sync.cpp)
+1. [Multithread fibonacci without synchronization](https://github.com/stryku/ctai/blob/master/examples/v2.0/multithread_fib_without_sync.cpp)
 
 Output:
 
 ![alt text](https://github.com/stryku/ctai/blob/master/images/multithread_fib_without_sync.png "Compiled program output")
 
-2. [Multithread fibonacci with synchronization](https://github.com/stryku/ctai/blob/master/ctai/examples/v2.0/multithread_fib_with_sync.cpp)
+2. [Multithread fibonacci with synchronization](https://github.com/stryku/ctai/blob/master/examples/v2.0/multithread_fib_with_sync.cpp)
 
 Execution flow:
 ```
@@ -65,7 +65,7 @@ Output:
 
 ![alt text](https://github.com/stryku/ctai/blob/master/images/multithread_fib_with_sync.png "Compiled program output")
 
-3. [Unrealized dream](https://github.com/stryku/ctai/blob/master/ctai/examples/v2.0/unrealized_dream.cpp)
+3. [Unrealized dream](https://github.com/stryku/ctai/blob/master/examples/v2.0/unrealized_dream.cpp)
 
 Didn't managed to compile this beast. My machine doesn't have enough amount of RAM, but here's the flow:
 ```
