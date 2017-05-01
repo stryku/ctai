@@ -479,7 +479,7 @@ using main2 = decltype(
 
 
         //create slave exit tasks
-        "mov esi , 5 "//5 slaves
+/*        "mov esi , 1 "//5 slaves
 
     ":add_slave_exit_task_loop "
         "call .add_exit_task "
@@ -518,7 +518,7 @@ using main2 = decltype(
         "call .struct_ptr_to_ids "//eax - ptr to threads ids array
         "mov ecx , eax "//ecx - ptr to threads ids array
 
-/*    ":join_slaves_loop "
+    ":join_slaves_loop "
         "mov eax , DWORD PTR [ ecx ] " //eax - next slave id
         "add ecx , 4 "
 
