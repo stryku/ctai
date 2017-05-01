@@ -7,23 +7,33 @@
 #include <cstddef>
 #include <cstdint>
 
-namespace cai
+namespace ctai
 {
     namespace inst
     {
         enum class id_t
         {
+            SYS_EXIT_THREAD,
+            SYS_CREATE_THREAD,
+
             EXIT,
             PUSH_REG,
+            PUSHA,
             POP_REG,
+            POPA,
 
             JMP,
             JGE,
+            JG,
+            JL,
+            JE,
 
             ADD_REG_REG,
             ADD_REG_VAL,
 
             SUB_REG_REG,
+            SUB_REG_VAL,
+
             CMP_REG_REG,
 
             MOV_REG_REG,
@@ -32,15 +42,32 @@ namespace cai
 
             MOV_MEM_VAL__mem_eq_reg_minus_const,
             MOV_MEM_VAL__mem_eq_reg_plus_const,
+            MOV_MEM_VAL__mem_eq_reg,
 
             MOV_MEM_REG__mem_eq_reg_minus_const,
             MOV_MEM_REG__mem_eq_reg_plus_const,
+            MOV_MEM_REG__mem_eq_reg,
 
             MOV_REG_MEM__mem_eq_reg_minus_const,
             MOV_REG_MEM__mem_eq_reg_plus_const,
+            MOV_REG_MEM__mem_eq_reg,
 
+            MUL_REG,
+            DIV_REG,
 
-            MUL_REG_REG
+            CALL_VAL,
+            RET,
+            SYS_WRITE,
+            SYS_TRY_LOCK_MUTEX,
+            SYS_IS_THREAD_RUNNING,
+            JNE,
+            CMP_REG_VAL,
+            SYS_READ,
+            INC,
+            DEC,
+            SYS_MALLOC,
+            SYS_FREE
+
         };
 
         template <size_t id_v>
@@ -121,7 +148,7 @@ namespace cai
             EBX,
             CL,
             CH,
-            CX,
+            CX,//10
             ECX,
             DL,
             DH,
@@ -131,7 +158,7 @@ namespace cai
             ESI,
             DI,
             EDI,
-            BP,
+            BP,//20
             EBP,
             SP,
             ESP,
@@ -162,18 +189,18 @@ namespace cai
 
         namespace tests
         {
-            static_assert(std::is_same<reg_size_type<::cai::regs::id_t::AL>, uint8_t>::value, "");
-            static_assert(std::is_same<reg_size_type<::cai::regs::id_t::AH>, uint8_t>::value, "");
-            static_assert(std::is_same<reg_size_type<::cai::regs::id_t::CL>, uint8_t>::value, "");
-            static_assert(std::is_same<reg_size_type<::cai::regs::id_t::CH>, uint8_t>::value, "");
+            static_assert(std::is_same<reg_size_type<::ctai::regs::id_t::AL>, uint8_t>::value, "");
+            static_assert(std::is_same<reg_size_type<::ctai::regs::id_t::AH>, uint8_t>::value, "");
+            static_assert(std::is_same<reg_size_type<::ctai::regs::id_t::CL>, uint8_t>::value, "");
+            static_assert(std::is_same<reg_size_type<::ctai::regs::id_t::CH>, uint8_t>::value, "");
 
-            static_assert(std::is_same<reg_size_type<::cai::regs::id_t::AX>, uint16_t>::value, "");
-            static_assert(std::is_same<reg_size_type<::cai::regs::id_t::BX>, uint16_t>::value, "");
-            static_assert(std::is_same<reg_size_type<::cai::regs::id_t::SP>, uint16_t>::value, "");
-            static_assert(std::is_same<reg_size_type<::cai::regs::id_t::IP>, uint16_t>::value, "");
+            static_assert(std::is_same<reg_size_type<::ctai::regs::id_t::AX>, uint16_t>::value, "");
+            static_assert(std::is_same<reg_size_type<::ctai::regs::id_t::BX>, uint16_t>::value, "");
+            static_assert(std::is_same<reg_size_type<::ctai::regs::id_t::SP>, uint16_t>::value, "");
+            static_assert(std::is_same<reg_size_type<::ctai::regs::id_t::IP>, uint16_t>::value, "");
 
-            static_assert(std::is_same<reg_size_type<::cai::regs::id_t::EAX>, uint32_t>::value, "");
-            static_assert(std::is_same<reg_size_type<::cai::regs::id_t::EBX>, uint32_t>::value, "");
+            static_assert(std::is_same<reg_size_type<::ctai::regs::id_t::EAX>, uint32_t>::value, "");
+            static_assert(std::is_same<reg_size_type<::ctai::regs::id_t::EBX>, uint32_t>::value, "");
         }
     }
 }

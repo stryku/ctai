@@ -6,7 +6,7 @@
 #include <type_traits>
 
 
-namespace cai
+namespace ctai
 {
     //
     // get_token
@@ -27,6 +27,13 @@ namespace cai
         struct get_token_impl<string<' ', str_chars...>, current_token>
         {
             using result_token = current_token;
+            using rest_of_string = string<str_chars...>;
+        };
+
+        template <char ...str_chars, typename current_token>
+        struct get_token_impl<string<'\'', ' ', '\'', ' ', str_chars...>, current_token>
+        {
+            using result_token = string<'\'', ' ', '\''>;
             using rest_of_string = string<str_chars...>;
         };
 

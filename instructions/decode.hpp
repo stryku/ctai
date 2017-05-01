@@ -2,7 +2,7 @@
 
 #include "instruction.hpp"
 
-namespace cai
+namespace ctai
 {
     namespace instructions
     {

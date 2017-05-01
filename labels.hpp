@@ -4,7 +4,7 @@
 
 #include <cstddef>
 
-namespace cai
+namespace ctai
 {
     template <typename name, size_t ip>
     struct label_metadata {};

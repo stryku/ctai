@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <type_traits>
 
-namespace cai
+namespace ctai
 {
     template <uint8_t ...values>
     struct stack

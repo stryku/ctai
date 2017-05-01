@@ -4,8 +4,9 @@
 #include "tokenize/tokens.hpp"
 #include "instructions/ids_vaules.hpp"
 #include "instructions/matchers/operand_decoder.hpp"
+#include "containers/values_container.hpp"
 
-namespace cai
+namespace ctai
 {
     namespace details
     {
@@ -18,9 +19,10 @@ namespace cai
                 operand,
                 rest_of_tokens...>>
         {
-            static constexpr auto instruction_type = inst::id_t::CMP_REG_REG;
+            static constexpr auto instruction_type = is_reg_token<operand> ? inst::id_t::CMP_REG_REG
+                                                                           : inst::id_t::CMP_REG_VAL;
 
-            using instruction = values_container<
+            using instruction = values_container_n::values_container<
                     inst::to_size<instruction_type>,
                     token_to_reg_opcode<reg_token>,
                     operand_decoder<operand>>;
@@ -42,7 +44,7 @@ namespace cai
     namespace tests
     {
         static_assert(std::is_same<instruction_match<tuple<tokens::tok_cmp, tokens::tok_ebx, tokens::tok_comma, tokens::tok_eax , string<>, string<>>>::instruction,
-                values_container<
+                                   values_container_n::values_container<
                         inst::to_size<inst::id_t::CMP_REG_REG>,
                         regs::to_size<regs::id_t::EBX>,
                         regs::to_size<regs::id_t::EAX>

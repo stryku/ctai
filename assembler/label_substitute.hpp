@@ -4,7 +4,7 @@
 #include "string.hpp"
 #include "instructions/matchers/instructions_matchers.hpp"
 
-namespace cai
+namespace ctai
 {
     //
     // substitute_labels
@@ -34,6 +34,23 @@ namespace cai
                     tuple<rest_of_tokens...>,
                     labels,
                     tuple<current_tokens..., str_ip>>;
+
+            using tokens = typename substitued::tokens;
+        };
+
+        //character inside '' match
+        template <char character, typename ...rest_of_tokens, typename labels, typename ...current_tokens>
+        struct substitute_labels_impl<
+                tuple<string<'\'', character, '\''>, rest_of_tokens...>,
+                labels,
+                tuple<current_tokens...>>
+        {
+            using str_char = string_from_int<character>;
+
+            using substitued = substitute_labels_impl<
+                    tuple<rest_of_tokens...>,
+                    labels,
+                    tuple<current_tokens..., str_char>>;
 
             using tokens = typename substitued::tokens;
         };

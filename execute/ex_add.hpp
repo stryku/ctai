@@ -6,7 +6,7 @@
 #include "instructions/ids_vaules.hpp"
 #include "execute/eip_adjuster.hpp"
 
-namespace cai
+namespace ctai
 {
     namespace execute
     {

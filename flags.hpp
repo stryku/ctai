@@ -1,6 +1,6 @@
 #pragma once
 
-namespace cai
+namespace ctai
 {
     template <bool cf, bool zf, bool sf, bool of>
     struct flags

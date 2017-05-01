@@ -8,7 +8,7 @@
 #include <numeric>
 #include <limits>
 
-namespace cai
+namespace ctai
 {
     namespace execute
     {

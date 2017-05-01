@@ -1,6 +1,6 @@
 #pragma once
 
-namespace cai
+namespace ctai
 {
 
 }

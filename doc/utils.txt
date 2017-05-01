@@ -1,0 +1,71 @@
+thread
+    void join_thread()
+        params
+            eax - thread id to join
+
+mutex
+    void lock_mutex()
+        params
+            eax - pointer to mutex
+
+    void unlock_mutex()
+        params
+            eax - pointer to mutex
+
+io
+    uint getline()
+        params
+            al - delimiter
+            ebx - pointer where to store word
+        returns
+            eax - number of read characters
+        invalidates
+            eax
+            ebx
+        hints
+            getline will add null at the end of read word thus buffer in fact need to be one more byte bigger than max expected word
+
+    uint read_uint()
+        returns
+            eax - read value
+        invalidates
+            eax
+
+    void write_string()
+        returns
+            eax - pointer to the c-style string
+
+utils
+    bool is_digit()
+        params
+            al - character to check
+        returns
+            al
+                0 - isn't a digit
+                1 - is a digit
+        invalidates
+            al
+
+    int atoui()
+        params
+            eax - pointer to ascii uint representation
+        returns
+            eax - converted int
+        invalidates
+            eax
+
+    void uitoa()
+        params
+            eax - uint to convert
+            ebx - pointer where store ascii uint
+        returns
+            -
+        invalidates
+            eax
+        hints
+            uitoa will add NULL at the end of ascii chars thus buffer in fact need to be one more byte bigger than max expected chars count
+
+    void mem_reverse()
+        params
+            eax - pointer to memory
+            ebx - size to reverse

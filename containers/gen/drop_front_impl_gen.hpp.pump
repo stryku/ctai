@@ -1,0 +1,45 @@
+template <bool enough_values,  auto... rest_of_values>
+struct drop_front_impl_gen_10;
+template <bool enough_values,  auto... rest_of_values>
+struct drop_front_impl_gen_100;
+
+
+template <auto... rest_of_values>
+struct drop_front_impl_gen_10<false , rest_of_values...>
+{
+    using result = values_container_n::values_container<rest_of_values...>;
+};
+
+template < auto... rest_of_values>
+struct drop_front_impl_gen_100<false , rest_of_values...>
+{
+    using result = values_container_n::values_container<rest_of_values...>;
+};
+
+
+$var n0 = 10     
+$range i0 10..n0  
+$for i0 [[
+               $$ Meta loop.
+$range j 1..i0
+template <$for j [[auto to_drop$j, ]] auto... rest_of_values>
+struct drop_front_impl_gen_10<true, $for j [[ to_drop$j, ]] rest_of_values...>
+{
+    using result = values_container_n::values_container<rest_of_values...>;
+};
+
+]]
+
+
+$var n = 100     
+$range i 100..n  
+$for i [[
+               $$ Meta loop.
+$range j 1..i
+template <$for j [[auto to_drop$j, ]] auto... rest_of_values>
+struct drop_front_impl_gen_100<true, $for j [[ to_drop$j, ]] rest_of_values...>
+{
+    using result = values_container_n::values_container<rest_of_values...>;
+};
+
+]]

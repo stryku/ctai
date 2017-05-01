@@ -4,7 +4,7 @@
 
 #include <stdlib.h>
 
-namespace cai
+namespace ctai
 {
     namespace instructions
     {
