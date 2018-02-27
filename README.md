@@ -2,7 +2,7 @@
 
 Hello World example:
 
-```
+```cpp
 #include "string.hpp"
 #include "execute.hpp"
 
